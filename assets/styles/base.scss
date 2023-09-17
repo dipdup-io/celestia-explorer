@@ -1,0 +1,135 @@
+$grayscale: (
+	03: 0.03,
+	05: 0.05,
+	08: 0.08,
+	10: 0.1,
+	15: 0.15,
+	20: 0.2,
+	30: 0.3,
+	40: 0.4,
+	50: 0.5,
+);
+
+:root {
+	--base-width: 992px;
+
+	/* Main */
+	--app-background: #0f0f10;
+	--card-background: #19191b;
+	--dropdown-background: rgb(32, 32, 34);
+	--modal-background: rgb(20, 20, 22);
+
+	/* Text */
+	--txt-primary: rgba(255, 255, 255, 90%);
+	--txt-body: rgba(255, 255, 255, 75%);
+	--txt-secondary: rgba(255, 255, 255, 60%);
+	--txt-tertiary: rgba(255, 255, 255, 30%);
+	--txt-support: rgba(255, 255, 255, 15%);
+	--txt-black: rgba(0, 0, 0, 95%);
+
+	/* General */
+	--blue: #0b84fe;
+	--red: #eb5757;
+	--orange: #ff5a17;
+	--light-orange: #ff8351;
+	--yellow: #ffd400;
+	--green: #0ade71;
+	--neutral-green: #33a853;
+	--purple: #5856de;
+
+	/* Grayscale */
+	@each $gray, $value in $grayscale {
+		--op-#{$gray}: rgba(255, 255, 255, #{$value});
+	}
+
+	/** Button */
+	--btn-white-bg: rgba(255, 255, 255, 90%);
+	--btn-white-bg-hover: rgba(255, 255, 255, 75%);
+	--btn-white-bg-active: rgba(255, 255, 255, 90%);
+	--btn-secondary-bg: rgb(40, 40, 42);
+	--btn-secondary-bg-hover: rgb(38, 38, 40);
+	--btn-secondary-bg-active: rgb(32, 32, 34);
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+}
+
+:disabled {
+	cursor: default;
+}
+
+a {
+	text-decoration: none;
+}
+
+button,
+[role="button"] {
+	cursor: pointer;
+}
+
+button {
+	font-family: inherit;
+	padding: 0;
+	border: none;
+	outline: none;
+}
+
+input {
+	font: inherit;
+	border: none;
+	outline: none;
+	background: transparent;
+}
+
+body {
+	min-height: 100vh;
+
+	background: var(--app-background);
+
+	font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans",
+		"Helvetica Neue", sans-serif;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	user-select: none;
+
+	// overflow-x: hidden;
+	scrollbar-gutter: stable;
+}
+
+*::-webkit-scrollbar {
+	width: 4px;
+	height: 4px;
+}
+
+*::-webkit-scrollbar-track {
+}
+
+*::-webkit-scrollbar-thumb {
+	background-color: rgba(255, 255, 255, 0);
+	border-radius: 50px;
+}
+
+*::-webkit-scrollbar-thumb {
+	background-color: rgba(255, 255, 255, 0.15);
+}
+
+*::-webkit-scrollbar-corner {
+	background-color: transparent;
+}
+
+.popup-enter-active,
+.popup-leave-active {
+	transition: all 0.1s ease;
+}
+
+.popup-enter-from,
+.popup-leave-to {
+	opacity: 0;
+	transform: scale(0.5);
+}
