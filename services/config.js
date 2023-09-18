@@ -1,1 +1,1 @@
-export const API = "http://api.celestia.dipdup.net/v1"
+export const API = "https://api.celestia.dipdup.net/v1"
