@@ -23,7 +23,7 @@ const props = defineProps({
 	},
 })
 
-const tabs = ref(["PFBs", "Transfers", "Delegate"])
+const tabs = ref(["PFBs", "Transfers", "Delegate", "Other"])
 const activeTab = ref(tabs.value[0])
 
 const MapTabsTypes = {
@@ -32,7 +32,41 @@ const MapTabsTypes = {
 	Delegate: "MsgDelegate",
 }
 
-const filteredTransactions = computed(() => props.transactions.filter((t) => t.message_types.includes(MapTabsTypes[activeTab.value])))
+const filteredTransactions = computed(() => {
+	const supportedTypes = Object.values(MapTabsTypes)
+
+	if (activeTab.value === "Other") {
+		return props.transactions.filter((t) => {
+			let f = false
+
+			t.message_types.forEach((type) => {
+				if (!supportedTypes.includes(type)) f = true
+			})
+
+			return f
+		})
+	}
+
+	return props.transactions.filter((t) => t.message_types.includes(MapTabsTypes[activeTab.value]))
+})
+
+const getTxnsLengthByTab = (tab) => {
+	const supportedTypes = Object.values(MapTabsTypes)
+
+	if (tab === "Other") {
+		return props.transactions.filter((t) => {
+			let f = false
+
+			t.message_types.forEach((type) => {
+				if (!supportedTypes.includes(type)) f = true
+			})
+
+			return f
+		}).length
+	}
+
+	return props.transactions.filter((t) => t.message_types.includes(MapTabsTypes[tab])).length
+}
 
 const handleCopy = (target) => {
 	window.navigator.clipboard.writeText(target)
@@ -142,12 +176,9 @@ const handleCopy = (target) => {
 							:class="[$style.tab, activeTab === tab && $style.active]"
 						>
 							<Text size="13" weight="600">{{ tab }}</Text>
-							<Text
-								v-if="transactions.filter((t) => t.message_types.includes(MapTabsTypes[tab])).length"
-								size="13"
-								weight="600"
-							>
-								{{ transactions.filter((t) => t.message_types.includes(MapTabsTypes[tab])).length }}
+
+							<Text v-if="getTxnsLengthByTab(tab)" size="13" weight="600">
+								{{ getTxnsLengthByTab(tab) }}
 							</Text>
 						</Flex>
 					</Flex>
@@ -264,7 +295,7 @@ const handleCopy = (target) => {
 }
 
 .tabs_wrapper {
-	height: 40px;
+	min-height: 40px;
 
 	border-radius: 4px;
 	background: var(--card-background);
