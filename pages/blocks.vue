@@ -2,18 +2,21 @@
 /** Vendor */
 import { DateTime } from "luxon"
 
-/** Components */
+/** UI */
 import Button from "@/components/ui/Button.vue"
+import Tooltip from "@/components/ui/Tooltip.vue"
 
 /** Services */
-import { tia, comma } from "@/services/utils"
+import { tia, comma, space } from "@/services/utils"
 
 /** API */
 import { fetchBlocks } from "@/services/api/block"
 
 /** Store */
 import { useAppStore } from "@/store/app"
+import { useNotificationsStore } from "@/store/notifications"
 const appStore = useAppStore()
+const notificationsStore = useNotificationsStore()
 
 useHead({
 	title: "All Blocks - Celestia Explorer",
@@ -57,6 +60,19 @@ const handlePrev = () => {
 	if (page.value === 1) return
 
 	page.value -= 1
+}
+
+const handleCopy = (target) => {
+	window.navigator.clipboard.writeText(target)
+
+	notificationsStore.create({
+		notification: {
+			type: "info",
+			icon: "check",
+			title: "Successfully copied to clipboard",
+			autoDestroy: true,
+		},
+	})
 }
 </script>
 
@@ -127,18 +143,39 @@ const handlePrev = () => {
 									}}</Text>
 								</td>
 								<td>
-									<Text size="13" weight="600" color="secondary">{{ block.hash.slice(0, 4) }}</Text>
-									<Text size="13" weight="600" color="tertiary">...</Text>
-									<Text size="13" weight="600" color="secondary">
-										{{ block.hash.slice(block.hash.length - 4, block.hash.length) }}
-									</Text>
+									<Tooltip delay="500">
+										<template #default>
+											<Flex @click.stop="handleCopy(block.hash)" align="center" gap="4" class="copyable">
+												<Text size="13" weight="600" color="secondary">{{ block.hash.slice(0, 4) }}</Text>
+												<Text size="13" weight="600" color="tertiary">...</Text>
+												<Text size="13" weight="600" color="secondary">
+													{{ block.hash.slice(block.hash.length - 4, block.hash.length) }}
+												</Text>
+											</Flex>
+										</template>
+
+										<template #content> {{ space(block.hash) }} </template>
+									</Tooltip>
 								</td>
 								<td>
-									<Text size="13" weight="600" color="secondary">{{ block.proposer_address.slice(0, 4) }}</Text>
-									<Text size="13" weight="600" color="tertiary">...</Text>
-									<Text size="13" weight="600" color="secondary">{{
-										block.proposer_address.slice(block.proposer_address.length - 4, block.proposer_address.length)
-									}}</Text>
+									<Tooltip delay="500">
+										<template #default>
+											<Flex @click.stop="handleCopy(block.proposer_address)" align="center" gap="4" class="copyable">
+												<Text size="13" weight="600" color="secondary">{{
+													block.proposer_address.slice(0, 4)
+												}}</Text>
+												<Text size="13" weight="600" color="tertiary">...</Text>
+												<Text size="13" weight="600" color="secondary">{{
+													block.proposer_address.slice(
+														block.proposer_address.length - 4,
+														block.proposer_address.length,
+													)
+												}}</Text>
+											</Flex>
+										</template>
+
+										<template #content> {{ space(block.proposer_address) }} </template>
+									</Tooltip>
 								</td>
 								<td>
 									<Text size="13" weight="600" color="primary">

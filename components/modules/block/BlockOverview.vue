@@ -4,9 +4,14 @@ import { DateTime } from "luxon"
 
 /** UI */
 import Button from "@/components/ui/Button.vue"
+import Tooltip from "@/components/ui/Tooltip.vue"
 
 /** Services */
 import { tia, comma, space, formatBytes } from "@/services/utils"
+
+/** Store */
+import { useNotificationsStore } from "@/store/notifications"
+const notificationsStore = useNotificationsStore()
 
 const props = defineProps({
 	block: {
@@ -29,14 +34,17 @@ const MapTabsTypes = {
 
 const filteredTransactions = computed(() => props.transactions.filter((t) => t.message_types.includes(MapTabsTypes[activeTab.value])))
 
-const isCopied = ref(false)
-const handleCopy = () => {
-	window.navigator.clipboard.writeText(`https://inblob.co/block/${props.block.height}`)
+const handleCopy = (target) => {
+	window.navigator.clipboard.writeText(target)
 
-	isCopied.value = true
-	setTimeout(() => {
-		isCopied.value = false
-	}, 1500)
+	notificationsStore.create({
+		notification: {
+			type: "info",
+			icon: "check",
+			title: "Successfully copied to clipboard",
+			autoDestroy: true,
+		},
+	})
 }
 </script>
 
@@ -47,13 +55,6 @@ const handleCopy = () => {
 				<Icon name="block" size="16" color="secondary" />
 				<Text size="14" weight="600" color="primary">Block Overview</Text>
 			</Flex>
-
-			<Button @click="handleCopy" type="tertiary" size="mini">
-				<Transition name="popup" mode="out-in">
-					<Icon v-if="!isCopied" name="copy" size="14" color="secondary" />
-					<Icon v-else name="check" size="14" color="secondary" />
-				</Transition>
-			</Button>
 		</Flex>
 
 		<Flex gap="4" :class="$style.content">
@@ -70,19 +71,25 @@ const handleCopy = () => {
 						</Text>
 					</Flex>
 
-					<Outline wide padding="8">
-						<Flex justify="between" align="center" gap="8" wide>
-							<Text size="12" weight="700" color="secondary" mono> {{ space(block.hash.slice(0, 12)) }} </Text>
+					<Tooltip position="start" delay="500">
+						<Outline @click="handleCopy(block.hash)" wide padding="8" class="copyable">
+							<Flex justify="between" align="center" gap="8" wide>
+								<Text size="12" weight="700" color="secondary" mono> {{ space(block.hash.slice(0, 12)) }} </Text>
 
-							<Flex align="center" gap="3">
-								<div v-for="dot in 3" :class="$style.dot" />
+								<Flex align="center" gap="3">
+									<div v-for="dot in 3" :class="$style.dot" />
+								</Flex>
+
+								<Text size="12" weight="700" color="secondary" mono>
+									{{ space(block.hash.slice(block.hash.length - 12, block.hash.length)) }}
+								</Text>
 							</Flex>
+						</Outline>
 
-							<Text size="12" weight="700" color="secondary" mono>
-								{{ space(block.hash.slice(block.hash.length - 12, block.hash.length)) }}
-							</Text>
-						</Flex>
-					</Outline>
+						<template #content>
+							{{ space(block.hash) }}
+						</template>
+					</Tooltip>
 				</Flex>
 
 				<Flex direction="column" gap="24" :class="$style.main">
@@ -160,19 +167,27 @@ const handleCopy = () => {
 							<tbody>
 								<tr v-for="tx in filteredTransactions">
 									<td style="width: 1px">
-										<Outline>
-											<Flex align="center" gap="8">
-												<Icon name="zap" size="12" :color="tx.status === 'success' ? 'green' : 'red'" />
+										<Tooltip position="start" delay="500">
+											<Outline @click="handleCopy(tx.hash)" class="copyable">
+												<Flex align="center" gap="8">
+													<Icon name="zap" size="12" :color="tx.status === 'success' ? 'green' : 'red'" />
 
-												<Text size="13" weight="700" color="secondary" mono>D6EF</Text>
+													<Text size="13" weight="700" color="secondary" mono>{{ tx.hash.slice(0, 4) }}</Text>
 
-												<Flex align="center" gap="3">
-													<div v-for="dot in 3" :class="$style.dot" />
+													<Flex align="center" gap="3">
+														<div v-for="dot in 3" :class="$style.dot" />
+													</Flex>
+
+													<Text size="13" weight="700" color="secondary" mono>{{
+														tx.hash.slice(tx.hash.length - 4, tx.hash.length)
+													}}</Text>
 												</Flex>
+											</Outline>
 
-												<Text size="13" weight="700" color="secondary" mono>8020</Text>
-											</Flex>
-										</Outline>
+											<template #content>
+												{{ tx.hash }}
+											</template>
+										</Tooltip>
 									</td>
 									<td style="width: 1px">
 										<Flex align="center" gap="4">

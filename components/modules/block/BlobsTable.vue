@@ -1,12 +1,32 @@
 <script setup>
+/** UI */
+import Tooltip from "@/components/ui/Tooltip.vue"
+
 /** Services */
 import { space, formatBytes } from "@/services/utils"
+
+/** Store */
+import { useNotificationsStore } from "@/store/notifications"
+const notificationsStore = useNotificationsStore()
 
 const props = defineProps({
 	blobs: {
 		type: Array,
 	},
 })
+
+const handleCopy = (target) => {
+	window.navigator.clipboard.writeText(target)
+
+	notificationsStore.create({
+		notification: {
+			type: "info",
+			icon: "check",
+			title: "Successfully copied to clipboard",
+			autoDestroy: true,
+		},
+	})
+}
 </script>
 
 <template>
@@ -30,32 +50,47 @@ const props = defineProps({
 					<tbody>
 						<tr v-for="blob in blobs">
 							<td style="width: 1px">
-								<Outline>
-									<Flex align="center" gap="8">
-										<Icon name="blob" size="12" color="tertiary" />
+								<Tooltip position="start" delay="500">
+									<Outline @click="handleCopy(blob.namespace.hash)" class="copyable">
+										<Flex align="center" gap="8">
+											<Icon name="blob" size="12" color="tertiary" />
 
-										<Text size="13" weight="700" color="secondary" mono>{{ blob.namespace.hash.slice(0, 4) }}</Text>
+											<Text size="13" weight="700" color="secondary" mono>{{ blob.namespace.hash.slice(0, 4) }}</Text>
 
-										<Flex align="center" gap="3">
-											<div v-for="dot in 3" :class="$style.dot" />
+											<Flex align="center" gap="3">
+												<div v-for="dot in 3" :class="$style.dot" />
+											</Flex>
+
+											<Text size="13" weight="700" color="secondary" mono>
+												{{
+													space(
+														blob.namespace.hash.slice(
+															blob.namespace.hash.length - 8,
+															blob.namespace.hash.length,
+														),
+													)
+												}}
+											</Text>
 										</Flex>
+									</Outline>
 
-										<Text size="13" weight="700" color="secondary" mono>
-											{{
-												space(blob.namespace.hash.slice(blob.namespace.hash.length - 8, blob.namespace.hash.length))
-											}}
-										</Text>
-									</Flex>
-								</Outline>
+									<template #content>
+										{{ blob.namespace.hash }}
+									</template>
+								</Tooltip>
 							</td>
 							<td style="width: 1px">
-								<Flex align="center" gap="6">
-									<Text size="13" weight="600" color="primary">celestia</Text>
-									<Text size="13" weight="600" color="tertiary">...</Text>
-									<Text size="13" weight="600" color="primary">
-										{{ space(blob.data.Signer.slice(blob.data.Signer.length - 8, blob.data.Signer.length)) }}
-									</Text>
-								</Flex>
+								<Tooltip position="start" delay="500">
+									<Flex @click="handleCopy(blob.data.Signer)" align="center" gap="6" class="copyable">
+										<Text size="13" weight="600" color="primary">
+											{{ blob.data.Signer }}
+										</Text>
+									</Flex>
+
+									<template #content>
+										{{ blob.data.Signer }}
+									</template>
+								</Tooltip>
 							</td>
 							<td>
 								<Text size="13" weight="600" color="primary">

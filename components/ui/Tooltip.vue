@@ -21,7 +21,7 @@ const props = defineProps({
 	},
 
 	textAlign: { type: String, default: "center" },
-	isWide: { type: Boolean, default: null },
+	wide: { type: Boolean, default: null },
 	disabled: { type: Boolean, default: false },
 	delay: { type: [String, Number], default: 0 },
 })
@@ -152,19 +152,17 @@ const handleMouseLeave = () => {
 </script>
 
 <template>
-	<div @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave" :class="$style.wrapper" :style="{ width: isWide && '100%' }">
-		<div ref="trigger" :class="$style.trigger" :style="{ width: isWide && '100%' }">
+	<div @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave" :class="$style.wrapper" :style="{ width: wide && '100%' }">
+		<div ref="trigger" :class="$style.trigger" :style="{ width: wide && '100%' }">
 			<slot />
 		</div>
 
-		<teleport to="#tooltip">
-			<transition name="tooltip">
-				<div v-if="isHovered" @click.stop ref="tip" :class="[$style.content, disabled && $style.disabled]" :style="styles">
-					<div :class="[$style.text]" :style="{ textAlign }">
-						<slot name="content" />
-					</div>
+		<teleport v-if="isHovered" to="#tooltip">
+			<div @click.stop ref="tip" :class="[$style.content, disabled && $style.disabled]" :style="styles">
+				<div :class="[$style.text]" :style="{ textAlign }">
+					<slot name="content" />
 				</div>
-			</transition>
+			</div>
 		</teleport>
 	</div>
 </template>
@@ -189,7 +187,7 @@ const handleMouseLeave = () => {
 	width: max-content;
 
 	box-sizing: border-box;
-	background-color: var(--dropdown-background);
+	background-color: var(--tooltip-background);
 	border-radius: 7px;
 
 	padding: 6px 8px;

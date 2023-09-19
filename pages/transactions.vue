@@ -2,18 +2,21 @@
 /** Vendor */
 import { DateTime } from "luxon"
 
-/** Components */
+/** UI */
 import Button from "@/components/ui/Button.vue"
+import Tooltip from "@/components/ui/Tooltip.vue"
 
 /** Services */
-import { comma } from "@/services/utils"
+import { comma, space } from "@/services/utils"
 
 /** API */
 import { fetchTransactions } from "@/services/api/tx"
 
 /** Store */
 import { useAppStore } from "@/store/app"
+import { useNotificationsStore } from "@/store/notifications"
 const appStore = useAppStore()
+const notificationsStore = useNotificationsStore()
 
 useHead({
 	title: "All Transactions - Celestia Explorer",
@@ -73,6 +76,19 @@ const handlePrev = () => {
 
 	page.value -= 1
 }
+
+const handleCopy = (target) => {
+	window.navigator.clipboard.writeText(target)
+
+	notificationsStore.create({
+		notification: {
+			type: "info",
+			icon: "check",
+			title: "Successfully copied to clipboard",
+			autoDestroy: true,
+		},
+	})
+}
 </script>
 
 <template>
@@ -126,26 +142,32 @@ const handlePrev = () => {
 						<tbody>
 							<tr v-for="tx in transactions" :class="findPFB && !tx.message_types.includes('MsgPayForBlobs') && $style.hide">
 								<td style="width: 1px">
-									<Outline>
-										<Flex align="center" gap="8">
-											<Icon name="zap" size="14" :color="tx.status === 'success' ? 'green' : 'red'" />
+									<Tooltip position="start">
+										<Outline @click="handleCopy(tx.hash)" class="copyable">
+											<Flex align="center" gap="8">
+												<Icon name="zap" size="14" :color="tx.status === 'success' ? 'green' : 'red'" />
 
-											<template v-if="tx.hash">
-												<Text size="13" weight="700" color="secondary" mono>{{ tx.hash.slice(0, 4) }}</Text>
+												<template v-if="tx.hash">
+													<Text size="13" weight="700" color="secondary" mono>{{ tx.hash.slice(0, 4) }}</Text>
 
-												<Flex align="center" gap="3">
-													<div v-for="dot in 3" :class="$style.dot" />
-												</Flex>
+													<Flex align="center" gap="3">
+														<div v-for="dot in 3" :class="$style.dot" />
+													</Flex>
 
-												<Text size="13" weight="700" color="secondary" mono>
-													{{ tx.hash.slice(tx.hash.length - 4, tx.hash.length) }}
-												</Text>
-											</template>
-											<template v-else>
-												<Text size="13" weight="700" color="secondary" mono>Unknown</Text>
-											</template>
-										</Flex>
-									</Outline>
+													<Text size="13" weight="700" color="secondary" mono>
+														{{ tx.hash.slice(tx.hash.length - 4, tx.hash.length) }}
+													</Text>
+												</template>
+												<template v-else>
+													<Text size="13" weight="700" color="secondary" mono>Unknown</Text>
+												</template>
+											</Flex>
+										</Outline>
+
+										<template #content>
+											{{ space(tx.hash) }}
+										</template>
+									</Tooltip>
 								</td>
 								<td>
 									<Text size="13" weight="600" color="primary">

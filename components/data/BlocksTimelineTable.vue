@@ -4,6 +4,7 @@ import { DateTime } from "luxon"
 
 /** UI */
 import Button from "@/components/ui/Button.vue"
+import Tooltip from "@/components/ui/Tooltip.vue"
 
 /** Services */
 import { tia, comma, space, formatBytes } from "@/services/utils"
@@ -11,6 +12,10 @@ import { tia, comma, space, formatBytes } from "@/services/utils"
 /** API */
 import { fetchBlocks, fetchBlockNamespaces } from "@/services/api/block"
 import { fetchTransactionsByBlock } from "@/services/api/tx"
+
+/** Store */
+import { useNotificationsStore } from "@/store/notifications"
+const notificationsStore = useNotificationsStore()
 
 const blocks = ref([])
 
@@ -45,6 +50,19 @@ const { data } = await fetchBlocks({ limit: 15 })
 
 blocks.value = data.value
 preview.block = blocks.value[0]
+
+const handleCopy = (target) => {
+	window.navigator.clipboard.writeText(target)
+
+	notificationsStore.create({
+		notification: {
+			type: "info",
+			icon: "check",
+			title: "Successfully copied to clipboard",
+			autoDestroy: true,
+		},
+	})
+}
 </script>
 
 <template>
@@ -84,18 +102,39 @@ preview.block = blocks.value[0]
 									}}</Text>
 								</td>
 								<td>
-									<Text size="13" weight="600" color="secondary">{{ block.hash.slice(0, 4) }}</Text>
-									<Text size="13" weight="600" color="tertiary">...</Text>
-									<Text size="13" weight="600" color="secondary">
-										{{ block.hash.slice(block.hash.length - 4, block.hash.length) }}
-									</Text>
+									<Tooltip delay="500">
+										<template #default>
+											<Flex @click="handleCopy(block.hash)" align="center" gap="4" class="copyable">
+												<Text size="13" weight="600" color="secondary">{{ block.hash.slice(0, 4) }}</Text>
+												<Text size="13" weight="600" color="tertiary">...</Text>
+												<Text size="13" weight="600" color="secondary">
+													{{ block.hash.slice(block.hash.length - 4, block.hash.length) }}
+												</Text>
+											</Flex>
+										</template>
+
+										<template #content> {{ space(block.hash) }} </template>
+									</Tooltip>
 								</td>
 								<td>
-									<Text size="13" weight="600" color="secondary">{{ block.proposer_address.slice(0, 4) }}</Text>
-									<Text size="13" weight="600" color="tertiary">...</Text>
-									<Text size="13" weight="600" color="secondary">{{
-										block.proposer_address.slice(block.proposer_address.length - 4, block.proposer_address.length)
-									}}</Text>
+									<Tooltip delay="500">
+										<template #default>
+											<Flex @click="handleCopy(block.proposer_address)" align="center" gap="4" class="copyable">
+												<Text size="13" weight="600" color="secondary">{{
+													block.proposer_address.slice(0, 4)
+												}}</Text>
+												<Text size="13" weight="600" color="tertiary">...</Text>
+												<Text size="13" weight="600" color="secondary">{{
+													block.proposer_address.slice(
+														block.proposer_address.length - 4,
+														block.proposer_address.length,
+													)
+												}}</Text>
+											</Flex>
+										</template>
+
+										<template #content> {{ space(block.proposer_address) }} </template>
+									</Tooltip>
 								</td>
 								<td>
 									<Flex align="center" gap="4">
@@ -127,19 +166,25 @@ preview.block = blocks.value[0]
 						}}</Text>
 					</Flex>
 
-					<Outline wide padding="8">
-						<Flex justify="between" align="center" gap="8" wide>
-							<Text size="12" weight="700" color="secondary" mono> {{ space(preview.block.hash.slice(0, 12)) }} </Text>
+					<Tooltip delay="500" wide>
+						<Outline @click="handleCopy(preview.block.hash)" wide padding="8" class="copyable">
+							<Flex justify="between" align="center" gap="8" wide>
+								<Text size="12" weight="700" color="secondary" mono> {{ space(preview.block.hash.slice(0, 12)) }} </Text>
 
-							<Flex align="center" gap="3">
-								<div v-for="dot in 3" :class="$style.dot" />
+								<Flex align="center" gap="3">
+									<div v-for="dot in 3" :class="$style.dot" />
+								</Flex>
+
+								<Text size="12" weight="700" color="secondary" mono>
+									{{ space(preview.block.hash.slice(preview.block.hash.length - 12, preview.block.hash.length)) }}
+								</Text>
 							</Flex>
+						</Outline>
 
-							<Text size="12" weight="700" color="secondary" mono>
-								{{ space(preview.block.hash.slice(preview.block.hash.length - 12, preview.block.hash.length)) }}
-							</Text>
-						</Flex>
-					</Outline>
+						<template #content>
+							{{ space(preview.block.hash) }}
+						</template>
+					</Tooltip>
 				</Flex>
 
 				<Flex direction="column" gap="24" :class="$style.main">

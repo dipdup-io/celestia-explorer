@@ -4,14 +4,35 @@ import { DateTime } from "luxon"
 
 /** UI */
 import Button from "@/components/ui/Button.vue"
+import Tooltip from "@/components/ui/Tooltip.vue"
+
+/** Services */
+import { space } from "@/services/utils"
 
 /** API */
 import { fetchLatestPFBs } from "@/services/api/tx"
+
+/** Store */
+import { useNotificationsStore } from "@/store/notifications"
+const notificationsStore = useNotificationsStore()
 
 const pfbs = ref([])
 
 const { data } = await fetchLatestPFBs()
 pfbs.value = data.value
+
+const handleCopy = (target) => {
+	window.navigator.clipboard.writeText(target)
+
+	notificationsStore.create({
+		notification: {
+			type: "info",
+			icon: "check",
+			title: "Successfully copied to clipboard",
+			autoDestroy: true,
+		},
+	})
+}
 </script>
 
 <template>
@@ -35,21 +56,27 @@ pfbs.value = data.value
 					<tbody>
 						<tr v-for="pfb in pfbs">
 							<td style="width: 1px">
-								<Outline>
-									<Flex align="center" gap="8">
-										<Icon name="zap" size="12" color="green" />
+								<Tooltip position="start" delay="500">
+									<Outline @click="handleCopy(pfb.hash)" class="copyable">
+										<Flex align="center" gap="8">
+											<Icon name="zap" size="12" color="green" />
 
-										<Text size="13" weight="700" color="secondary" mono>{{ pfb.hash.slice(0, 4) }}</Text>
+											<Text size="13" weight="700" color="secondary" mono>{{ pfb.hash.slice(0, 4) }}</Text>
 
-										<Flex align="center" gap="3">
-											<div v-for="dot in 3" :class="$style.dot" />
+											<Flex align="center" gap="3">
+												<div v-for="dot in 3" :class="$style.dot" />
+											</Flex>
+
+											<Text size="13" weight="700" color="secondary" mono>{{
+												pfb.hash.slice(pfb.hash.length - 4, pfb.hash.length)
+											}}</Text>
 										</Flex>
+									</Outline>
 
-										<Text size="13" weight="700" color="secondary" mono>{{
-											pfb.hash.slice(pfb.hash.length - 4, pfb.hash.length)
-										}}</Text>
-									</Flex>
-								</Outline>
+									<template #content>
+										{{ space(pfb.hash) }}
+									</template>
+								</Tooltip>
 							</td>
 							<td>
 								<Text size="13" weight="600" color="primary">{{
