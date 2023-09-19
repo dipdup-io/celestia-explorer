@@ -159,7 +159,7 @@ const handleCopy = (target) => {
 													</Text>
 												</template>
 												<template v-else>
-													<Text size="13" weight="700" color="secondary" mono>Unknown</Text>
+													<Text size="13" weight="700" color="secondary" mono>Genesis</Text>
 												</template>
 											</Flex>
 										</Outline>
