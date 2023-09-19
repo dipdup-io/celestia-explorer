@@ -97,7 +97,11 @@ const handleCopy = (target) => {
 						<Text size="12" weight="600" color="tertiary">Proposer</Text>
 						<Flex align="center" gap="6">
 							<Text size="13" weight="600" color="primary">{{ space(block.proposer_address.slice(0, 8)) }}</Text>
-							<Text size="13" weight="600" color="tertiary">...</Text>
+
+							<Flex align="center" gap="3">
+								<div v-for="dot in 3" class="dot" />
+							</Flex>
+
 							<Text size="13" weight="600" color="primary">
 								{{ space(block.proposer_address.slice(block.proposer_address.length - 8, block.proposer_address.length)) }}
 							</Text>

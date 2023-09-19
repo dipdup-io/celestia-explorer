@@ -145,9 +145,13 @@ const handleCopy = (target) => {
 								<td>
 									<Tooltip delay="500">
 										<template #default>
-											<Flex @click.stop="handleCopy(block.hash)" align="center" gap="4" class="copyable">
+											<Flex @click.stop="handleCopy(block.hash)" align="center" gap="6" class="copyable">
 												<Text size="13" weight="600" color="secondary">{{ block.hash.slice(0, 4) }}</Text>
-												<Text size="13" weight="600" color="tertiary">...</Text>
+
+												<Flex align="center" gap="3">
+													<div v-for="dot in 3" class="dot" />
+												</Flex>
+
 												<Text size="13" weight="600" color="secondary">
 													{{ block.hash.slice(block.hash.length - 4, block.hash.length) }}
 												</Text>
@@ -160,11 +164,15 @@ const handleCopy = (target) => {
 								<td>
 									<Tooltip delay="500">
 										<template #default>
-											<Flex @click.stop="handleCopy(block.proposer_address)" align="center" gap="4" class="copyable">
+											<Flex @click.stop="handleCopy(block.proposer_address)" align="center" gap="6" class="copyable">
 												<Text size="13" weight="600" color="secondary">{{
 													block.proposer_address.slice(0, 4)
 												}}</Text>
-												<Text size="13" weight="600" color="tertiary">...</Text>
+
+												<Flex align="center" gap="3">
+													<div v-for="dot in 3" class="dot" />
+												</Flex>
+
 												<Text size="13" weight="600" color="secondary">{{
 													block.proposer_address.slice(
 														block.proposer_address.length - 4,
