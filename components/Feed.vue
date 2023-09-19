@@ -1,6 +1,6 @@
 <script setup>
 /** Services */
-import { comma } from "@/services/utils"
+import { comma, formatBytes } from "@/services/utils"
 
 /** Store */
 import { useAppStore } from "@/store/app"
@@ -37,7 +37,7 @@ const head = computed(() => appStore.head)
 					<Icon name="folder" size="12" color="tertiary" :class="$style.icon" />
 					<Flex align="center" gap="4">
 						<Text size="12" weight="500" color="tertiary" noWrap :class="$style.key">Total Blobs Size:</Text>
-						<Text size="12" weight="600" noWrap :class="$style.value">{{ head.total_blobs_size }}</Text>
+						<Text size="12" weight="600" noWrap :class="$style.value">{{ formatBytes(head.total_blobs_size) }}</Text>
 					</Flex>
 				</Flex>
 
