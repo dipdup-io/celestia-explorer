@@ -29,7 +29,7 @@ import Button from "@/components/ui/Button.vue"
 									<Text size="13" weight="700" color="secondary" mono>AAAA</Text>
 
 									<Flex align="center" gap="3">
-										<div v-for="dot in 3" :class="$style.dot" />
+										<div v-for="dot in 3" class="dot" />
 									</Flex>
 
 									<Text size="13" weight="700" color="secondary" mono>AAAA</Text>
@@ -90,13 +90,5 @@ import Button from "@/components/ui/Button.vue"
 			white-space: nowrap;
 		}
 	}
-}
-
-.dot {
-	width: 3px;
-	height: 3px;
-
-	border-radius: 50px;
-	background: var(--txt-tertiary);
 }
 </style>

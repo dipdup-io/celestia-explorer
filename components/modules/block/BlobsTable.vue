@@ -58,7 +58,7 @@ const handleCopy = (target) => {
 											<Text size="13" weight="700" color="secondary" mono>{{ blob.namespace.hash.slice(0, 4) }}</Text>
 
 											<Flex align="center" gap="3">
-												<div v-for="dot in 3" :class="$style.dot" />
+												<div v-for="dot in 3" class="dot" />
 											</Flex>
 
 											<Text size="13" weight="700" color="secondary" mono>
@@ -82,9 +82,39 @@ const handleCopy = (target) => {
 							<td style="width: 1px">
 								<Tooltip position="start" delay="500">
 									<Flex @click="handleCopy(blob.data.Signer)" align="center" gap="6" class="copyable">
-										<Text size="13" weight="600" color="primary">
-											{{ blob.data.Signer }}
-										</Text>
+										<template v-if="blob.data.Signer.startsWith('celestiavaloper')">
+											<Text size="13" weight="600" color="primary"> celestiavaloper </Text>
+
+											<Flex align="center" gap="3">
+												<div v-for="dot in 3" class="dot" />
+											</Flex>
+
+											<Text size="13" weight="600" color="primary">
+												{{ blob.data.Signer.slice(blob.data.Signer.length - 4, blob.data.Signer.length) }}
+											</Text>
+										</template>
+										<template v-else-if="blob.data.Signer.startsWith('celestiavalcons')">
+											<Text size="13" weight="600" color="primary"> celestiavalcons </Text>
+
+											<Flex align="center" gap="3">
+												<div v-for="dot in 3" class="dot" />
+											</Flex>
+
+											<Text size="13" weight="600" color="primary">
+												{{ blob.data.Signer.slice(blob.data.Signer.length - 4, blob.data.Signer.length) }}
+											</Text>
+										</template>
+										<template v-else>
+											<Text size="13" weight="600" color="primary"> celestia </Text>
+
+											<Flex align="center" gap="3">
+												<div v-for="dot in 3" class="dot" />
+											</Flex>
+
+											<Text size="13" weight="600" color="primary">
+												{{ blob.data.Signer.slice(blob.data.Signer.length - 4, blob.data.Signer.length) }}
+											</Text>
+										</template>
 									</Flex>
 
 									<template #content>
@@ -161,13 +191,5 @@ const handleCopy = (target) => {
 			white-space: nowrap;
 		}
 	}
-}
-
-.dot {
-	width: 3px;
-	height: 3px;
-
-	border-radius: 50px;
-	background: var(--txt-tertiary);
 }
 </style>

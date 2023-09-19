@@ -77,7 +77,7 @@ const handleCopy = (target) => {
 								<Text size="12" weight="700" color="secondary" mono> {{ space(block.hash.slice(0, 12)) }} </Text>
 
 								<Flex align="center" gap="3">
-									<div v-for="dot in 3" :class="$style.dot" />
+									<div v-for="dot in 3" class="dot" />
 								</Flex>
 
 								<Text size="12" weight="700" color="secondary" mono>
@@ -257,14 +257,6 @@ const handleCopy = (target) => {
 	.main {
 		padding: 16px;
 	}
-}
-
-.dot {
-	width: 3px;
-	height: 3px;
-
-	border-radius: 50px;
-	background: var(--txt-tertiary);
 }
 
 .tabs_wrapper {

@@ -172,7 +172,7 @@ const handleCopy = (target) => {
 								<Text size="12" weight="700" color="secondary" mono> {{ space(preview.block.hash.slice(0, 12)) }} </Text>
 
 								<Flex align="center" gap="3">
-									<div v-for="dot in 3" :class="$style.dot" />
+									<div v-for="dot in 3" class="dot" />
 								</Flex>
 
 								<Text size="12" weight="700" color="secondary" mono>
@@ -221,7 +221,7 @@ const handleCopy = (target) => {
 									<Text size="13" weight="700" color="primary" mono>{{ transaction.hash.slice(0, 4) }}</Text>
 
 									<Flex align="center" gap="3">
-										<div v-for="dot in 3" :class="$style.dot" />
+										<div v-for="dot in 3" class="dot" />
 									</Flex>
 
 									<Text size="13" weight="700" color="primary" mono>
@@ -250,7 +250,7 @@ const handleCopy = (target) => {
 										<Text size="13" weight="700" color="primary" mono>{{ pfb.namespace.hash.slice(0, 4) }}</Text>
 
 										<Flex align="center" gap="3">
-											<div v-for="dot in 3" :class="$style.dot" />
+											<div v-for="dot in 3" class="dot" />
 										</Flex>
 
 										<Text size="13" weight="700" color="primary" mono>
@@ -378,14 +378,6 @@ const handleCopy = (target) => {
 			width: 100%;
 		}
 	}
-}
-
-.dot {
-	width: 3px;
-	height: 3px;
-
-	border-radius: 50px;
-	background: var(--txt-tertiary);
 }
 
 .badge {

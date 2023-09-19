@@ -151,7 +151,7 @@ const handleCopy = (target) => {
 													<Text size="13" weight="700" color="secondary" mono>{{ tx.hash.slice(0, 4) }}</Text>
 
 													<Flex align="center" gap="3">
-														<div v-for="dot in 3" :class="$style.dot" />
+														<div v-for="dot in 3" class="dot" />
 													</Flex>
 
 													<Text size="13" weight="700" color="secondary" mono>
@@ -302,14 +302,6 @@ const handleCopy = (target) => {
 .table.disabled {
 	opacity: 0.5;
 	pointer-events: none;
-}
-
-.dot {
-	width: 3px;
-	height: 3px;
-
-	border-radius: 50px;
-	background: var(--txt-tertiary);
 }
 
 @media (max-width: 500px) {
