@@ -177,7 +177,7 @@ const handleCopy = (target) => {
 						>
 							<Text size="13" weight="600">{{ tab }}</Text>
 
-							<Text v-if="getTxnsLengthByTab(tab)" size="13" weight="600">
+							<Text v-if="getTxnsLengthByTab(tab)" size="11" height="110" weight="600" :class="$style.badge">
 								{{ getTxnsLengthByTab(tab) }}
 							</Text>
 						</Flex>
@@ -379,9 +379,10 @@ const handleCopy = (target) => {
 
 .badge {
 	border-radius: 5px;
-	background: rgba(0, 0, 0, 40%);
+	background: var(--op-5);
+	box-shadow: inset 0 0 0 1px var(--op-10);
 
-	padding: 8px;
+	padding: 4px 6px;
 }
 
 @media (max-width: 800px) {
