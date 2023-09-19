@@ -42,6 +42,7 @@ const handleCopy = (target) => {
 						<tr>
 							<th><Text size="12" weight="600" color="tertiary">Hash</Text></th>
 							<th><Text size="12" weight="600" color="tertiary">Signer</Text></th>
+							<th><Text size="12" weight="600" color="tertiary">Share Commitments</Text></th>
 							<th><Text size="12" weight="600" color="tertiary">Size</Text></th>
 							<th><Text size="12" weight="600" color="tertiary">Version</Text></th>
 						</tr>
@@ -79,7 +80,7 @@ const handleCopy = (target) => {
 									</template>
 								</Tooltip>
 							</td>
-							<td style="width: 1px">
+							<td>
 								<Tooltip position="start" delay="500">
 									<Flex @click="handleCopy(blob.data.Signer)" align="center" gap="6" class="copyable">
 										<template v-if="blob.data.Signer.startsWith('celestiavaloper')">
@@ -123,8 +124,34 @@ const handleCopy = (target) => {
 								</Tooltip>
 							</td>
 							<td>
+								<Tooltip position="start" delay="500">
+									<Flex @click="handleCopy(blob.data.ShareCommitments[0])" align="center" gap="6" class="copyable">
+										<Text size="13" weight="600" color="primary">
+											{{ blob.data.ShareCommitments[0].slice(0, 4) }}
+										</Text>
+
+										<Flex align="center" gap="3">
+											<div v-for="dot in 3" class="dot" />
+										</Flex>
+
+										<Text size="13" weight="600" color="primary">
+											{{
+												blob.data.ShareCommitments[0].slice(
+													blob.data.ShareCommitments[0].length - 4,
+													blob.data.ShareCommitments[0].length,
+												)
+											}}
+										</Text>
+									</Flex>
+
+									<template #content>
+										{{ blob.data.ShareCommitments[0] }}
+									</template>
+								</Tooltip>
+							</td>
+							<td>
 								<Text size="13" weight="600" color="primary">
-									{{ formatBytes(blob.namespace.size) }}
+									{{ formatBytes(blob.data.BlobSizes[0]) }}
 								</Text>
 							</td>
 							<td>
@@ -156,6 +183,8 @@ const handleCopy = (target) => {
 }
 
 .table_scroller {
+	width: 100%;
+
 	overflow-x: auto;
 }
 
