@@ -80,7 +80,7 @@ const handleCopy = (target) => {
 							</td>
 							<td>
 								<Text size="13" weight="600" color="primary">{{
-									DateTime.fromISO(pfb.time).setLocale("en").toRelative()
+									DateTime.fromISO(pfb.time).toRelative({ locale: "en", style: "short" })
 								}}</Text>
 							</td>
 							<td><Text size="13" weight="600" color="primary">5</Text></td>

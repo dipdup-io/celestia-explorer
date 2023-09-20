@@ -139,7 +139,7 @@ const handleCopy = (target) => {
 								</td>
 								<td>
 									<Text size="13" weight="600" color="primary">{{
-										DateTime.fromISO(block.time).setLocale("en").toRelative()
+										DateTime.fromISO(block.time).toRelative({ locale: "en", style: "short" })
 									}}</Text>
 								</td>
 								<td>

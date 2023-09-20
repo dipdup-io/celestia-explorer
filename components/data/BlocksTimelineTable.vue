@@ -18,12 +18,15 @@ import { useNotificationsStore } from "@/store/notifications"
 const notificationsStore = useNotificationsStore()
 
 const blocks = ref([])
-
 const preview = reactive({
 	block: null,
 	transactions: [],
 	pfbs: [],
 })
+
+const handleSelectBlock = (b) => {
+	preview.block = b
+}
 
 watch(
 	() => preview.block,
@@ -86,7 +89,7 @@ const handleCopy = (target) => {
 						</thead>
 
 						<tbody>
-							<tr v-for="block in blocks" @click="preview.block = block">
+							<tr v-for="block in blocks" @click="handleSelectBlock(block)">
 								<td style="width: 1px">
 									<Outline>
 										<Flex align="center" gap="6">
@@ -97,9 +100,9 @@ const handleCopy = (target) => {
 									</Outline>
 								</td>
 								<td>
-									<Text size="13" weight="600" color="primary">{{
-										DateTime.fromISO(block.time).setLocale("en").toRelative()
-									}}</Text>
+									<Text size="13" weight="600" color="primary">
+										{{ DateTime.fromISO(block.time).toRelative({ locale: "en", style: "short" }) }}
+									</Text>
 								</td>
 								<td>
 									<Tooltip delay="500">
@@ -161,59 +164,83 @@ const handleCopy = (target) => {
 				</Button>
 			</Flex>
 
-			<Flex direction="column" :class="$style.preview">
-				<Flex wide direction="column" gap="20" :class="$style.top">
-					<Flex justify="between">
-						<Flex direction="column" gap="8">
-							<Text size="12" weight="600" color="tertiary"> Block </Text>
-							<Text size="16" weight="600" color="primary">{{ comma(preview.block.height) }}</Text>
+			<Flex direction="column" :class="[$style.preview]">
+				<Flex wide direction="column" gap="16" :class="$style.top">
+					<Flex align="center" justify="between" wide>
+						<Flex align="center" gap="8">
+							<Icon name="block" size="14" color="secondary" :class="$style.block_icon" />
+
+							<Flex align="center" gap="4">
+								<Text size="12" weight="600" color="secondary"> Block </Text>
+								<Text size="12" weight="600" color="primary">{{ comma(preview.block.height) }}</Text>
+							</Flex>
 						</Flex>
 
-						<Text size="12" weight="500" color="tertiary">{{
-							DateTime.fromISO(preview.block.time).setLocale("en").toFormat("ff")
-						}}</Text>
+						<Text size="12" weight="600" color="tertiary">
+							{{ DateTime.fromISO(preview.block.time).setLocale("en").toFormat("ff") }}
+						</Text>
 					</Flex>
 
-					<Tooltip delay="500" wide>
-						<Outline @click="handleCopy(preview.block.hash)" wide padding="8" class="copyable">
-							<Flex justify="between" align="center" gap="8" wide>
-								<Text size="12" weight="700" color="secondary" mono> {{ space(preview.block.hash.slice(0, 12)) }} </Text>
+					<Flex align="center" justify="between" :class="$style.timing">
+						<Text size="12" weight="600" color="secondary" :class="$style.fixed_width">
+							{{
+								DateTime.fromISO(preview.block.time)
+									.minus({ milliseconds: preview.block.stats.block_time })
+									.setLocale("en")
+									.toFormat("TT")
+							}}
+						</Text>
+
+						<div v-for="dot in 5" class="dot" />
+
+						<Flex align="center" gap="6" :class="$style.fixed_width">
+							<Icon name="time" size="12" color="secondary" />
+							<Text size="12" weight="600" color="primary"> {{ (preview.block.stats.block_time / 1_000).toFixed(2) }}s </Text>
+						</Flex>
+
+						<div v-for="dot in 5" class="dot" />
+
+						<Text size="12" weight="600" color="secondary" align="right" :class="$style.fixed_width">
+							{{ DateTime.fromISO(preview.block.time).setLocale("en").toFormat("TT") }}</Text
+						>
+					</Flex>
+				</Flex>
+
+				<Flex direction="column" gap="32" :class="$style.main">
+					<Flex align="center" gap="40">
+						<Flex @click="handleCopy(preview.block.hash)" direction="column" gap="12" class="copyable">
+							<Text size="12" weight="600" color="tertiary">Hash</Text>
+
+							<Flex align="center" gap="6">
+								<Text size="13" weight="600" color="primary">{{ preview.block.hash.slice(0, 4) }}</Text>
 
 								<Flex align="center" gap="3">
 									<div v-for="dot in 3" class="dot" />
 								</Flex>
 
-								<Text size="12" weight="700" color="secondary" mono>
-									{{ space(preview.block.hash.slice(preview.block.hash.length - 12, preview.block.hash.length)) }}
-								</Text>
+								<Text size="13" weight="600" color="primary">{{
+									preview.block.hash.slice(preview.block.hash.length - 4, preview.block.hash.length)
+								}}</Text>
 							</Flex>
-						</Outline>
+						</Flex>
 
-						<template #content>
-							{{ space(preview.block.hash) }}
-						</template>
-					</Tooltip>
-				</Flex>
+						<Flex @click="handleCopy(preview.block.proposer_address)" direction="column" gap="12" class="copyable">
+							<Text size="12" weight="600" color="tertiary">Proposer</Text>
 
-				<Flex direction="column" gap="24" :class="$style.main">
-					<Flex direction="column" gap="12">
-						<Text size="12" weight="600" color="tertiary">Proposer</Text>
+							<Flex align="center" gap="6">
+								<Text size="13" weight="600" color="primary">{{ preview.block.proposer_address.slice(0, 4) }}</Text>
 
-						<Flex align="center" gap="6">
-							<Text size="13" weight="600" color="primary">{{ space(preview.block.proposer_address.slice(0, 8)) }}</Text>
+								<Flex align="center" gap="3">
+									<div v-for="dot in 3" class="dot" />
+								</Flex>
 
-							<Flex align="center" gap="3">
-								<div v-for="dot in 3" class="dot" />
-							</Flex>
-
-							<Text size="13" weight="600" color="primary">{{
-								space(
+								<Text size="13" weight="600" color="primary">{{
 									preview.block.proposer_address.slice(
-										preview.block.proposer_address.length - 8,
+										preview.block.proposer_address.length - 4,
 										preview.block.proposer_address.length,
-									),
-								)
-							}}</Text>
+									)
+								}}</Text>
+							</Flex>
 						</Flex>
 					</Flex>
 
@@ -297,7 +324,7 @@ const handleCopy = (target) => {
 
 				<Flex :class="$style.bottom">
 					<Button :link="`/block/${preview.block.height}`" type="secondary" size="small" wide>
-						<Text size="12" weight="600" color="primary">View Block</Text>
+						<Text size="12" weight="600" color="primary">View Block {{ comma(preview.block.height) }}</Text>
 						<Icon name="arrow-narrow-up-right" size="12" color="tertiary" />
 					</Button>
 				</Flex>
@@ -371,8 +398,28 @@ const handleCopy = (target) => {
 
 	.top {
 		padding: 16px;
+	}
 
-		border-bottom: 1px solid var(--op-5);
+	.block_icon {
+		box-sizing: content-box;
+		border-radius: 5px;
+		background: rgba(0, 0, 0, 30%);
+
+		padding: 4px;
+	}
+
+	.timing {
+		height: 28px;
+
+		border-radius: 6px;
+		background: linear-gradient(var(--op-8), var(--op-3));
+		box-shadow: inset 0 0 0 1px var(--op-5);
+
+		padding: 0 8px;
+
+		.fixed_width {
+			width: 60px;
+		}
 	}
 
 	.main {
