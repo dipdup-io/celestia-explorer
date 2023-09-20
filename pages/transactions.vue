@@ -131,11 +131,11 @@ const handleCopy = (target) => {
 						<thead>
 							<tr>
 								<th><Text size="12" weight="600" color="tertiary" noWrap>Hash</Text></th>
+								<th><Text size="12" weight="600" color="tertiary" noWrap>Messages</Text></th>
 								<th><Text size="12" weight="600" color="tertiary" noWrap>When</Text></th>
 								<th><Text size="12" weight="600" color="tertiary" noWrap>Block</Text></th>
 								<th><Text size="12" weight="600" color="tertiary" noWrap>Gas</Text></th>
 								<th><Text size="12" weight="600" color="tertiary" noWrap>Events</Text></th>
-								<th><Text size="12" weight="600" color="tertiary" noWrap>Messages</Text></th>
 							</tr>
 						</thead>
 
@@ -169,6 +169,22 @@ const handleCopy = (target) => {
 										</template>
 									</Tooltip>
 								</td>
+								<td style="width: 1px">
+									<Flex align="center" gap="6">
+										<Text size="13" height="160" weight="600" color="primary" :class="$style.message_type">
+											{{ tx.message_types[0] }}
+										</Text>
+										<Text
+											v-if="tx.message_types.length > 1"
+											size="12"
+											weight="600"
+											color="primary"
+											:class="$style.badge"
+										>
+											+{{ tx.message_types.length - 1 }}
+										</Text>
+									</Flex>
+								</td>
 								<td>
 									<Text size="13" weight="600" color="primary">
 										{{ DateTime.fromISO(tx.time).toRelative({ locale: "en", style: "short" }) }}
@@ -198,11 +214,6 @@ const handleCopy = (target) => {
 								<td>
 									<Text size="13" weight="600" color="primary">
 										{{ tx.events_count }}
-									</Text>
-								</td>
-								<td>
-									<Text size="13" weight="600" color="primary">
-										{{ tx.messages_count }}
 									</Text>
 								</td>
 							</tr>
@@ -302,6 +313,20 @@ const handleCopy = (target) => {
 .table.disabled {
 	opacity: 0.5;
 	pointer-events: none;
+}
+
+.message_type {
+	max-width: 100px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.badge {
+	border-radius: 5px;
+	background: var(--op-5);
+	box-shadow: inset 0 0 0 1px var(--op-10);
+
+	padding: 4px 6px;
 }
 
 @media (max-width: 500px) {
