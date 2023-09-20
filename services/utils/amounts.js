@@ -12,7 +12,32 @@ export const comma = (target, symbol = ",") => {
 	return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, symbol)
 }
 
+export const truncate = (num) => {
+	if (!num) return num
+
+	/** todo: refactor */
+	if (num.toString().includes("e")) return 0
+
+	const [left, right] = num.toString().split(".")
+	let result = ""
+	const rightArr = right ? right.split("") : []
+
+	for (let i = 0; i < rightArr.length; i++) {
+		const digit = rightArr[i]
+		const nextDigit = rightArr[i + 1] && rightArr[i + 1] != 0 ? rightArr[i + 1] : ""
+
+		if (digit == "0" || digit == ".") {
+			result += digit
+		} else {
+			result += `${digit}${nextDigit}`
+			break
+		}
+	}
+
+	return left + (result ? `.${result}` : "")
+}
+
 export const tia = (amount) => {
 	if (!amount || !parseInt(amount)) return 0
-	return (parseInt(amount) / 1000000).toFixed(2)
+	return truncate(parseInt(amount) / 1_000_000)
 }
