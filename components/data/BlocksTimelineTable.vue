@@ -93,7 +93,11 @@ const handleCopy = (target) => {
 								<td style="width: 1px">
 									<Outline>
 										<Flex align="center" gap="6">
-											<Icon name="block" size="14" color="tertiary" />
+											<Icon
+												:name="block.height === preview.block.height ? 'check' : 'block'"
+												size="14"
+												:color="block.height === preview.block.height ? 'primary' : 'tertiary'"
+											/>
 
 											<Text size="13" weight="600" color="primary">{{ comma(block.height) }}</Text>
 										</Flex>
@@ -107,7 +111,7 @@ const handleCopy = (target) => {
 								<td>
 									<Tooltip delay="500">
 										<template #default>
-											<Flex @click="handleCopy(block.hash)" align="center" gap="6" class="copyable">
+											<Flex align="center" gap="6">
 												<Text size="13" weight="600" color="secondary">{{ block.hash.slice(0, 4) }}</Text>
 
 												<Flex align="center" gap="3">
@@ -126,7 +130,7 @@ const handleCopy = (target) => {
 								<td>
 									<Tooltip delay="500">
 										<template #default>
-											<Flex @click="handleCopy(block.proposer_address)" align="center" gap="6" class="copyable">
+											<Flex align="center" gap="6">
 												<Text size="13" weight="600" color="secondary">{{
 													block.proposer_address.slice(0, 4)
 												}}</Text>
@@ -168,7 +172,7 @@ const handleCopy = (target) => {
 				<Flex wide direction="column" gap="16" :class="$style.top">
 					<Flex align="center" justify="between" wide>
 						<Flex align="center" gap="8">
-							<Icon name="block" size="14" color="secondary" :class="$style.block_icon" />
+							<Icon name="block" size="14" color="primary" />
 
 							<Flex align="center" gap="4">
 								<Text size="12" weight="600" color="secondary"> Block </Text>
@@ -398,14 +402,6 @@ const handleCopy = (target) => {
 
 	.top {
 		padding: 16px;
-	}
-
-	.block_icon {
-		box-sizing: content-box;
-		border-radius: 5px;
-		background: rgba(0, 0, 0, 30%);
-
-		padding: 4px;
 	}
 
 	.timing {
