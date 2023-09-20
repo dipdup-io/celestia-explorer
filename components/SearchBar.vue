@@ -53,22 +53,23 @@ const handleEnter = (e) => {
 const handleSearch = async () => {
 	if (!searchTerm.value) return
 
-	if (!isNaN(parseInt(searchTerm.value))) {
-		router.push(`/block/${searchTerm.value}`)
-		return
-	}
-
 	const { data } = await search(searchTerm.value)
-	if (!data.value) return
 
-	switch (data.value.type) {
-		case "block":
-			router.push(`/block/${data.value.result.height}`)
+	if (!data.value) {
+		if (!isNaN(parseInt(searchTerm.value))) {
+			router.push(`/block/${searchTerm.value}`)
 			return
+		}
+	} else {
+		switch (data.value.type) {
+			case "block":
+				router.push(`/block/${data.value.result.height}`)
+				return
 
-		case "tx":
-			router.push(`/block/${data.value.result.height}`)
-			return
+			case "tx":
+				router.push(`/block/${data.value.result.height}`)
+				return
+		}
 	}
 }
 </script>
