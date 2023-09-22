@@ -90,7 +90,7 @@ const handleCopy = (target) => {
 				</tbody>
 			</table>
 
-			<Button type="secondary" size="small" wide disabled>
+			<Button link="/namespaces" type="secondary" size="small" wide>
 				<Text size="12" weight="600" color="primary">View all namespaces</Text>
 				<Icon name="arrow-narrow-up-right" size="12" color="tertiary" />
 			</Button>

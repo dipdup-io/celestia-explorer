@@ -14,8 +14,8 @@
 				<NuxtLink to="/transactions" :class="$style.link">
 					<Text size="12" weight="500" color="tertiary"> Transactions </Text>
 				</NuxtLink>
-				<NuxtLink :class="$style.link">
-					<Text size="12" weight="500" color="support"> Namespaces </Text>
+				<NuxtLink to="/namespaces" :class="$style.link">
+					<Text size="12" weight="500" color="tertiary"> Namespaces </Text>
 				</NuxtLink>
 			</Flex>
 		</Flex>
