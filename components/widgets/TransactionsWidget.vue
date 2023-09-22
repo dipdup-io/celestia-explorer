@@ -1,10 +1,48 @@
+<script setup>
+/** Vendor */
+import { DateTime } from "luxon"
+
+/** API */
+import { fetchHistogram } from "@/services/api/histogram"
+
+const histogram = ref([])
+
+const { data } = await fetchHistogram({ table: "tx", func: "count", period: "hour" })
+histogram.value = data.value.slice(0, 24).reverse()
+
+let sectors = []
+histogram.value.forEach((item, idx) => {
+	const rSix = Math.ceil((idx + 1) / 6) * 6
+	if (rSix === idx + 1) {
+		sectors.push(histogram.value.slice(rSix - 6, rSix))
+	}
+})
+
+const min = Math.min(...histogram.value.map((item) => parseInt(item.value)))
+const max = Math.max(...histogram.value.map((item) => parseInt(item.value)))
+const roundedMax = Math.ceil(max / 5) * 5
+
+const latestSector = Math.ceil(DateTime.fromISO(histogram.value[histogram.value.length - 1].time).hour / 6)
+
+const txCounter = computed(() => histogram.value.reduce((a, b) => (a += parseInt(b.value)), 0))
+
+const getPercentageRatio = (v) => {
+	return (parseInt(v) * 100) / roundedMax
+}
+
+const getSectorName = (idx) => {
+	const a = idx * 6
+	return idx !== 0 ? a - 6 : (a - 6) * -3
+}
+</script>
+
 <template>
 	<Flex direction="column" gap="20" :class="$style.wrapper">
 		<Flex justify="between">
 			<Flex align="center" gap="6">
 				<Icon name="zap" size="16" color="primary" />
 				<Flex gap="4" align="end">
-					<Text size="16" weight="600" color="primary">0</Text>
+					<Text size="16" weight="600" color="primary">{{ txCounter }}</Text>
 					<Text size="12" weight="700" color="tertiary">TXs</Text>
 				</Flex>
 			</Flex>
@@ -15,22 +53,25 @@
 		<!-- Chart -->
 		<Flex gap="16" :class="$style.chart">
 			<Flex direction="column" justify="between" :class="$style.yAxis">
-				<Text size="12" weight="600" color="secondary">200</Text>
-				<Text size="12" weight="600" color="secondary">100</Text>
-				<Text size="12" weight="600" color="secondary">0</Text>
+				<Text size="12" weight="600" color="secondary">{{ roundedMax }}</Text>
+				<Text size="12" weight="600" color="secondary">{{ Math.ceil(roundedMax / 2) }}</Text>
+				<Text size="12" weight="600" color="secondary">{{ min }}</Text>
 			</Flex>
 
 			<Flex wide :class="$style.sectors">
-				<Flex v-for="item in 4" direction="column" gap="8" wide :class="$style.sector">
+				<Flex v-for="(sector, idx) in sectors" direction="column" gap="8" wide :class="$style.sector">
 					<Flex justify="between" :class="$style.hours">
-						<Flex v-for="hour in 6" direction="column" justify="end" gap="6" :class="$style.hour">
-							<div :style="{ height: `${Math.floor(Math.random() * 50)}%` }" :class="$style.bar" />
+						<Flex v-for="item in sector" direction="column" justify="end" gap="6" :class="$style.hour">
+							<div
+								:style="{ height: `${getPercentageRatio(item.value)}%` }"
+								:class="[$style.bar, getPercentageRatio(item.value) > 20 && $style.green]"
+							/>
 							<div :class="$style.dot" />
 						</Flex>
 					</Flex>
 
 					<Text size="12" weight="600" color="tertiary">
-						{{ `${(item - 1) * 6 < 10 ? "0" : ""}${(item - 1) * 6}` }}
+						{{ getSectorName(idx) }}
 					</Text>
 				</Flex>
 			</Flex>
@@ -79,6 +120,10 @@
 
 	border-radius: 50px;
 	background: var(--txt-tertiary);
+
+	&.green {
+		background: var(--green);
+	}
 }
 
 .dot {
