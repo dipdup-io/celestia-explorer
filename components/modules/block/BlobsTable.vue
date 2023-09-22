@@ -1,9 +1,14 @@
 <script setup>
 /** UI */
 import Tooltip from "@/components/ui/Tooltip.vue"
+import Button from "@/components/ui/Button.vue"
+import Spinner from "@/components/ui/Spinner.vue"
+
+/** Components */
+import BlobModal from "@/components/modals/BlobModal.vue"
 
 /** Services */
-import { space, formatBytes } from "@/services/utils"
+import { formatBytes } from "@/services/utils"
 
 /** Store */
 import { useNotificationsStore } from "@/store/notifications"
@@ -13,7 +18,18 @@ const props = defineProps({
 	blobs: {
 		type: Array,
 	},
+	loading: {
+		type: Boolean,
+	},
 })
+
+const selectedBlob = ref({})
+const showBlobModal = ref(false)
+
+const handleViewBlob = (blob) => {
+	selectedBlob.value = blob
+	showBlobModal.value = true
+}
 
 const handleCopy = (target) => {
 	window.navigator.clipboard.writeText(target)
@@ -30,6 +46,8 @@ const handleCopy = (target) => {
 </script>
 
 <template>
+	<BlobModal :show="showBlobModal" :item="selectedBlob" @onClose="showBlobModal = false" />
+
 	<Flex direction="column" gap="4">
 		<Flex align="center" :class="$style.header">
 			<Text size="14" weight="600" color="primary">Blobs</Text>
@@ -56,21 +74,8 @@ const handleCopy = (target) => {
 										<Flex align="center" gap="8">
 											<Icon name="blob" size="12" color="tertiary" />
 
-											<Text size="13" weight="700" color="secondary" mono>{{ blob.namespace.hash.slice(0, 4) }}</Text>
-
-											<Flex align="center" gap="3">
-												<div v-for="dot in 3" class="dot" />
-											</Flex>
-
 											<Text size="13" weight="700" color="secondary" mono>
-												{{
-													space(
-														blob.namespace.hash.slice(
-															blob.namespace.hash.length - 8,
-															blob.namespace.hash.length,
-														),
-													)
-												}}
+												{{ blob.namespace.hash.slice(blob.namespace.hash.length - 6, blob.namespace.hash.length) }}
 											</Text>
 										</Flex>
 									</Outline>
@@ -157,10 +162,17 @@ const handleCopy = (target) => {
 							<td>
 								<Text size="13" weight="600" color="primary">{{ blob.namespace.version }}</Text>
 							</td>
+							<td style="width: 1px">
+								<Button @click="handleViewBlob(blob)" type="secondary" size="mini">View</Button>
+							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
+			<Flex v-else-if="loading" align="center" justify="center" gap="8" wide>
+				<Spinner size="14" />
+				<Text size="13" weight="500" color="secondary"> Loading blobs </Text>
+			</Flex>
 
 			<Flex v-else align="center" justify="center" direction="column" gap="8" wide>
 				<Text size="13" weight="600" color="secondary" align="center"> No blobs </Text>

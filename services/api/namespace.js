@@ -1,7 +1,7 @@
 /** Services */
 import { API } from "@/services/config"
 
-export const fetchNamespaces = async ({ limit, offset, sort, msg_type }) => {
+export const fetchNamespaces = async ({ limit, offset, sort }) => {
 	try {
 		const url = new URL(`${API}/namespace`)
 
@@ -21,6 +21,17 @@ export const fetchActiveNamespaces = async () => {
 		const url = new URL(`${API}/namespace/active`)
 
 		const data = await useFetch(url.href)
+		return data
+	} catch (error) {
+		console.error(error)
+	}
+}
+
+export const fetchNamespaceByHash = async ({ hash, height, commitment }) => {
+	try {
+		const url = new URL(`${API}/namespace_by_hash/${hash}/${height}/${commitment}`)
+
+		const data = await useFetch(encodeURI(url.href))
 		return data
 	} catch (error) {
 		console.error(error)

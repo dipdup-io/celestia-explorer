@@ -21,8 +21,8 @@ $grayscale: (
 	/* Text */
 	--txt-primary: rgba(255, 255, 255, 90%);
 	--txt-body: rgba(255, 255, 255, 75%);
-	--txt-secondary: rgba(255, 255, 255, 60%);
-	--txt-tertiary: rgba(255, 255, 255, 30%);
+	--txt-secondary: rgba(255, 255, 255, 65%);
+	--txt-tertiary: rgba(255, 255, 255, 35%);
 	--txt-support: rgba(255, 255, 255, 15%);
 	--txt-black: rgba(0, 0, 0, 95%);
 
@@ -152,5 +152,15 @@ body {
 
 .fade-enter-from,
 .fade-leave-to {
+	opacity: 0;
+}
+
+.fastfade-enter-active,
+.fastfade-leave-active {
+	transition: all 0.1s ease;
+}
+
+.fastfade-enter-from,
+.fastfade-leave-to {
 	opacity: 0;
 }

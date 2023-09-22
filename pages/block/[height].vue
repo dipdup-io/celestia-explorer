@@ -15,6 +15,8 @@ const router = useRouter()
 
 const block = ref()
 const transactions = ref([])
+
+const isBlobsLoading = ref(true)
 const blobs = ref([])
 
 const { data: rawBlock } = await fetchBlockByHeight(route.params.height)
@@ -33,6 +35,8 @@ if (rawTxns.value?.length) {
 onMounted(async () => {
 	const { data } = await fetchBlockNamespaces(route.params.height)
 	blobs.value = data.value
+
+	isBlobsLoading.value = false
 })
 
 useHead({
@@ -55,7 +59,7 @@ useHead({
 		<Flex v-if="block" direction="column" gap="40">
 			<BlockOverview :block="block" :transactions="transactions" />
 
-			<BlobsTable :blobs="blobs" />
+			<BlobsTable :blobs="blobs" :loading="isBlobsLoading" />
 		</Flex>
 	</Flex>
 </template>

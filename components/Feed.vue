@@ -14,7 +14,7 @@ const head = computed(() => appStore.head)
 		<Flex align="center" justify="between" gap="24" wide :class="$style.container">
 			<Flex align="center" gap="20">
 				<Flex align="center" gap="6" :class="$style.stat">
-					<Icon name="zap" size="12" color="tertiary" :class="$style.icon" />
+					<Icon name="zap" size="12" color="secondary" :class="$style.icon" />
 					<Flex align="center" gap="4">
 						<Text size="12" weight="500" color="tertiary" noWrap :class="$style.key">Total Txs:</Text>
 						<Text size="12" weight="600" noWrap :class="$style.value">{{ comma(head.total_tx) }}</Text>
@@ -24,7 +24,7 @@ const head = computed(() => appStore.head)
 				<div :class="$style.dot" />
 
 				<Flex align="center" gap="6" :class="$style.stat">
-					<Icon name="coins" size="12" color="tertiary" :class="$style.icon" />
+					<Icon name="coins" size="12" color="secondary" :class="$style.icon" />
 					<Flex align="center" gap="4">
 						<Text size="12" weight="500" color="tertiary" noWrap :class="$style.key">Total Supply:</Text>
 						<Text size="12" weight="600" noWrap :class="$style.value">1.07B TIA</Text>
@@ -34,7 +34,7 @@ const head = computed(() => appStore.head)
 				<div :class="$style.dot" />
 
 				<Flex align="center" gap="6" :class="$style.stat">
-					<Icon name="folder" size="12" color="tertiary" :class="$style.icon" />
+					<Icon name="folder" size="12" color="secondary" :class="$style.icon" />
 					<Flex align="center" gap="4">
 						<Text size="12" weight="500" color="tertiary" noWrap :class="$style.key">Total Blobs Size:</Text>
 						<Text size="12" weight="600" noWrap :class="$style.value">{{ formatBytes(head.total_blobs_size) }}</Text>
@@ -44,7 +44,7 @@ const head = computed(() => appStore.head)
 				<div :class="$style.dot" />
 
 				<Flex align="center" gap="6" :class="$style.stat">
-					<Icon name="tag" size="12" color="tertiary" :class="$style.icon" />
+					<Icon name="tag" size="12" color="secondary" :class="$style.icon" />
 					<Flex align="center" gap="4">
 						<Text size="12" weight="500" color="tertiary" noWrap :class="$style.key">Total Fees:</Text>
 						<Text size="12" weight="600" noWrap :class="$style.value"
@@ -107,11 +107,11 @@ const head = computed(() => appStore.head)
 
 .stat:hover {
 	.icon {
-		fill: var(--txt-tertiary);
+		fill: var(--txt-primary);
 	}
 
 	.key {
-		color: var(--txt-tertiary);
+		color: var(--txt-secondary);
 	}
 
 	.value {

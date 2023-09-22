@@ -12,6 +12,7 @@ appStore.head = data.value
 
 <template>
 	<div id="tooltip" />
+	<div id="modal" />
 
 	<Notifications />
 

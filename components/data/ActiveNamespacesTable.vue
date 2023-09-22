@@ -4,6 +4,7 @@ import { DateTime } from "luxon"
 
 /** UI */
 import Button from "@/components/ui/Button.vue"
+import Tooltip from "@/components/ui/Tooltip.vue"
 
 /** Services */
 import { comma, formatBytes } from "@/services/utils"
@@ -54,15 +55,19 @@ const handleCopy = (target) => {
 				<tbody>
 					<tr v-for="ns in namespaces">
 						<td style="width: 1px">
-							<Outline @click="handleCopy(ns.hash)" class="copyable">
-								<Flex align="center" gap="8">
-									<Icon name="block" size="14" color="tertiary" />
+							<Tooltip position="start" delay="500">
+								<Outline @click="handleCopy(ns.hash)" class="copyable">
+									<Flex align="center" gap="8">
+										<Icon name="block" size="14" color="tertiary" />
 
-									<Text size="13" weight="700" color="secondary" mono>
-										{{ ns.hash.slice(ns.hash.length - 6, ns.hash.length) }}
-									</Text>
-								</Flex>
-							</Outline>
+										<Text size="13" weight="700" color="secondary" mono>
+											{{ ns.hash.slice(ns.hash.length - 6, ns.hash.length) }}
+										</Text>
+									</Flex>
+								</Outline>
+
+								<template #content> {{ ns.hash }} </template>
+							</Tooltip>
 						</td>
 						<td>
 							<NuxtLink :to="`/block/${ns.height}`">

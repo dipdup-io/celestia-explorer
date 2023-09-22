@@ -239,7 +239,7 @@ const handleCopy = (target) => {
 											</Outline>
 
 											<template #content>
-												{{ tx.hash }}
+												{{ space(tx.hash) }}
 											</template>
 										</Tooltip>
 									</td>

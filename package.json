@@ -16,6 +16,7 @@
 	},
 	"dependencies": {
 		"@pinia/nuxt": "^0.4.11",
+		"focus-trap": "^7.5.2",
 		"luxon": "^3.4.3",
 		"pinia": "^2.1.6",
 		"uuid": "^9.0.1"
