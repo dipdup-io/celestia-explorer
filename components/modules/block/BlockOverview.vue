@@ -215,7 +215,6 @@ const handleCopy = (target) => {
 									<th><Text size="12" weight="600" color="tertiary">Gas</Text></th>
 									<th><Text size="12" weight="600" color="tertiary">Fee</Text></th>
 									<th><Text size="12" weight="600" color="tertiary">Events</Text></th>
-									<th><Text size="12" weight="600" color="tertiary">Messages</Text></th>
 								</tr>
 							</thead>
 
@@ -263,11 +262,6 @@ const handleCopy = (target) => {
 									<td>
 										<Text size="13" weight="600" color="primary">
 											{{ tx.events_count }}
-										</Text>
-									</td>
-									<td>
-										<Text size="13" weight="600" color="primary">
-											{{ tx.messages_count }}
 										</Text>
 									</td>
 								</tr>
