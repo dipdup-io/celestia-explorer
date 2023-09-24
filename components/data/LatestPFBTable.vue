@@ -7,7 +7,7 @@ import Button from "@/components/ui/Button.vue"
 import Tooltip from "@/components/ui/Tooltip.vue"
 
 /** Services */
-import { space } from "@/services/utils"
+import { tia, space, comma } from "@/services/utils"
 
 /** API */
 import { fetchLatestPFBs } from "@/services/api/tx"
@@ -20,6 +20,7 @@ const pfbs = ref([])
 
 const { data } = await fetchLatestPFBs()
 pfbs.value = data.value
+console.log(pfbs.value)
 
 const handleCopy = (target) => {
 	window.navigator.clipboard.writeText(target)
@@ -47,9 +48,9 @@ const handleCopy = (target) => {
 					<thead>
 						<tr>
 							<th><Text size="12" weight="600" color="tertiary" noWrap>Hash</Text></th>
+							<th><Text size="12" weight="600" color="tertiary" noWrap>Height</Text></th>
 							<th><Text size="12" weight="600" color="tertiary" noWrap>When</Text></th>
-							<th><Text size="12" weight="600" color="tertiary" noWrap>NS</Text></th>
-							<th><Text size="12" weight="600" color="tertiary" noWrap>Blobs Size</Text></th>
+							<th><Text size="12" weight="600" color="tertiary" noWrap>Fee</Text></th>
 						</tr>
 					</thead>
 
@@ -79,12 +80,27 @@ const handleCopy = (target) => {
 								</Tooltip>
 							</td>
 							<td>
+								<NuxtLink :to="`/block/${pfb.height}`">
+									<Outline>
+										<Flex align="center" gap="6">
+											<Icon name="block" size="14" color="tertiary" />
+
+											<Text size="13" weight="600" color="primary">{{ comma(pfb.height) }}</Text>
+										</Flex>
+									</Outline>
+								</NuxtLink>
+							</td>
+							<td>
 								<Text size="13" weight="600" color="primary">{{
 									DateTime.fromISO(pfb.time).toRelative({ locale: "en", style: "short" })
 								}}</Text>
 							</td>
-							<td><Text size="13" weight="600" color="primary">5</Text></td>
-							<td><Text size="13" weight="600" color="primary">350</Text></td>
+							<td>
+								<Flex align="center" gap="4">
+									<Text size="13" weight="600" color="primary"> {{ tia(pfb.fee) }} </Text>
+									<Text size="13" weight="600" color="tertiary"> TIA </Text>
+								</Flex>
+							</td>
 						</tr>
 					</tbody>
 				</table>
