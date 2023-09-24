@@ -20,7 +20,6 @@ const pfbs = ref([])
 
 const { data } = await fetchLatestPFBs()
 pfbs.value = data.value
-console.log(pfbs.value)
 
 const handleCopy = (target) => {
 	window.navigator.clipboard.writeText(target)
