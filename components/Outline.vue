@@ -40,7 +40,7 @@ const props = defineProps({
 	.inner {
 		height: 100%;
 
-		background: #222224;
+		background: #2b2d30;
 
 		padding: 0 8px;
 	}

@@ -14,8 +14,8 @@ $grayscale: (
 	--base-width: 992px;
 
 	/* Main */
-	--app-background: #0f0f10;
-	--card-background: #19191b;
+	--app-background: rgb(23, 25, 27);
+	--card-background: rgb(32, 34, 37);
 	--tooltip-background: rgba(0, 0, 0, 90%);
 
 	/* Text */
@@ -45,9 +45,9 @@ $grayscale: (
 	--btn-white-bg: rgba(255, 255, 255, 90%);
 	--btn-white-bg-hover: rgba(255, 255, 255, 75%);
 	--btn-white-bg-active: rgba(255, 255, 255, 90%);
-	--btn-secondary-bg: rgb(40, 40, 42);
-	--btn-secondary-bg-hover: rgb(38, 38, 40);
-	--btn-secondary-bg-active: rgb(32, 32, 34);
+	--btn-secondary-bg: rgba(255, 255, 255, 5%);
+	--btn-secondary-bg-hover: rgba(255, 255, 255, 8%);
+	--btn-secondary-bg-active: rgba(255, 255, 255, 5%);
 }
 
 *,

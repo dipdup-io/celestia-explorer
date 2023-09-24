@@ -72,7 +72,7 @@ const head = computed(() => appStore.head)
 	border-top: 1px solid var(--op-5);
 	border-bottom: 1px solid var(--op-5);
 
-	background: rgba(0, 0, 0, 0.14);
+	background: rgba(0, 0, 0, 8%);
 }
 
 .container {

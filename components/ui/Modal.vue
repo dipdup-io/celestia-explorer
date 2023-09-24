@@ -118,17 +118,19 @@ const handleClose = (e) => {
 </script>
 
 <template>
-	<teleport to="#modal">
-		<transition name="fastfade">
-			<Flex v-if="show" align="center" justify="center" :class="$style.wrapper" :style="{ zIndex: zIndex }">
-				<div ref="modal" :style="calcModalStyles" :class="[$style.modal, showShakeAnimation && $style.shake]">
-					<slot />
+	<ClientOnly>
+		<teleport to="#modal">
+			<transition name="fastfade">
+				<Flex v-if="show" align="center" justify="center" :class="$style.wrapper" :style="{ zIndex: zIndex }">
+					<div ref="modal" :style="calcModalStyles" :class="[$style.modal, showShakeAnimation && $style.shake]">
+						<slot />
 
-					<Icon v-if="closable && !props.new" name="close" size="16" @click="handleClose" :class="$style.close_icon" />
-				</div>
-			</Flex>
-		</transition>
-	</teleport>
+						<Icon v-if="closable && !props.new" name="close" size="16" @click="handleClose" :class="$style.close_icon" />
+					</div>
+				</Flex>
+			</transition>
+		</teleport>
+	</ClientOnly>
 </template>
 
 <style module>

@@ -448,10 +448,15 @@ const handleCopy = (target) => {
 }
 
 .badge {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 30px;
+
 	border-radius: 5px;
 	background: rgba(0, 0, 0, 40%);
 
-	padding: 8px;
+	padding: 0 8px;
 }
 
 @media (max-width: 900px) {

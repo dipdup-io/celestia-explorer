@@ -11,12 +11,12 @@ appStore.head = data.value
 </script>
 
 <template>
-	<div id="tooltip" />
-	<div id="modal" />
-
-	<Notifications />
-
 	<NuxtLayout>
 		<NuxtPage />
+
+		<div id="tooltip" />
+		<div id="modal" />
+
+		<Notifications />
 	</NuxtLayout>
 </template>
