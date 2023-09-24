@@ -170,20 +170,30 @@ const handleCopy = (target) => {
 									</Tooltip>
 								</td>
 								<td style="width: 1px">
-									<Flex align="center" gap="6">
-										<Text size="13" height="160" weight="600" color="primary" :class="$style.message_type">
-											{{ tx.message_types[0].replace("Msg", "") }}
-										</Text>
-										<Text
-											v-if="tx.message_types.length > 1"
-											size="12"
-											weight="600"
-											color="primary"
-											:class="$style.badge"
-										>
-											+{{ tx.message_types.length - 1 }}
-										</Text>
-									</Flex>
+									<Tooltip position="start" textAlign="left">
+										<Flex align="center" gap="6">
+											<Text size="13" height="160" weight="600" color="primary" :class="$style.message_type">
+												{{ tx.message_types[0].replace("Msg", "") }}
+											</Text>
+											<Text
+												v-if="tx.message_types.length > 1"
+												size="12"
+												weight="600"
+												color="primary"
+												:class="$style.badge"
+											>
+												+{{ tx.message_types.length - 1 }}
+											</Text>
+										</Flex>
+
+										<template #content>
+											<Flex direction="column" gap="8">
+												<Text v-for="type in tx.message_types" color="primary">
+													{{ type }}
+												</Text>
+											</Flex>
+										</template>
+									</Tooltip>
 								</td>
 								<td>
 									<Text size="13" weight="600" color="primary">
