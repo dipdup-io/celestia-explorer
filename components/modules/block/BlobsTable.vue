@@ -10,25 +10,81 @@ import BlobModal from "@/components/modals/BlobModal.vue"
 /** Services */
 import { formatBytes } from "@/services/utils"
 
+/** API */
+import { fetchBlockNamespaces, fetchBlockNamespacesCount } from "@/services/api/block"
+
 /** Store */
 import { useNotificationsStore } from "@/store/notifications"
 const notificationsStore = useNotificationsStore()
 
 const props = defineProps({
-	blobs: {
-		type: Array,
-	},
 	loading: {
 		type: Boolean,
 	},
 })
 
+const route = useRoute()
+const router = useRouter()
+
+const isRefetching = ref(false)
+const isBlobsLoading = ref(true)
+const blobs = ref([])
+const totalBlobs = ref(0)
+
 const selectedBlob = ref({})
 const showBlobModal = ref(false)
+
+const page = ref(1)
+const pages = computed(() => Math.ceil(totalBlobs.value / 5))
+
+onMounted(async () => {
+	getNamespaces()
+
+	const { data: count } = await fetchBlockNamespacesCount(route.params.height)
+	totalBlobs.value = count.value
+})
+
+const getNamespaces = async () => {
+	isRefetching.value = true
+
+	const { data } = await fetchBlockNamespaces({
+		height: route.params.height,
+		limit: 5,
+		offset: (page.value - 1) * 5,
+		sort: "desc",
+	})
+	blobs.value = data.value
+
+	isRefetching.value = false
+
+	if (isBlobsLoading.value) isBlobsLoading.value = false
+}
+
+/** Refetch transactions */
+watch(
+	() => page.value,
+	async () => {
+		getNamespaces()
+
+		router.replace({ query: { page: page.value } })
+	},
+)
 
 const handleViewBlob = (blob) => {
 	selectedBlob.value = blob
 	showBlobModal.value = true
+}
+
+const handleNext = () => {
+	if (page.value === pages.value) return
+
+	page.value += 1
+}
+
+const handlePrev = () => {
+	if (page.value === 1) return
+
+	page.value -= 1
 }
 
 const handleCopy = (target) => {
@@ -48,12 +104,28 @@ const handleCopy = (target) => {
 <template>
 	<BlobModal :show="showBlobModal" :item="selectedBlob" @onClose="showBlobModal = false" />
 
-	<Flex direction="column" gap="4">
-		<Flex align="center" :class="$style.header">
+	<Flex v-if="!isBlobsLoading" direction="column" gap="4">
+		<Flex align="center" justify="between" :class="$style.header">
 			<Text size="14" weight="600" color="primary">Blobs</Text>
+
+			<Flex align="center" gap="6">
+				<Button @click="page = 1" type="secondary" size="mini" :disabled="page === 1"> First </Button>
+				<Button type="secondary" @click="handlePrev" size="mini" :disabled="page === 1">
+					<Icon name="arrow-narrow-left" size="12" color="primary" />
+				</Button>
+
+				<Button type="secondary" size="mini" disabled>
+					<Text size="12" weight="600" color="primary"> {{ page }} of {{ pages }} </Text>
+				</Button>
+
+				<Button @click="handleNext" type="secondary" size="mini" :disabled="page === pages">
+					<Icon name="arrow-narrow-right" size="12" color="primary" />
+				</Button>
+				<Button @click="page = pages" type="secondary" size="mini" :disabled="page === pages"> Last </Button>
+			</Flex>
 		</Flex>
 
-		<Flex wide :class="$style.table">
+		<Flex wide :class="[$style.table, isRefetching && $style.disabled]">
 			<div v-if="blobs.length" :class="$style.table_scroller">
 				<table>
 					<thead>
@@ -232,5 +304,10 @@ const handleCopy = (target) => {
 			white-space: nowrap;
 		}
 	}
+}
+
+.table.disabled {
+	opacity: 0.5;
+	pointer-events: none;
 }
 </style>
