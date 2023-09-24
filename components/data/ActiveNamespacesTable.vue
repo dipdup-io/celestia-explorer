@@ -48,7 +48,7 @@ const handleCopy = (target) => {
 						<th><Text size="12" weight="600" color="tertiary">Hash</Text></th>
 						<th><Text size="12" weight="600" color="tertiary">Height</Text></th>
 						<th><Text size="12" weight="600" color="tertiary">When</Text></th>
-						<th><Text size="12" weight="600" color="tertiary">Size</Text></th>
+						<th><Text size="12" weight="600" color="tertiary">Size & Count</Text></th>
 					</tr>
 				</thead>
 
