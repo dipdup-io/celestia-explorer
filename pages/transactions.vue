@@ -172,7 +172,7 @@ const handleCopy = (target) => {
 								<td style="width: 1px">
 									<Flex align="center" gap="6">
 										<Text size="13" height="160" weight="600" color="primary" :class="$style.message_type">
-											{{ tx.message_types[0] }}
+											{{ tx.message_types[0].replace("Msg", "") }}
 										</Text>
 										<Text
 											v-if="tx.message_types.length > 1"
