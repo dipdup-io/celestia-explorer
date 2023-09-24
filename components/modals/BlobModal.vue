@@ -31,7 +31,7 @@ const rawData = computed(() => {
 })
 const decodedData = computed(() => {
 	const result = Uint8Array.from(atob(blob.value.data), (m) => m.codePointAt(0))
-	return Array.from(result).toString()
+	return Array.from(result).join(" ")
 })
 const viewData = computed(() => {
 	if (!isDecode.value) {
