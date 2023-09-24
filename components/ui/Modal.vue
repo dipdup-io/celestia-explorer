@@ -63,6 +63,8 @@ watch(
 		if (!props.show) {
 			document.body.style.overflow = null
 
+			document.removeEventListener("keydown", onKeydown)
+
 			if (!props.disableTrap) trap.value.deactivate()
 
 			if (removeOutside) {
@@ -70,6 +72,8 @@ watch(
 			}
 		} else {
 			document.body.style.overflow = "hidden"
+
+			document.addEventListener("keydown", onKeydown)
 
 			nextTick(() => {
 				if (!props.disableTrap) {
@@ -114,6 +118,10 @@ const handleClose = (e) => {
 
 		emit("onClose")
 	}
+}
+
+const onKeydown = (e) => {
+	if (e.code === "Escape") handleClose()
 }
 </script>
 
