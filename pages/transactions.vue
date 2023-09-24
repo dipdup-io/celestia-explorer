@@ -118,10 +118,10 @@ const handleCopy = (target) => {
 						<Text size="12" weight="600" color="primary"> {{ page }} of {{ pages }} </Text>
 					</Button>
 
-					<Button @click="handleNext" type="secondary" size="mini">
+					<Button @click="handleNext" type="secondary" size="mini" :disabled="page === pages">
 						<Icon name="arrow-narrow-right" size="12" color="primary" />
 					</Button>
-					<Button @click="page = pages" type="secondary" size="mini"> Last </Button>
+					<Button @click="page = pages" type="secondary" size="mini" :disabled="page === pages"> Last </Button>
 				</Flex>
 			</Flex>
 
