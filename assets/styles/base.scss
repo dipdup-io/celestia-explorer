@@ -84,6 +84,11 @@ input {
 	background: transparent;
 }
 
+html {
+	overflow-x: hidden;
+	scrollbar-gutter: stable;
+}
+
 body {
 	min-height: 100vh;
 
@@ -96,9 +101,6 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 
 	user-select: none;
-
-	// overflow-x: hidden;
-	scrollbar-gutter: stable;
 }
 
 *::-webkit-scrollbar {

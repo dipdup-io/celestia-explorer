@@ -1,6 +1,6 @@
 <template>
 	<Flex tag="header" justify="center" wide :class="$style.wrapper">
-		<Flex align="center" wide :class="$style.container">
+		<Flex align="center" justify="between" wide :class="$style.container">
 			<NuxtLink to="/">
 				<Flex align="center" gap="8" :class="$style.logo">
 					<Icon name="logo" size="20" color="green" />
@@ -14,6 +14,26 @@
 					</svg>
 				</Flex>
 			</NuxtLink>
+
+			<Flex align="center" gap="8" :class="$style.links">
+				<NuxtLink to="/" :activeClass="$style.active_link" :class="$style.link">
+					<Text size="13" weight="600" color="tertiary">Explorer</Text>
+				</NuxtLink>
+
+				<NuxtLink to="/transactions" :activeClass="$style.active_link" :class="$style.link">
+					<Text size="13" weight="600" color="tertiary">Transactions</Text>
+				</NuxtLink>
+
+				<NuxtLink to="/blocks" :activeClass="$style.active_link" :class="$style.link">
+					<Text size="13" weight="600" color="tertiary">Blocks</Text>
+				</NuxtLink>
+
+				<NuxtLink to="/namespaces" :activeClass="$style.active_link" :class="$style.link">
+					<Text size="13" weight="600" color="tertiary">Namespaces</Text>
+				</NuxtLink>
+			</Flex>
+
+			<Icon name="empty" />
 		</Flex>
 	</Flex>
 </template>
@@ -31,6 +51,16 @@
 
 .logo {
 	cursor: pointer;
+}
+
+.link {
+	padding: 8px;
+}
+
+.active_link {
+	& span {
+		color: var(--txt-primary);
+	}
 }
 
 @media (max-width: 500px) {
