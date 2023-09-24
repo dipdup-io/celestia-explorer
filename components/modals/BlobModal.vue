@@ -98,7 +98,7 @@ const handleCopy = (target) => {
 				<Flex direction="column" gap="12">
 					<Flex direction="column" gap="8" :class="$style.data">
 						<Text size="13" weight="500" height="160" color="secondary" mono :class="$style.field">
-							{{ viewData }}<Text v-if="!isViewAll" color="tertiary">...</Text>
+							{{ viewData }}<Text v-if="!isViewAll && blob.data.length > 100" color="tertiary">...</Text>
 						</Text>
 
 						<Text v-if="blob.data.length > 100 && !isViewAll" size="12" weight="500" color="tertiary">
