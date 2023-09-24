@@ -7,10 +7,10 @@ import Button from "@/components/ui/Button.vue"
 import Tooltip from "@/components/ui/Tooltip.vue"
 
 /** Services */
-import { comma, space, formatBytes } from "@/services/utils"
+import { space, formatBytes } from "@/services/utils"
 
 /** API */
-import { fetchNamespaces } from "@/services/api/namespace"
+import { fetchNamespaces, fetchNamespacesCount } from "@/services/api/namespace"
 
 /** Store */
 import { useNotificationsStore } from "@/store/notifications"
@@ -25,10 +25,13 @@ const router = useRouter()
 
 const isRefetching = ref(false)
 const namespaces = ref([])
+const count = ref(0)
+
+const { data: namespacesCount } = await fetchNamespacesCount()
+count.value = namespacesCount.value
 
 const page = ref(route.query.page ? parseInt(route.query.page) : 1)
-// const pages = ref(Math.ceil(appStore.head.total_tx / 20))
-const pages = ref(5)
+const pages = ref(Math.ceil(count.value / 20))
 
 const getNamespaces = async () => {
 	isRefetching.value = true
