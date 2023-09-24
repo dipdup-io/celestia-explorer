@@ -212,9 +212,9 @@ const handleCopy = (target) => {
 							<thead>
 								<tr>
 									<th><Text size="12" weight="600" color="tertiary">Hash</Text></th>
+									<th><Text size="12" weight="600" color="tertiary">Messages</Text></th>
 									<th><Text size="12" weight="600" color="tertiary">Gas</Text></th>
 									<th><Text size="12" weight="600" color="tertiary">Fee</Text></th>
-									<th><Text size="12" weight="600" color="tertiary">Events</Text></th>
 								</tr>
 							</thead>
 
@@ -243,6 +243,32 @@ const handleCopy = (target) => {
 											</template>
 										</Tooltip>
 									</td>
+									<td>
+										<Tooltip position="start" textAlign="left">
+											<Flex align="center" gap="6">
+												<Text size="13" height="160" weight="600" color="primary" :class="$style.message_type">
+													{{ tx.message_types[0].replace("Msg", "") }}
+												</Text>
+												<Text
+													v-if="tx.message_types.length > 1"
+													size="12"
+													weight="600"
+													color="primary"
+													:class="$style.badge"
+												>
+													+{{ tx.message_types.length - 1 }}
+												</Text>
+											</Flex>
+
+											<template #content>
+												<Flex direction="column" gap="8">
+													<Text v-for="type in tx.message_types" color="primary">
+														{{ type }}
+													</Text>
+												</Flex>
+											</template>
+										</Tooltip>
+									</td>
 									<td style="width: 1px">
 										<Flex align="center" gap="4">
 											<Text size="13" weight="600" color="primary">{{ comma(tx.gas_used) }}</Text>
@@ -258,11 +284,6 @@ const handleCopy = (target) => {
 											<Text size="13" weight="600" color="primary"> {{ tia(tx.fee) }} </Text>
 											<Text size="13" weight="600" color="tertiary">TIA</Text>
 										</Flex>
-									</td>
-									<td>
-										<Text size="13" weight="600" color="primary">
-											{{ tx.events_count }}
-										</Text>
 									</td>
 								</tr>
 							</tbody>
