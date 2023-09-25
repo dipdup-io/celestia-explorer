@@ -4,9 +4,13 @@ import { DateTime } from "luxon"
 
 /** UI */
 import Tooltip from "@/components/ui/Tooltip.vue"
+import Button from "@/components/ui/Button.vue"
 
 /** Services */
 import { tia, comma, space, formatBytes } from "@/services/utils"
+
+/** API */
+import { fetchTransactionsByBlock } from "@/services/api/tx"
 
 /** Store */
 import { useNotificationsStore } from "@/store/notifications"
@@ -25,6 +29,43 @@ const props = defineProps({
 const tabs = ref(["PFBs", "Transfers", "Delegate", "Other"])
 const activeTab = ref(tabs.value[0])
 
+const isRefetching = ref(false)
+const transactions = ref([])
+
+const page = ref(1)
+const pages = computed(() => Math.ceil(props.block.stats.messages_counts[MapTabsTypes[activeTab.value]] / 10))
+const handleNext = () => {
+	if (page.value === pages.value) return
+	page.value += 1
+}
+const handlePrev = () => {
+	if (page.value === 1) return
+	page.value -= 1
+}
+
+const getTransactions = async () => {
+	isRefetching.value = true
+
+	const { data } = await fetchTransactionsByBlock({
+		height: props.block.height,
+		limit: 10,
+		offset: (page.value - 1) * 10,
+		sort: "desc",
+	})
+	if (data.value?.length) {
+		transactions.value = data.value
+	}
+
+	isRefetching.value = false
+}
+await getTransactions()
+
+/** Refetch transactions */
+watch(
+	() => page.value,
+	() => getTransactions(),
+)
+
 const MapTabsTypes = {
 	PFBs: "MsgPayForBlobs",
 	Transfers: "MsgSend",
@@ -35,7 +76,7 @@ const filteredTransactions = computed(() => {
 	const supportedTypes = Object.values(MapTabsTypes)
 
 	if (activeTab.value === "Other") {
-		return props.transactions.filter((t) => {
+		return transactions.value.filter((t) => {
 			let f = false
 
 			t.message_types.forEach((type) => {
@@ -46,25 +87,26 @@ const filteredTransactions = computed(() => {
 		})
 	}
 
-	return props.transactions.filter((t) => t.message_types.includes(MapTabsTypes[activeTab.value]))
+	return transactions.value.filter((t) => t.message_types.includes(MapTabsTypes[activeTab.value]))
 })
 
-const getTxnsLengthByTab = (tab) => {
-	const supportedTypes = Object.values(MapTabsTypes)
+const getTxnsCountByTab = (tab) => {
+	if (tab !== "Other") {
+		return props.block.stats.messages_counts[MapTabsTypes[tab]]
+	} else {
+		let unsupportedCounter = 0
+		const unsupportedTypes = []
 
-	if (tab === "Other") {
-		return props.transactions.filter((t) => {
-			let f = false
+		Object.keys(props.block.stats.messages_counts).forEach((type) => {
+			if (!Object.values(MapTabsTypes).includes(type)) unsupportedTypes.push(type)
+		})
 
-			t.message_types.forEach((type) => {
-				if (!supportedTypes.includes(type)) f = true
-			})
+		unsupportedTypes.forEach((type) => {
+			unsupportedCounter += props.block.stats.messages_counts[type]
+		})
 
-			return f
-		}).length
+		return unsupportedCounter
 	}
-
-	return props.transactions.filter((t) => t.message_types.includes(MapTabsTypes[tab])).length
 }
 
 const handleCopy = (target) => {
@@ -197,8 +239,8 @@ const handleCopy = (target) => {
 						>
 							<Text size="13" weight="600">{{ tab }}</Text>
 
-							<Text v-if="getTxnsLengthByTab(tab)" size="11" height="110" weight="600" :class="$style.badge">
-								{{ getTxnsLengthByTab(tab) }}
+							<Text v-if="getTxnsCountByTab(tab)" size="11" height="110" weight="600" :class="$style.badge">
+								{{ getTxnsCountByTab(tab) }}
 							</Text>
 						</Flex>
 					</Flex>
@@ -206,7 +248,7 @@ const handleCopy = (target) => {
 					<Text size="12" weight="600" color="support" :class="$style.hint">Transactions</Text>
 				</Flex>
 
-				<Flex :class="$style.table">
+				<Flex direction="column" justify="center" gap="16" :class="[$style.table, isRefetching && $style.disabled]">
 					<div v-if="filteredTransactions.length" :class="$style.table_scroller">
 						<table>
 							<thead>
@@ -295,6 +337,23 @@ const handleCopy = (target) => {
 						<Text size="12" weight="500" height="160" color="tertiary" align="center" style="max-width: 220px">
 							This block does not contain transactions of the selected type
 						</Text>
+					</Flex>
+
+					<!-- Pagination -->
+					<Flex v-if="filteredTransactions.length && pages > 1" align="center" gap="6">
+						<Button @click="page = 1" type="secondary" size="mini" :disabled="page === 1"> First </Button>
+						<Button type="secondary" @click="handlePrev" size="mini" :disabled="page === 1">
+							<Icon name="arrow-narrow-left" size="12" color="primary" />
+						</Button>
+
+						<Button type="secondary" size="mini" disabled>
+							<Text size="12" weight="600" color="primary"> {{ page }} of {{ pages }} </Text>
+						</Button>
+
+						<Button @click="handleNext" type="secondary" size="mini" :disabled="page === pages">
+							<Icon name="arrow-narrow-right" size="12" color="primary" />
+						</Button>
+						<Button @click="page = pages" type="secondary" size="mini" :disabled="page === pages"> Last </Button>
 					</Flex>
 				</Flex>
 			</Flex>
@@ -386,6 +445,7 @@ const handleCopy = (target) => {
 .table_scroller {
 	min-width: 100%;
 	width: 0;
+	height: 100%;
 
 	overflow-x: auto;
 }
@@ -424,6 +484,11 @@ const handleCopy = (target) => {
 			white-space: nowrap;
 		}
 	}
+}
+
+.table.disabled {
+	opacity: 0.5;
+	pointer-events: none;
 }
 
 .badge {

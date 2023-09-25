@@ -32,7 +32,7 @@ watch(
 	() => preview.block,
 	async () => {
 		if (preview.block.stats.tx_count) {
-			const { data } = await fetchTransactionsByBlock(preview.block.height)
+			const { data } = await fetchTransactionsByBlock({ height: preview.block.height })
 			preview.transactions = data.value
 		}
 	},

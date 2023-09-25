@@ -8,25 +8,18 @@ import { comma } from "@/services/utils"
 
 /** API */
 import { fetchBlockByHeight } from "@/services/api/block"
-import { fetchTransactionsByBlock } from "@/services/api/tx"
 
 const route = useRoute()
 const router = useRouter()
 
 const block = ref()
-const transactions = ref([])
 
 const { data: rawBlock } = await fetchBlockByHeight(route.params.height)
-const { data: rawTxns } = await fetchTransactionsByBlock(route.params.height)
 
 if (!rawBlock.value) {
 	router.push("/")
 } else {
 	block.value = rawBlock.value
-}
-
-if (rawTxns.value?.length) {
-	transactions.value = rawTxns.value
 }
 
 useHead({
@@ -47,7 +40,7 @@ useHead({
 		/>
 
 		<Flex v-if="block" direction="column" gap="40">
-			<BlockOverview :block="block" :transactions="transactions" />
+			<BlockOverview :block="block" />
 
 			<BlobsTable />
 		</Flex>
