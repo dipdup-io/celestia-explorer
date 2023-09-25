@@ -13,7 +13,6 @@ const route = useRoute()
 const router = useRouter()
 
 const block = ref()
-
 const { data: rawBlock } = await fetchBlockByHeight(route.params.height)
 
 if (!rawBlock.value) {
@@ -22,8 +21,55 @@ if (!rawBlock.value) {
 	block.value = rawBlock.value
 }
 
+defineOgImage({
+	title: "Test",
+	block: block.value,
+	component: "Custom",
+	cacheKey: `${block.value.height}`,
+})
+
 useHead({
 	title: `Block ${comma(block.value?.height)} - Celestia Explorer`,
+	link: [
+		{
+			rel: "canonical",
+			href: `https://dipdup.io/docs${route.path}`,
+		},
+	],
+	meta: [
+		{
+			name: "description",
+			content: `Celestia Block Height ${block.value?.height}. The timestamp, hash, proposer, metadata, gas used and transactions in the block.`,
+		},
+		{
+			property: "og:title",
+			content: `Block ${comma(block.value?.height)} - Celestia Explorer`,
+		},
+		{
+			property: "og:description",
+			content: `Celestia Block Height ${block.value?.height}. The timestamp, hash, proposer, metadata, gas used and transactions in the block.`,
+		},
+		{
+			property: "og:url",
+			content: `https://inblob.co${route.path}`,
+		},
+		{
+			property: "og:image",
+			content: `https://inblob.co${route.path}__og_image__/og.png`,
+		},
+		{
+			name: "twitter:title",
+			content: `Block ${comma(block.value?.height)} - Celestia Explorer`,
+		},
+		{
+			name: "twitter:description",
+			content: `Celestia Block Height ${block.value?.height}. The timestamp, hash, proposer, metadata, gas used and transactions in the block.`,
+		},
+		{
+			name: "twitter:card",
+			content: "summary_large_image",
+		},
+	],
 })
 </script>
 

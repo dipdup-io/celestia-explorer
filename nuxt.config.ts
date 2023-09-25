@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-	modules: ["@pinia/nuxt"],
+	modules: ["@pinia/nuxt", "nuxt-og-image"],
 
 	app: {
 		head: {
@@ -48,6 +48,14 @@ export default defineNuxtConfig({
 
 	pinia: {
 		autoImports: ["defineStore"],
+	},
+
+	ogImage: {
+		fonts: ["Inter:400", "Inter:600"],
+		runtimeCacheStorage: {
+			driver: "cloudflare-kv-binding",
+			binding: "OG_IMAGE_CACHE",
+		},
 	},
 
 	devtools: {

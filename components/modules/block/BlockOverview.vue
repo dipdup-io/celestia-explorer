@@ -136,7 +136,7 @@ const handleCopy = (target) => {
 						<Flex align="center" gap="8">
 							<Icon name="block" size="14" color="primary" />
 
-							<Flex align="center" gap="4">
+							<Flex tag="h1" align="center" gap="4">
 								<Text size="12" weight="600" color="secondary"> Block </Text>
 								<Text size="12" weight="600" color="primary">{{ comma(block.height) }}</Text>
 							</Flex>
