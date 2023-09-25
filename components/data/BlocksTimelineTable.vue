@@ -451,10 +451,10 @@ const handleCopy = (target) => {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: 30px;
+	height: 32px;
 
-	border-radius: 5px;
-	background: rgba(0, 0, 0, 40%);
+	border-radius: 6px;
+	background: rgba(0, 0, 0, 25%);
 
 	padding: 0 8px;
 }
