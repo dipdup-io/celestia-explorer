@@ -55,7 +55,7 @@ useHead({
 		},
 		{
 			property: "og:image",
-			content: `https://inblob.co${route.path}__og_image__/og.png`,
+			content: `https://celestia-explorer.pages.dev${route.path}__og_image__/og.png`,
 		},
 		{
 			name: "twitter:title",
