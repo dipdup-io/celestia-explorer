@@ -263,7 +263,7 @@ const handleCopy = (target) => {
 											<template #content>
 												<Flex direction="column" gap="8">
 													<Text v-for="type in tx.message_types" color="primary">
-														{{ type }}
+														{{ type.replace("Msg", "") }}
 													</Text>
 												</Flex>
 											</template>
