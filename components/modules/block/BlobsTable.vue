@@ -108,7 +108,7 @@ const handleCopy = (target) => {
 		<Flex align="center" justify="between" :class="$style.header">
 			<Text size="14" weight="600" color="primary">Blobs</Text>
 
-			<Flex align="center" gap="6">
+			<Flex v-if="pages" align="center" gap="6">
 				<Button @click="page = 1" type="secondary" size="mini" :disabled="page === 1"> First </Button>
 				<Button type="secondary" @click="handlePrev" size="mini" :disabled="page === 1">
 					<Icon name="arrow-narrow-left" size="12" color="primary" />
