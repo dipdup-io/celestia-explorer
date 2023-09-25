@@ -1,25 +1,59 @@
+<script setup>
+/** UI */
+import Tooltip from "@/components/ui/Tooltip.vue"
+
+/** API */
+import { fetchHistogram } from "@/services/api/histogram"
+
+const { data: hourHistagram } = await fetchHistogram({ table: "tx", func: "count", period: "hour" })
+const { data: dayHistagram } = await fetchHistogram({ table: "tx", func: "count", period: "day" })
+
+const tph = hourHistagram.value.slice(0, 24).reduce((a, b) => (a += parseInt(b.value)), 0) / 24
+const prevTph = hourHistagram.value.slice(24, 48).reduce((a, b) => (a += parseInt(b.value)), 0) / 24
+const diff = (Math.abs(tph - prevTph) / ((tph + prevTph) / 2)) * 100
+
+const preparedDayHistogram = dayHistagram.value.slice(0, 7).map((item) => item.value / 24)
+const highLevel = Math.max(...preparedDayHistogram)
+const minLevel = Math.min(...preparedDayHistogram)
+const pos = (100 * (tph - minLevel)) / (highLevel - minLevel)
+</script>
+
 <template>
 	<Flex direction="column" wide :class="$style.wrapper">
 		<Flex direction="column" gap="20" :class="$style.top">
 			<Text size="16" weight="600" color="primary"> Network </Text>
 
 			<Flex direction="column" gap="16">
-				<Flex align="end" gap="16">
-					<Flex align="center" gap="6">
-						<Icon name="zap-circle" size="20" color="primary" />
-						<Flex gap="4" align="end">
-							<Text size="20" weight="600" color="primary">0</Text>
-							<Text size="14" weight="700" color="tertiary">TPS</Text>
+				<Tooltip position="start" text-align="left">
+					<Flex align="end" gap="16">
+						<Flex align="center" gap="6">
+							<Icon name="zap-circle" size="20" color="primary" />
+							<Flex gap="4" align="end">
+								<Text size="20" weight="600" color="primary">{{ tph.toFixed(2) }}</Text>
+								<Text size="14" weight="700" color="tertiary">TPH</Text>
+							</Flex>
+						</Flex>
+
+						<Flex align="center" gap="6">
+							<Icon
+								name="arrow-circle-right-up"
+								size="16"
+								:color="tph - prevTph > 0 ? 'green' : 'red'"
+								:style="{ transform: `scaleY(${tph - prevTph > 0 ? '1' : '-1'})` }"
+							/>
+							<Text size="16" weight="600" :color="tph - prevTph > 0 ? 'green' : 'red'">{{ diff.toFixed(0) }}%</Text>
 						</Flex>
 					</Flex>
 
-					<Flex align="center" gap="6">
-						<Icon name="arrow-circle-right-up" size="16" color="tertiary" />
-						<Text size="16" weight="600" color="tertiary">0%</Text>
-					</Flex>
-				</Flex>
+					<template #content>
+						<Flex direction="column" gap="6">
+							<Text>Transactions per hour</Text>
+							<Text color="tertiary">Calculated based on the last 24 hours</Text>
+						</Flex>
+					</template>
+				</Tooltip>
 
-				<Text size="12" weight="600" color="support"> Unavailable right now </Text>
+				<Text size="12" weight="600" color="support"> Updates every hour </Text>
 			</Flex>
 		</Flex>
 
@@ -27,12 +61,16 @@
 			<Flex direction="column" gap="16">
 				<Flex align="center" gap="4">
 					<Icon name="level" size="12" color="secondary" />
-					<Text size="13" weight="600" color="secondary">TPS Level</Text>
+					<Text size="13" weight="600" color="secondary">TPH Level</Text>
 				</Flex>
 
 				<Flex direction="column" gap="8">
 					<Flex justify="between" :class="$style.levels">
-						<div v-for="item in 9" :class="$style.level" />
+						<Flex align="center" justify="between" :class="$style.level">
+							<div v-for="item in 10" :class="[$style.separator]" />
+						</Flex>
+
+						<div :class="$style.line" :style="{ right: `${pos}%` }" />
 					</Flex>
 
 					<Flex align="center" justify="between" :class="$style.labels">
@@ -42,7 +80,10 @@
 				</Flex>
 			</Flex>
 
-			<Text size="12" weight="600" color="support">Unknown Level</Text>
+			<Text size="12" weight="600" color="support">
+				Current capacity
+				<Text color="tertiary">{{ pos.toFixed(2) }}%</Text></Text
+			>
 		</Flex>
 	</Flex>
 </template>
@@ -68,24 +109,44 @@
 }
 
 .levels {
+	position: relative;
+
 	background: var(--op-5);
 	border-radius: 50px;
 
 	padding: 6px;
 }
 
+.line {
+	position: absolute;
+	top: 2px;
+
+	width: 3px;
+	height: 14px;
+
+	background: #fff;
+	outline: 2px solid #2f3133;
+}
+
 .level {
-	width: 16px;
+	width: 100%;
 	height: 6px;
 
-	background: var(--op-10);
+	border-radius: 50px;
+	background: linear-gradient(90deg, var(--green), var(--txt-tertiary), var(--txt-support));
 
-	&:first-child {
-		border-radius: 50px 0px 0px 50px;
-	}
+	.separator {
+		width: 4px;
+		height: 6px;
+		background: #2f3133;
 
-	&:last-child {
-		border-radius: 0px 50px 50px 0px;
+		&:first-child {
+			background: transparent;
+		}
+
+		&:last-child {
+			background: transparent;
+		}
 	}
 }
 
