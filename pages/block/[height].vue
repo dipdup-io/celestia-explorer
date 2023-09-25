@@ -33,7 +33,7 @@ useHead({
 	link: [
 		{
 			rel: "canonical",
-			href: `https://dipdup.io/docs${route.path}`,
+			href: `https://inblob.co${route.path}`,
 		},
 	],
 	meta: [
