@@ -44,7 +44,7 @@ watch(
 		const hasPFB = !!preview.transactions.filter((t) => t.message_types.includes("MsgPayForBlobs"))
 		if (!hasPFB) return
 
-		const { data } = await fetchBlockNamespaces(preview.block.height)
+		const { data } = await fetchBlockNamespaces({ height: preview.block.height })
 		preview.pfbs = data.value
 	},
 )
