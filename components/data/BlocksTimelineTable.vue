@@ -270,22 +270,41 @@ const handleCopy = (target) => {
 
 						<Flex v-if="preview.block.stats.tx_count" direction="column" gap="8">
 							<Outline v-for="transaction in preview.transactions.slice(0, 3)" wide height="32" padding="8" radius="6">
-								<Flex align="center" gap="8">
-									<Icon name="zap" size="12" color="green" />
+								<Flex justify="between" align="center" wide>
+									<Flex align="center" gap="8">
+										<Icon name="zap" size="12" color="green" />
 
-									<Text size="13" weight="700" color="primary" mono>{{ transaction.hash.slice(0, 4) }}</Text>
+										<Text size="13" weight="700" color="primary" mono>{{ transaction.hash.slice(0, 4) }}</Text>
 
-									<Flex align="center" gap="3">
-										<div v-for="dot in 3" class="dot" />
+										<Flex align="center" gap="3">
+											<div v-for="dot in 3" class="dot" />
+										</Flex>
+
+										<Text size="13" weight="700" color="primary" mono>
+											{{ transaction.hash.slice(transaction.hash.length - 4, transaction.hash.length) }}
+										</Text>
 									</Flex>
 
-									<Text size="13" weight="700" color="primary" mono>
-										{{ transaction.hash.slice(transaction.hash.length - 4, transaction.hash.length) }}
-									</Text>
+									<Flex v-if="transaction.message_types.length" align="center" gap="6">
+										<Text size="12" height="160" weight="600" color="tertiary" :class="$style.message_type">
+											{{ transaction.message_types[0].replace("Msg", "") }}
+										</Text>
+										<Text
+											v-if="transaction.message_types.length > 1"
+											size="12"
+											weight="600"
+											color="primary"
+											:class="$style.badge"
+										>
+											+{{ transaction.message_types.length - 1 }}
+										</Text>
+									</Flex>
 								</Flex>
 							</Outline>
 						</Flex>
-						<Text v-else size="12" weight="600" color="tertiary" align="center" :class="$style.badge"> No transactions </Text>
+						<Text v-else size="12" weight="600" color="tertiary" align="center" :class="$style.empty_state">
+							No transactions
+						</Text>
 					</Flex>
 
 					<Flex direction="column" gap="12">
@@ -317,7 +336,7 @@ const handleCopy = (target) => {
 								</Flex>
 							</Outline>
 						</Flex>
-						<Text v-else size="12" weight="600" color="tertiary" align="center" :class="$style.badge"> No blobs </Text>
+						<Text v-else size="12" weight="600" color="tertiary" align="center" :class="$style.empty_state"> No blobs </Text>
 					</Flex>
 
 					<Flex direction="column" gap="16">
@@ -447,7 +466,7 @@ const handleCopy = (target) => {
 	}
 }
 
-.badge {
+.empty_state {
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -457,6 +476,14 @@ const handleCopy = (target) => {
 	background: rgba(0, 0, 0, 25%);
 
 	padding: 0 8px;
+}
+
+.badge {
+	border-radius: 5px;
+	background: var(--op-5);
+	box-shadow: inset 0 0 0 1px var(--op-10);
+
+	padding: 4px 6px;
 }
 
 @media (max-width: 900px) {
