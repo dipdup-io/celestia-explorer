@@ -14,8 +14,8 @@ const diff = (Math.abs(tph - prevTph) / ((tph + prevTph) / 2)) * 100
 
 const preparedDayHistogram = dayHistagram.value.slice(0, 7).map((item) => item.value / 24)
 const highLevel = Math.max(...preparedDayHistogram)
-const minLevel = Math.min(...preparedDayHistogram)
-const pos = (100 * (tph - minLevel)) / (highLevel - minLevel)
+const lowLevel = Math.min(...preparedDayHistogram)
+const pos = (100 * (tph - lowLevel)) / (highLevel - lowLevel)
 </script>
 
 <template>
@@ -65,13 +65,33 @@ const pos = (100 * (tph - minLevel)) / (highLevel - minLevel)
 				</Flex>
 
 				<Flex direction="column" gap="8">
-					<Flex justify="between" :class="$style.levels">
-						<Flex align="center" justify="between" :class="$style.level">
-							<div v-for="item in 10" :class="[$style.separator]" />
+					<Tooltip position="start" wide>
+						<Flex justify="between" wide :class="$style.levels">
+							<Flex align="center" justify="between" :class="$style.level">
+								<div v-for="item in 10" :class="[$style.separator]" />
+							</Flex>
+
+							<div :class="$style.line" :style="{ right: `${pos}%` }" />
 						</Flex>
 
-						<div :class="$style.line" :style="{ right: `${pos}%` }" />
-					</Flex>
+						<template #content>
+							<Flex align="start" direction="column" gap="6">
+								<Text color="secondary">
+									High: <Text color="primary">{{ highLevel.toFixed(2) }} <Text color="secondary">TPH</Text></Text>
+								</Text>
+
+								<Text color="secondary">
+									Current: <Text color="primary">{{ tph.toFixed(2) }} <Text color="secondary">TPH</Text></Text>
+								</Text>
+
+								<Text color="secondary">
+									Low: <Text color="primary">{{ lowLevel.toFixed(2) }} <Text color="secondary">TPH</Text></Text>
+								</Text>
+
+								<Text color="tertiary"> Based on the last 7 days </Text>
+							</Flex>
+						</template>
+					</Tooltip>
 
 					<Flex align="center" justify="between" :class="$style.labels">
 						<Text size="11" weight="600" color="tertiary">High</Text>
