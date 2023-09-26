@@ -71,7 +71,7 @@ const pos = (100 * (tph - lowLevel)) / (highLevel - lowLevel)
 								<div v-for="item in 10" :class="[$style.separator]" />
 							</Flex>
 
-							<div :class="$style.line" :style="{ right: `${pos}%` }" />
+							<div :class="$style.line" :style="{ right: `${pos > 100 ? 100 - 6 : pos}%` }" />
 						</Flex>
 
 						<template #content>
