@@ -42,58 +42,60 @@ const handleCopy = (target) => {
 		</Flex>
 
 		<Flex direction="column" gap="16" :class="$style.namespaces_body">
-			<table>
-				<thead>
-					<tr>
-						<th><Text size="12" weight="600" color="tertiary">Hash</Text></th>
-						<th><Text size="12" weight="600" color="tertiary">Height</Text></th>
-						<th><Text size="12" weight="600" color="tertiary">When</Text></th>
-						<th><Text size="12" weight="600" color="tertiary">Size & Count</Text></th>
-					</tr>
-				</thead>
+			<div :class="$style.table_scroller">
+				<table>
+					<thead>
+						<tr>
+							<th><Text size="12" weight="600" color="tertiary">Hash</Text></th>
+							<th><Text size="12" weight="600" color="tertiary">Height</Text></th>
+							<th><Text size="12" weight="600" color="tertiary">When</Text></th>
+							<th><Text size="12" weight="600" color="tertiary">Size & Count</Text></th>
+						</tr>
+					</thead>
 
-				<tbody>
-					<tr v-for="ns in namespaces">
-						<td style="width: 1px">
-							<Tooltip position="start" delay="500">
-								<Outline @click="handleCopy(ns.hash)" class="copyable">
-									<Flex align="center" gap="8">
-										<Icon name="block" size="14" color="tertiary" />
+					<tbody>
+						<tr v-for="ns in namespaces">
+							<td style="width: 1px">
+								<Tooltip position="start" delay="500">
+									<Outline @click="handleCopy(ns.hash)" class="copyable">
+										<Flex align="center" gap="8">
+											<Icon name="block" size="14" color="tertiary" />
 
-										<Text size="13" weight="700" color="secondary" mono>
-											{{ ns.hash.slice(ns.hash.length - 6, ns.hash.length) }}
-										</Text>
-									</Flex>
-								</Outline>
+											<Text size="13" weight="700" color="secondary" mono>
+												{{ ns.hash.slice(ns.hash.length - 6, ns.hash.length) }}
+											</Text>
+										</Flex>
+									</Outline>
 
-								<template #content> {{ ns.hash }} </template>
-							</Tooltip>
-						</td>
-						<td>
-							<NuxtLink :to="`/block/${ns.height}`">
-								<Outline>
-									<Flex align="center" gap="6">
-										<Icon name="block" size="14" color="tertiary" />
+									<template #content> {{ ns.hash }} </template>
+								</Tooltip>
+							</td>
+							<td>
+								<NuxtLink :to="`/block/${ns.height}`">
+									<Outline>
+										<Flex align="center" gap="6">
+											<Icon name="block" size="14" color="tertiary" />
 
-										<Text size="13" weight="600" color="primary">{{ comma(ns.height) }}</Text>
-									</Flex>
-								</Outline>
-							</NuxtLink>
-						</td>
-						<td>
-							<Text size="13" weight="600" color="primary">{{
-								DateTime.fromISO(ns.time).toRelative({ locale: "en", style: "short" })
-							}}</Text>
-						</td>
-						<td>
-							<Flex align="center" gap="6">
-								<Text size="13" weight="600" color="primary">{{ formatBytes(ns.size) }}</Text>
-								<Text size="13" weight="600" color="tertiary">({{ ns.pfb_count }})</Text>
-							</Flex>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+											<Text size="13" weight="600" color="primary">{{ comma(ns.height) }}</Text>
+										</Flex>
+									</Outline>
+								</NuxtLink>
+							</td>
+							<td>
+								<Text size="13" weight="600" color="primary">{{
+									DateTime.fromISO(ns.time).toRelative({ locale: "en", style: "short" })
+								}}</Text>
+							</td>
+							<td>
+								<Flex align="center" gap="6">
+									<Text size="13" weight="600" color="primary">{{ formatBytes(ns.size) }}</Text>
+									<Text size="13" weight="600" color="tertiary">({{ ns.pfb_count }})</Text>
+								</Flex>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 
 			<Button link="/namespaces" type="secondary" size="small" wide>
 				<Text size="12" weight="600" color="primary">View all namespaces</Text>
@@ -143,5 +145,9 @@ const handleCopy = (target) => {
 			white-space: nowrap;
 		}
 	}
+}
+
+.table_scroller {
+	overflow-x: auto;
 }
 </style>

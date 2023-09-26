@@ -466,6 +466,10 @@ const handleCopy = (target) => {
 	}
 }
 
+.table_scroller {
+	overflow-x: auto;
+}
+
 .empty_state {
 	display: flex;
 	align-items: center;
@@ -507,10 +511,6 @@ const handleCopy = (target) => {
 @media (max-width: 500px) {
 	.preview {
 		min-width: initial;
-	}
-
-	.table_scroller {
-		overflow-x: auto;
 	}
 }
 </style>

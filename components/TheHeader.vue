@@ -15,7 +15,7 @@
 				</Flex>
 			</NuxtLink>
 
-			<Flex align="center" gap="8" :class="$style.links">
+			<Flex justify="center" align="center" wrap="wrap" gap="8" :class="$style.links">
 				<NuxtLink to="/" :activeClass="$style.active_link" :class="$style.link">
 					<Text size="13" weight="600" color="tertiary">Explorer</Text>
 				</NuxtLink>
@@ -33,7 +33,7 @@
 				</NuxtLink>
 			</Flex>
 
-			<Icon name="empty" />
+			<Icon name="empty" :class="$style.empty_icon" />
 		</Flex>
 	</Flex>
 </template>
@@ -63,9 +63,20 @@
 	}
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
+	.wrapper {
+		height: initial;
+	}
+
 	.container {
-		margin: 0 12px;
+		flex-direction: column;
+		gap: 16px;
+
+		margin: 12px;
+	}
+
+	.empty_icon {
+		display: none;
 	}
 }
 </style>
