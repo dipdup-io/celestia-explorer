@@ -6,8 +6,26 @@ import { comma } from "@/services/utils"
 import { useAppStore } from "@/store/app"
 const appStore = useAppStore()
 
+let blockProgressInterval = null
+const baseBlockTime = 12
+const blockProgress = ref(0)
+
 const head = computed(() => appStore.head)
 const lastBlock = computed(() => appStore.latestBlocks[0])
+
+onMounted(() => {
+	blockProgressInterval = setInterval(() => {
+		blockProgress.value += 1
+
+		if (blockProgress.value > baseBlockTime) {
+			blockProgress.value = 0
+		}
+	}, 1_000)
+})
+
+onBeforeUnmount(() => {
+	clearInterval(blockProgressInterval)
+})
 </script>
 
 <template>
@@ -34,12 +52,12 @@ const lastBlock = computed(() => appStore.latestBlocks[0])
 
 				<div v-for="item in 14" :class="$style.dot" />
 
-				<Flex>
-					<Text size="14" weight="600" color="primary">0</Text>
-					<Text size="14" weight="600" color="tertiary">s</Text>
+				<Flex justify="end" :class="$style.timer">
+					<Text size="13" weight="600" color="primary">{{ blockProgress }}</Text>
+					<Text size="13" weight="600" color="tertiary">s</Text>
 				</Flex>
 
-				<!-- <div :class="$style.fill" /> -->
+				<div :style="{ transform: `translateX(${-(100 - (100 * blockProgress) / baseBlockTime)}%)` }" :class="$style.fill" />
 			</Flex>
 		</Flex>
 	</NuxtLink>
@@ -61,7 +79,7 @@ const lastBlock = computed(() => appStore.latestBlocks[0])
 	z-index: 0;
 
 	border-radius: 6px;
-	background: var(--op-5);
+	background: rgba(0, 0, 0, 20%);
 	overflow: hidden;
 
 	padding: 0 8px;
@@ -75,15 +93,22 @@ const lastBlock = computed(() => appStore.latestBlocks[0])
 	background: var(--op-30);
 }
 
+.timer {
+	width: 22px;
+}
+
 .fill {
 	position: absolute;
 	top: 0;
 	bottom: 0;
 	left: 0;
-	width: 35%;
+	width: 336px;
 
 	background: var(--neutral-green);
 
 	z-index: -1;
+
+	will-change: transform;
+	transition: transform 0.9s ease;
 }
 </style>
