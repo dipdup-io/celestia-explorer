@@ -1,10 +1,24 @@
+<script setup>
+const appConfig = useAppConfig()
+</script>
+
 <template>
 	<Flex tag="footer" justify="center" :class="$style.wrapper">
-		<Flex align="center" justify="between" wide :class="$style.container">
-			<Flex align="center" gap="8">
-				<Icon name="logo" size="14" color="tertiary" />
-				<Text size="13" weight="500" color="secondary">Celenium</Text>
-				<Text size="13" weight="500" color="tertiary"> / Celestia Explorer, {{ new Date().getFullYear() }}</Text>
+		<Flex justify="between" wide :class="$style.container">
+			<Flex direction="column" gap="16">
+				<Flex align="center" gap="8">
+					<Icon name="logo" size="14" color="tertiary" />
+					<Text size="13" weight="500" color="secondary">Celenium</Text>
+					<Text size="13" weight="500" color="tertiary">- Celestia Explorer, {{ new Date().getFullYear() }}</Text>
+				</Flex>
+
+				<a :href="`https://github.com/dipdup-io/celestia-explorer/releases/tag/v${appConfig.version}`" target="_blank">
+					<Flex>
+						<Text size="12" weight="600" color="support">
+							Version <Text color="tertiary">{{ appConfig.version }}</Text>
+						</Text>
+					</Flex>
+				</a>
 			</Flex>
 
 			<Flex align="center" gap="16">

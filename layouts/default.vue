@@ -13,6 +13,6 @@
 
 <style module>
 .wrapper {
-	min-height: calc(100vh - 70px);
+	min-height: calc(100vh - 90px);
 }
 </style>
