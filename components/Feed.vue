@@ -35,9 +35,7 @@ const head = computed(() => appStore.head)
 						</Flex>
 					</Flex>
 
-					<template #content>
-						{{ comma(1073647108) }}
-					</template>
+					<template #content> {{ comma(1074340043153356) }} UTIA </template>
 				</Tooltip>
 
 				<div :class="$style.dot" />

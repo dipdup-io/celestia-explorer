@@ -5,6 +5,13 @@ import ActiveNamespacesTable from "@/components/data/ActiveNamespacesTable.vue"
 import LatestPFBTable from "@/components/data/LatestPFBTable.vue"
 import BlocksTimelineTable from "@/components/data/BlocksTimelineTable.vue"
 
+/** API */
+import { fetchBlocks } from "@/services/api/block"
+
+/** Store */
+import { useAppStore } from "@/store/app"
+const appStore = useAppStore()
+
 definePageMeta({
 	layout: "default",
 })
@@ -59,6 +66,9 @@ useHead({
 		},
 	],
 })
+
+const { data: blocks } = await fetchBlocks({ limit: 15 })
+appStore.latestBlocks = blocks.value
 </script>
 
 <template>

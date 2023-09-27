@@ -10,16 +10,18 @@ import Tooltip from "@/components/ui/Tooltip.vue"
 import { tia, comma, space, formatBytes } from "@/services/utils"
 
 /** API */
-import { fetchBlocks, fetchBlockNamespaces } from "@/services/api/block"
+import { fetchBlockNamespaces } from "@/services/api/block"
 import { fetchTransactionsByBlock } from "@/services/api/tx"
 
 /** Store */
+import { useAppStore } from "@/store/app"
 import { useNotificationsStore } from "@/store/notifications"
+const appStore = useAppStore()
 const notificationsStore = useNotificationsStore()
 
-const blocks = ref([])
+const blocks = computed(() => appStore.latestBlocks)
 const preview = reactive({
-	block: null,
+	block: blocks.value[0],
 	transactions: [],
 	pfbs: [],
 })
@@ -48,11 +50,6 @@ watch(
 		preview.pfbs = data.value
 	},
 )
-
-const { data } = await fetchBlocks({ limit: 15 })
-
-blocks.value = data.value
-preview.block = blocks.value[0]
 
 const handleCopy = (target) => {
 	window.navigator.clipboard.writeText(target)

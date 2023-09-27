@@ -1,9 +1,9 @@
 /** Services */
-import { API } from "@/services/config"
+import { Server } from "@/services/config"
 
 export const fetchBlocks = async ({ limit, offset }) => {
 	try {
-		const url = new URL(`${API}/block`)
+		const url = new URL(`${Server.API}/block`)
 
 		url.searchParams.append("stats", true)
 		url.searchParams.append("sort", "desc")
@@ -20,7 +20,7 @@ export const fetchBlocks = async ({ limit, offset }) => {
 
 export const fetchBlockByHeight = async (height) => {
 	try {
-		const data = await useFetch(`${API}/block/${height}?stats=true`)
+		const data = await useFetch(`${Server.API}/block/${height}?stats=true`)
 		return data
 	} catch (error) {
 		console.error(error)
@@ -29,7 +29,7 @@ export const fetchBlockByHeight = async (height) => {
 
 export const fetchBlockNamespaces = async ({ height, limit, offset, sort }) => {
 	try {
-		const url = new URL(`${API}/block/${height}/namespace`)
+		const url = new URL(`${Server.API}/block/${height}/namespace`)
 
 		if (limit) url.searchParams.append("limit", limit)
 		if (offset) url.searchParams.append("offset", offset)
@@ -45,7 +45,7 @@ export const fetchBlockNamespaces = async ({ height, limit, offset, sort }) => {
 
 export const fetchBlockNamespacesCount = async (height) => {
 	try {
-		const data = await useLazyFetch(`${API}/block/${height}/namespace/count`)
+		const data = await useLazyFetch(`${Server.API}/block/${height}/namespace/count`)
 		if (data.status.value === "idle") await data.execute()
 		return data
 	} catch (error) {

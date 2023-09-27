@@ -102,8 +102,9 @@ const pos = (100 * (tph - lowLevel)) / (highLevel - lowLevel)
 
 			<Text size="12" weight="600" color="support">
 				Current capacity
-				<Text color="tertiary">{{ pos.toFixed(2) }}%</Text></Text
-			>
+				<Text v-if="!isNaN(pos)" color="tertiary">{{ pos.toFixed(2) }}%</Text>
+				<Text v-else color="tertiary">is unknown</Text>
+			</Text>
 		</Flex>
 	</Flex>
 </template>

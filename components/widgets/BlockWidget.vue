@@ -7,6 +7,7 @@ import { useAppStore } from "@/store/app"
 const appStore = useAppStore()
 
 const head = computed(() => appStore.head)
+const lastBlock = computed(() => appStore.latestBlocks[0])
 </script>
 
 <template>
@@ -16,14 +17,14 @@ const head = computed(() => appStore.head)
 				<Flex direction="column" gap="8">
 					<Flex align="center" gap="4">
 						<Text size="16" weight="600" color="primary"> Block </Text>
-						<Text size="16" weight="600" color="green"> {{ comma(head.last_height) }}</Text>
+						<Text size="16" weight="600" color="green"> {{ comma(lastBlock.height + 1) }}</Text>
 					</Flex>
 
 					<Text size="13" weight="500" color="tertiary"> Chain Mocha-4 </Text>
 				</Flex>
 
 				<Flex direction="column" gap="8" align="end">
-					<Text size="14" weight="600" color="primary"> 11.52s </Text>
+					<Text size="14" weight="600" color="primary"> {{ (lastBlock.stats.block_time / 1_000).toFixed(2) }}s </Text>
 					<Text size="12" weight="500" color="tertiary"> Previous Block </Text>
 				</Flex>
 			</Flex>

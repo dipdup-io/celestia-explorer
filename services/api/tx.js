@@ -1,9 +1,9 @@
 /** Services */
-import { API } from "@/services/config"
+import { Server } from "@/services/config"
 
 export const fetchTransactions = async ({ limit, offset, sort, msg_type }) => {
 	try {
-		const url = new URL(`${API}/tx`)
+		const url = new URL(`${Server.API}/tx`)
 
 		if (limit) url.searchParams.append("limit", limit)
 		if (offset) url.searchParams.append("offset", offset)
@@ -20,7 +20,7 @@ export const fetchTransactions = async ({ limit, offset, sort, msg_type }) => {
 /** Latest PayForBlobs */
 export const fetchLatestPFBs = async (height) => {
 	try {
-		const data = await useFetch(`${API}/tx?msg_type=MsgPayForBlobs&sort=desc&limit=5`)
+		const data = await useFetch(`${Server.API}/tx?msg_type=MsgPayForBlobs&sort=desc&limit=5`)
 		return data
 	} catch (error) {
 		console.error(error)
@@ -29,7 +29,7 @@ export const fetchLatestPFBs = async (height) => {
 
 export const fetchTransactionsByBlock = async ({ limit, offset, sort, height }) => {
 	try {
-		const url = new URL(`${API}/tx`)
+		const url = new URL(`${Server.API}/tx`)
 
 		url.searchParams.append("height", height)
 		if (limit) url.searchParams.append("limit", limit)

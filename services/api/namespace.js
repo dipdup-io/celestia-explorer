@@ -1,9 +1,9 @@
 /** Services */
-import { API } from "@/services/config"
+import { Server } from "@/services/config"
 
 export const fetchNamespaces = async ({ limit, offset, sort }) => {
 	try {
-		const url = new URL(`${API}/namespace`)
+		const url = new URL(`${Server.API}/namespace`)
 
 		if (limit) url.searchParams.append("limit", limit)
 		if (offset) url.searchParams.append("offset", offset)
@@ -18,7 +18,7 @@ export const fetchNamespaces = async ({ limit, offset, sort }) => {
 
 export const fetchNamespacesCount = async () => {
 	try {
-		const url = new URL(`${API}/namespace/count`)
+		const url = new URL(`${Server.API}/namespace/count`)
 
 		const data = await useFetch(url.href)
 		return data
@@ -29,7 +29,7 @@ export const fetchNamespacesCount = async () => {
 
 export const fetchActiveNamespaces = async () => {
 	try {
-		const url = new URL(`${API}/namespace/active`)
+		const url = new URL(`${Server.API}/namespace/active`)
 
 		const data = await useFetch(url.href)
 		return data
@@ -40,7 +40,7 @@ export const fetchActiveNamespaces = async () => {
 
 export const fetchNamespaceByHash = async ({ hash, height, commitment }) => {
 	try {
-		const url = new URL(`${API}/namespace_by_hash/${hash}/${height}/${commitment}`)
+		const url = new URL(`${Server.API}/namespace_by_hash/${hash}/${height}/${commitment}`)
 
 		const data = await useFetch(encodeURI(url.href))
 		return data

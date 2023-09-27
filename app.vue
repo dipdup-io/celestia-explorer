@@ -1,5 +1,6 @@
 <script setup>
 /** API */
+import { initSocket } from "@/services/api/socket"
 import { fetchHead } from "@/services/api/main"
 
 /** Store */
@@ -8,6 +9,10 @@ const appStore = useAppStore()
 
 const { data } = await fetchHead()
 appStore.head = data.value
+
+onMounted(() => {
+	initSocket()
+})
 </script>
 
 <template>
