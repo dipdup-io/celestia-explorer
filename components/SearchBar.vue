@@ -250,7 +250,7 @@ const saveToLocaleStorage = (type, height) => {
 	border: 2px solid var(--op-5);
 	box-shadow: 0 8px 16px rgba(0, 0, 0, 15%);
 
-	padding: 12px;
+	padding: 12px 12px 4px 12px;
 
 	.item {
 		border-radius: 6px;
