@@ -42,7 +42,7 @@ const handleCopy = (target) => {
 		</Flex>
 
 		<Flex direction="column" gap="16" :class="$style.pfb_body">
-			<div :class="$style.table_scroller">
+			<div v-if="pfbs.length" :class="$style.table_scroller">
 				<table>
 					<thead>
 						<tr>
@@ -104,6 +104,12 @@ const handleCopy = (target) => {
 					</tbody>
 				</table>
 			</div>
+			<Flex v-else align="center" justify="center" direction="column" gap="8" wide style="margin: 16px 0">
+				<Text size="13" weight="600" color="secondary" align="center"> Latest PFBs not found </Text>
+				<Text size="12" weight="500" height="160" color="tertiary" align="center" style="max-width: 220px">
+					This data is temporarily unavailable
+				</Text>
+			</Flex>
 
 			<Button link="/transactions" type="secondary" size="small" wide>
 				<Text size="12" weight="600" color="primary">View all transactions</Text>
