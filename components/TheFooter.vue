@@ -3,7 +3,7 @@
 		<Flex align="center" justify="between" wide :class="$style.container">
 			<Flex align="center" gap="8">
 				<Icon name="logo" size="14" color="tertiary" />
-				<Text size="13" weight="500" color="secondary">Inblob</Text>
+				<Text size="13" weight="500" color="secondary">Celenium</Text>
 				<Text size="13" weight="500" color="tertiary"> / Celestia Explorer, {{ new Date().getFullYear() }}</Text>
 			</Flex>
 

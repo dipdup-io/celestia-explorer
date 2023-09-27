@@ -33,7 +33,7 @@ useHead({
 	link: [
 		{
 			rel: "canonical",
-			href: `https://inblob.co${route.path}`,
+			href: `https://celenium.io${route.path}`,
 		},
 	],
 	meta: [
@@ -51,11 +51,11 @@ useHead({
 		},
 		{
 			property: "og:url",
-			content: `https://inblob.co${route.path}`,
+			content: `https://celenium.io${route.path}`,
 		},
 		{
 			property: "og:image",
-			content: `https://celestia-explorer.pages.dev${route.path}__og_image__/og.png`,
+			content: `https://celenium.io${route.path}__og_image__/og.png`,
 		},
 		{
 			name: "twitter:title",

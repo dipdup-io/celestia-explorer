@@ -17,18 +17,18 @@ definePageMeta({
 })
 
 useHead({
-	title: "Celestia Blockchain Explorer",
+	title: "Celenium - Celestia Blockchain Explorer",
 	link: [
 		{
 			rel: "canonical",
-			href: "https://inblob.co/",
+			href: "https://celenium.io/",
 		},
 	],
 	meta: [
 		{
 			name: "description",
 			content:
-				"Inblob allows you to explore and search the Celestia blockchain for transactions, addresses, blocks, namespaces, blobs.",
+				"Celenium allows you to explore and search the Celestia blockchain for transactions, addresses, blocks, namespaces, blobs.",
 		},
 		{
 			property: "og:title",
@@ -37,15 +37,11 @@ useHead({
 		{
 			property: "og:description",
 			content:
-				"Inblob allows you to explore and search the Celestia blockchain for transactions, addresses, blocks, namespaces, blobs.",
+				"Celenium allows you to explore and search the Celestia blockchain for transactions, addresses, blocks, namespaces, blobs.",
 		},
 		{
 			property: "og:url",
-			content: `https://inblob.co/`,
-		},
-		{
-			property: "og:image",
-			content: "/img/seo/main/index.png",
+			content: `https://celenium.io/`,
 		},
 		{
 			name: "twitter:title",
@@ -54,15 +50,7 @@ useHead({
 		{
 			name: "twitter:description",
 			content:
-				"Inblob allows you to explore and search the Celestia blockchain for transactions, addresses, blocks, namespaces, blobs.",
-		},
-		{
-			name: "twitter:card",
-			content: "summary_large_image",
-		},
-		{
-			name: "twitter:image",
-			content: "https://inblob.co/img/seo/main/index.png",
+				"Celenium allows you to explore and search the Celestia blockchain for transactions, addresses, blocks, namespaces, blobs.",
 		},
 	],
 })
