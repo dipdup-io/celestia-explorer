@@ -105,7 +105,13 @@ const handleCopy = (target) => {
 							Hidden {{ comma(isDecode ? decodedData.length - 100 : rawData.length - 100) }} characters
 						</Text>
 					</Flex>
-					<Button @click="isViewAll = !isViewAll" type="secondary" size="small" wide>
+					<Button
+						@click="isViewAll = !isViewAll"
+						type="secondary"
+						size="small"
+						wide
+						:disabled="isDecode ? decodedData.length < 100 : rawData.length < 100"
+					>
 						{{ isViewAll ? "Collapse" : "Expand" }}
 					</Button>
 				</Flex>
