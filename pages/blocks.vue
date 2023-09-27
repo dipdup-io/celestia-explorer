@@ -288,8 +288,7 @@ const handleCopy = (target) => {
 
 @media (max-width: 500px) {
 	.wrapper {
-		padding-left: 12px;
-		padding-right: 12px;
+		padding: 32px 12px;
 	}
 
 	.header {

@@ -123,6 +123,10 @@ appStore.latestBlocks = blocks.value
 }
 
 @media (max-width: 500px) {
+	.main {
+		padding-top: 32px;
+	}
+
 	.container {
 		padding: 0 12px;
 	}

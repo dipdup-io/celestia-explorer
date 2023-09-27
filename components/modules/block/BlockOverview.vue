@@ -403,20 +403,14 @@ const handleCopy = (target) => {
 }
 
 .tabs_wrapper {
-	min-height: 40px;
-
 	border-radius: 4px;
 	background: var(--card-background);
 
 	padding: 0 16px;
 }
 
-.tabs {
-	height: 100%;
-}
-
 .tab {
-	height: 100%;
+	height: 40px;
 
 	cursor: pointer;
 	border-bottom: 2px solid transparent;
