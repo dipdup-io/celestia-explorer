@@ -5,6 +5,7 @@ import { DateTime } from "luxon"
 /** UI */
 import Button from "@/components/ui/Button.vue"
 import Tooltip from "@/components/ui/Tooltip.vue"
+import Spinner from "@/components/ui/Spinner.vue"
 
 /** Services */
 import { tia, space, comma } from "@/services/utils"
@@ -16,10 +17,12 @@ import { fetchLatestPFBs } from "@/services/api/tx"
 import { useNotificationsStore } from "@/store/notifications"
 const notificationsStore = useNotificationsStore()
 
+const isLoading = ref(true)
 const pfbs = ref([])
 
 const { data } = await fetchLatestPFBs()
 pfbs.value = data.value
+isLoading.value = false
 
 const handleCopy = (target) => {
 	window.navigator.clipboard.writeText(target)
@@ -104,6 +107,11 @@ const handleCopy = (target) => {
 					</tbody>
 				</table>
 			</div>
+			<Flex v-else-if="isLoading" align="center" justify="center" gap="8" wide>
+				<Spinner size="14" />
+				<Text size="13" weight="500" color="secondary"> Loading latest PFBs </Text>
+			</Flex>
+
 			<Flex v-else align="center" justify="center" direction="column" gap="8" wide style="margin: 16px 0">
 				<Text size="13" weight="600" color="secondary" align="center"> Latest PFBs not found </Text>
 				<Text size="12" weight="500" height="160" color="tertiary" align="center" style="max-width: 220px">
