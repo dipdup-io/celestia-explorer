@@ -71,7 +71,7 @@ const pos = (100 * (tph - lowLevel)) / (highLevel - lowLevel)
 								<div v-for="item in 10" :class="[$style.separator]" />
 							</Flex>
 
-							<div :class="$style.line" :style="{ right: `${pos > 100 ? 100 - 6 : pos}%` }" />
+							<div v-if="!isNaN(pos)" :class="$style.line" :style="{ left: `${pos >= 94 ? 94 : pos}%` }" />
 						</Flex>
 
 						<template #content>
@@ -94,8 +94,8 @@ const pos = (100 * (tph - lowLevel)) / (highLevel - lowLevel)
 					</Tooltip>
 
 					<Flex align="center" justify="between" :class="$style.labels">
-						<Text size="11" weight="600" color="tertiary">High</Text>
-						<Text size="11" weight="600" color="tertiary">Low</Text>
+						<Text size="11" weight="600" color="tertiary">Min</Text>
+						<Text size="11" weight="600" color="tertiary">Max</Text>
 					</Flex>
 				</Flex>
 			</Flex>
@@ -154,7 +154,7 @@ const pos = (100 * (tph - lowLevel)) / (highLevel - lowLevel)
 	height: 6px;
 
 	border-radius: 50px;
-	background: linear-gradient(90deg, var(--green), var(--txt-tertiary), var(--txt-support));
+	background: linear-gradient(-90deg, var(--green), var(--txt-tertiary), var(--txt-support));
 
 	.separator {
 		width: 4px;
