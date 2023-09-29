@@ -1,13 +1,13 @@
 name: cloudflare
 
-on:
-  push:
-    branches:
-      - master
+on: ['push']
 
 jobs:
-  ci:
+  publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
 
     strategy:
       matrix:
