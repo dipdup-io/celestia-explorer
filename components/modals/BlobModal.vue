@@ -26,6 +26,8 @@ const notFound = ref(false)
 const isDecode = ref(false)
 const isViewAll = ref(false)
 
+const MAX_SYMBOLS = 350
+
 const rawData = computed(() => {
 	return blob.value.data
 })
@@ -35,9 +37,9 @@ const decodedData = computed(() => {
 })
 const viewData = computed(() => {
 	if (!isDecode.value) {
-		return isViewAll.value ? rawData.value : rawData.value.slice(0, 100)
+		return isViewAll.value ? rawData.value : rawData.value.slice(0, MAX_SYMBOLS)
 	} else {
-		return isViewAll.value ? decodedData.value : decodedData.value.slice(0, 100)
+		return isViewAll.value ? decodedData.value : decodedData.value.slice(0, MAX_SYMBOLS)
 	}
 })
 
@@ -98,11 +100,11 @@ const handleCopy = (target) => {
 				<Flex direction="column" gap="12">
 					<Flex direction="column" gap="8" :class="$style.data">
 						<Text size="13" weight="500" height="160" color="secondary" mono :class="$style.field">
-							{{ viewData }}<Text v-if="!isViewAll && blob.data.length > 100" color="tertiary">...</Text>
+							{{ viewData }}<Text v-if="!isViewAll && blob.data.length > MAX_SYMBOLS" color="tertiary">...</Text>
 						</Text>
 
-						<Text v-if="blob.data.length > 100 && !isViewAll" size="12" weight="500" color="tertiary">
-							Hidden {{ comma(isDecode ? decodedData.length - 100 : rawData.length - 100) }} characters
+						<Text v-if="blob.data.length > MAX_SYMBOLS && !isViewAll" size="12" weight="500" color="tertiary">
+							Hidden {{ comma(isDecode ? decodedData.length - MAX_SYMBOLS : rawData.length - MAX_SYMBOLS) }} characters
 						</Text>
 					</Flex>
 					<Button
@@ -110,7 +112,7 @@ const handleCopy = (target) => {
 						type="secondary"
 						size="small"
 						wide
-						:disabled="isDecode ? decodedData.length < 100 : rawData.length < 100"
+						:disabled="isDecode ? decodedData.length < MAX_SYMBOLS : rawData.length < MAX_SYMBOLS"
 					>
 						{{ isViewAll ? "Collapse" : "Expand" }}
 					</Button>

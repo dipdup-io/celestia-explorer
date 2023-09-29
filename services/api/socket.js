@@ -6,7 +6,7 @@ import { useAppStore } from "@/store/app"
 
 export let socket = null
 
-export const initSocket = () => {
+export const init = () => {
 	const appStore = useAppStore()
 
 	socket = new WebSocket(Server.WSS)
@@ -29,3 +29,9 @@ export const initSocket = () => {
 		// appStore.latestBlocks.unshift(data)
 	})
 }
+
+export const close = () => {
+	socket.close()
+}
+
+export default { init, close }

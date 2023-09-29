@@ -1,6 +1,6 @@
 <script setup>
 /** API */
-import { initSocket } from "@/services/api/socket"
+import Socket from "@/services/api/socket"
 import { fetchHead } from "@/services/api/main"
 
 /** Store */
@@ -8,10 +8,14 @@ import { useAppStore } from "@/store/app"
 const appStore = useAppStore()
 
 const { data } = await fetchHead()
-appStore.head = data.value
+if (data.value) appStore.head = data.value
 
 onMounted(() => {
-	initSocket()
+	Socket.init()
+
+	window.onbeforeunload = function () {
+		Socket.close()
+	}
 })
 </script>
 
