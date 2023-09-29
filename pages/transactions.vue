@@ -212,14 +212,19 @@ const handleCopy = (target) => {
 									</NuxtLink>
 								</td>
 								<td>
-									<Flex align="center" gap="4">
-										<Text size="13" weight="600" color="primary">{{ comma(tx.gas_used) }}</Text>
-										<Text size="13" weight="600" color="tertiary">/</Text>
-										<Text size="13" weight="600" color="secondary">{{ comma(tx.gas_wanted) }}</Text>
-										<Text v-if="tx.gas_wanted > 0" size="13" weight="600" color="tertiary">
-											({{ ((tx.gas_used * 100) / tx.gas_wanted).toFixed(2) }}%)
+									<Tooltip>
+										<Text v-if="tx.gas_wanted > 0" size="13" weight="600" color="primary">
+											{{ ((tx.gas_used * 100) / tx.gas_wanted).toFixed(2) }}%
 										</Text>
-									</Flex>
+
+										<template #content>
+											<Flex align="center" gap="4">
+												<Text size="13" weight="600" color="primary">{{ comma(tx.gas_used) }}</Text>
+												<Text size="13" weight="600" color="tertiary">/</Text>
+												<Text size="13" weight="600" color="secondary">{{ comma(tx.gas_wanted) }}</Text>
+											</Flex>
+										</template>
+									</Tooltip>
 								</td>
 								<td>
 									<Text size="13" weight="600" color="primary">
