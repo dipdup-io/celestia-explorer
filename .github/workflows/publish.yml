@@ -23,6 +23,7 @@ jobs:
               uses: actions/checkout@master
 
             - name: Install Dependencies
+              uses: pnpm/action-setup@v2
               run: pnpm install
 
             - name: Build
