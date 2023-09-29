@@ -1,6 +1,6 @@
 <script setup>
 /** Services */
-import { comma, formatBytes } from "@/services/utils"
+import { comma, formatBytes, abbreviate } from "@/services/utils"
 
 /** UI */
 import Tooltip from "@/components/ui/Tooltip.vue"
@@ -31,11 +31,13 @@ const head = computed(() => appStore.head)
 						<Icon name="coins" size="12" color="secondary" :class="$style.icon" />
 						<Flex align="center" gap="4">
 							<Text size="12" weight="500" color="tertiary" noWrap :class="$style.key">Total Supply:</Text>
-							<Text size="12" weight="600" noWrap :class="$style.value">1.07B TIA</Text>
+							<Text size="12" weight="600" noWrap :class="$style.value"
+								>{{ abbreviate(head.total_supply / 1_000_000) }} TIA</Text
+							>
 						</Flex>
 					</Flex>
 
-					<template #content> {{ comma(1074340043153356) }} UTIA </template>
+					<template #content> {{ comma(head.total_supply) }} UTIA </template>
 				</Tooltip>
 
 				<div :class="$style.dot" />
