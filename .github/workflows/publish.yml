@@ -1,43 +1,43 @@
 name: cloudflare
 
-on: ['push']
+on: ["push"]
 
 jobs:
-  publish:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      deployments: write
+    publish:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            deployments: write
 
-    strategy:
-      matrix:
-        os: [ ubuntu-latest ]
-        node: [ 16 ]
+        strategy:
+            matrix:
+                os: [ubuntu-latest]
+                node: [16]
 
-    steps:
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 16
+        steps:
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: 16
 
-      - name: Checkout
-        uses: actions/checkout@master
+            - name: Checkout
+              uses: actions/checkout@master
 
-      - name: Install Dependencies
-        run: pnpm install
+            - name: Install Dependencies
+              run: pnpm install
 
-      - name: Build
-        run: pnpm run build
-        env:
-          NITRO_PRESET: cloudflare-pages
+            - name: Build
+              run: pnpm run build
+              env:
+                  NITRO_PRESET: cloudflare-pages
 
-      - name: Publish to Cloudflare Pages
-            uses: cloudflare/pages-action@v1
-            with:
-                apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-                accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-                projectName: celestia-explorer
-                directory: dist
+            - name: Publish to Cloudflare Pages
+              uses: cloudflare/pages-action@v1
+              with:
+                  apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                  accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+                  projectName: celestia-explorer
+                  directory: dist
 
-                branch: master
+                  branch: master
 
-                wranglerVersion: "3"
+                  wranglerVersion: "3"
