@@ -26,8 +26,6 @@ const notFound = ref(false)
 const isDecode = ref(false)
 const isViewAll = ref(false)
 
-const MAX_SYMBOLS = 350
-
 const rawData = computed(() => {
 	return blob.value.data
 })
@@ -37,9 +35,9 @@ const decodedData = computed(() => {
 })
 const viewData = computed(() => {
 	if (!isDecode.value) {
-		return isViewAll.value ? rawData.value : rawData.value.slice(0, MAX_SYMBOLS)
+		return rawData.value
 	} else {
-		return isViewAll.value ? decodedData.value : decodedData.value.slice(0, MAX_SYMBOLS)
+		return decodedData.value
 	}
 })
 
@@ -99,21 +97,12 @@ const handleCopy = (target) => {
 			<Flex v-if="blob.data" direction="column" gap="24">
 				<Flex direction="column" gap="12">
 					<Flex direction="column" gap="8" :class="$style.data">
-						<Text size="13" weight="500" height="160" color="secondary" mono :class="$style.field">
-							{{ viewData }}<Text v-if="!isViewAll && blob.data.length > MAX_SYMBOLS" color="tertiary">...</Text>
-						</Text>
-
-						<Text v-if="blob.data.length > MAX_SYMBOLS && !isViewAll" size="12" weight="500" color="tertiary">
-							Hidden {{ comma(isDecode ? decodedData.length - MAX_SYMBOLS : rawData.length - MAX_SYMBOLS) }} characters
+						<Text size="13" weight="500" height="160" color="secondary" mono :class="[$style.field, isViewAll && $style.full]">
+							{{ viewData }}
 						</Text>
 					</Flex>
-					<Button
-						@click="isViewAll = !isViewAll"
-						type="secondary"
-						size="small"
-						wide
-						:disabled="isDecode ? decodedData.length < MAX_SYMBOLS : rawData.length < MAX_SYMBOLS"
-					>
+
+					<Button @click="isViewAll = !isViewAll" type="secondary" size="small" wide :disabled="viewData.length < 540">
 						{{ isViewAll ? "Collapse" : "Expand" }}
 					</Button>
 				</Flex>
@@ -199,7 +188,6 @@ const handleCopy = (target) => {
 	border-radius: 6px;
 	background: rgba(0, 0, 0, 15%);
 	box-shadow: inset 0 0 0 1px var(--op-10);
-	overflow-y: auto;
 	overflow-x: hidden;
 
 	padding: 16px;
@@ -207,9 +195,19 @@ const handleCopy = (target) => {
 	& .field {
 		min-width: 100%;
 		width: 0;
+		max-height: 200px;
 
-		display: inline-block;
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
 		word-wrap: break-word;
+
+		text-overflow: ellipsis;
+		overflow: hidden;
+		-webkit-line-clamp: 8;
+
+		&.full {
+			overflow: initial;
+		}
 	}
 }
 </style>
