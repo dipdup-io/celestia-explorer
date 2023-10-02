@@ -2,6 +2,12 @@
 /** API */
 import { search } from "@/services/api/search"
 
+/**
+ * Store
+ */
+import { useNotificationsStore } from "@/store/notifications"
+const notificationsStore = useNotificationsStore()
+
 const router = useRouter()
 
 const searchTerm = ref("")
@@ -68,6 +74,16 @@ const handleSearch = async () => {
 			router.push(`/block/${searchTerm.value}`)
 			return
 		}
+
+		notificationsStore.create({
+			notification: {
+				type: "info",
+				icon: "search",
+				title: "Nothing was found for your request",
+				description: "Check if the transaction hash or block height is correct",
+				autoDestroy: true,
+			},
+		})
 	} else {
 		switch (data.value.type) {
 			case "block":

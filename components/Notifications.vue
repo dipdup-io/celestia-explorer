@@ -111,7 +111,6 @@ const handleActionCallback = (callback, notification) => {
 	box-sizing: border-box;
 	width: 330px;
 	background: rgba(0, 0, 0, 95%);
-	border: 2px solid var(--op-10);
 
 	border-radius: 8px;
 	padding: 12px;
@@ -136,9 +135,9 @@ const handleActionCallback = (callback, notification) => {
 }
 
 .description {
-	font-size: 13px;
+	font-size: 12px;
 	font-weight: 500;
-	line-height: 20px;
+	line-height: 18px;
 	color: var(--txt-tertiary);
 
 	display: -webkit-box;
@@ -210,8 +209,8 @@ const handleActionCallback = (callback, notification) => {
 .close_icon {
 	transition: all 0.2s ease;
 
-	width: 12px;
-	height: 12px;
+	width: 14px;
+	height: 14px;
 	position: absolute;
 	right: 8px;
 	top: 8px;
