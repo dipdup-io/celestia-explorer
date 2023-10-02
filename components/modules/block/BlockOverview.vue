@@ -175,33 +175,45 @@ const handleCopy = (target) => {
 						<Flex @click="handleCopy(block.hash)" direction="column" gap="12" class="copyable">
 							<Text size="12" weight="600" color="tertiary">Hash</Text>
 
-							<Flex align="center" gap="6">
-								<Text size="13" weight="600" color="primary">{{ block.hash.slice(0, 4) }}</Text>
+							<Tooltip position="start" delay="500">
+								<Flex align="center" gap="6">
+									<Text size="13" weight="600" color="primary">{{ block.hash.slice(0, 4) }}</Text>
 
-								<Flex align="center" gap="3">
-									<div v-for="dot in 3" class="dot" />
+									<Flex align="center" gap="3">
+										<div v-for="dot in 3" class="dot" />
+									</Flex>
+
+									<Text size="13" weight="600" color="primary">{{
+										block.hash.slice(block.hash.length - 4, block.hash.length)
+									}}</Text>
 								</Flex>
 
-								<Text size="13" weight="600" color="primary">{{
-									block.hash.slice(block.hash.length - 4, block.hash.length)
-								}}</Text>
-							</Flex>
+								<template #content>
+									{{ space(block.hash) }}
+								</template>
+							</Tooltip>
 						</Flex>
 
 						<Flex @click="handleCopy(block.proposer_address)" direction="column" gap="12" class="copyable">
 							<Text size="12" weight="600" color="tertiary">Proposer</Text>
 
-							<Flex align="center" gap="6">
-								<Text size="13" weight="600" color="primary">{{ block.proposer_address.slice(0, 4) }}</Text>
+							<Tooltip position="start" delay="500">
+								<Flex align="center" gap="6">
+									<Text size="13" weight="600" color="primary">{{ block.proposer_address.slice(0, 4) }}</Text>
 
-								<Flex align="center" gap="3">
-									<div v-for="dot in 3" class="dot" />
+									<Flex align="center" gap="3">
+										<div v-for="dot in 3" class="dot" />
+									</Flex>
+
+									<Text size="13" weight="600" color="primary">{{
+										block.proposer_address.slice(block.proposer_address.length - 4, block.proposer_address.length)
+									}}</Text>
 								</Flex>
 
-								<Text size="13" weight="600" color="primary">{{
-									block.proposer_address.slice(block.proposer_address.length - 4, block.proposer_address.length)
-								}}</Text>
-							</Flex>
+								<template #content>
+									{{ space(block.proposer_address) }}
+								</template>
+							</Tooltip>
 						</Flex>
 					</Flex>
 
