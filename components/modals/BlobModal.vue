@@ -5,7 +5,7 @@ import Button from "@/components/ui/Button.vue"
 import Tooltip from "@/components/ui/Tooltip.vue"
 
 /** Services */
-import { comma, formatBytes } from "@/services/utils"
+import { formatBytes } from "@/services/utils"
 
 /** API */
 import { fetchNamespaceByHash } from "@/services/api/namespace"

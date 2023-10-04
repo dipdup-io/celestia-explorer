@@ -3,7 +3,7 @@
 		<Flex align="center" justify="between" wide :class="$style.container">
 			<NuxtLink to="/">
 				<Flex align="center" gap="8" :class="$style.logo">
-					<Icon name="logo" size="20" color="green" />
+					<Icon name="logo" size="20" color="brand" />
 
 					<!-- temp: logo path -->
 					<svg width="96" height="16" viewBox="0 0 96 16" fill="none" xmlns="http://www.w3.org/2000/svg">

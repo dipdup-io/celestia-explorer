@@ -64,15 +64,17 @@ const handleCopy = (target) => {
 										<Flex align="center" gap="8">
 											<Icon name="zap" size="12" color="green" />
 
-											<Text size="13" weight="700" color="secondary" mono>{{ pfb.hash.slice(0, 4) }}</Text>
+											<Text size="13" weight="700" color="secondary" mono>
+												{{ pfb.hash.slice(0, 4).toUpperCase() }}
+											</Text>
 
 											<Flex align="center" gap="3">
 												<div v-for="dot in 3" class="dot" />
 											</Flex>
 
-											<Text size="13" weight="700" color="secondary" mono>{{
-												pfb.hash.slice(pfb.hash.length - 4, pfb.hash.length)
-											}}</Text>
+											<Text size="13" weight="700" color="secondary" mono>
+												{{ pfb.hash.slice(pfb.hash.length - 4, pfb.hash.length).toUpperCase() }}
+											</Text>
 										</Flex>
 									</Outline>
 
