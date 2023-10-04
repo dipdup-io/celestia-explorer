@@ -281,20 +281,22 @@ const handleCopy = (target) => {
 												<Flex align="center" gap="8">
 													<Icon name="zap" size="12" :color="tx.status === 'success' ? 'green' : 'red'" />
 
-													<Text size="13" weight="700" color="secondary" mono>{{ tx.hash.slice(0, 4) }}</Text>
+													<Text size="13" weight="700" color="secondary" mono>{{
+														tx.hash.slice(0, 4).toUpperCase()
+													}}</Text>
 
 													<Flex align="center" gap="3">
 														<div v-for="dot in 3" class="dot" />
 													</Flex>
 
 													<Text size="13" weight="700" color="secondary" mono>{{
-														tx.hash.slice(tx.hash.length - 4, tx.hash.length)
+														tx.hash.slice(tx.hash.length - 4, tx.hash.length).toUpperCase()
 													}}</Text>
 												</Flex>
 											</Outline>
 
 											<template #content>
-												{{ space(tx.hash) }}
+												{{ space(tx.hash).toUpperCase() }}
 											</template>
 										</Tooltip>
 									</td>

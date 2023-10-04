@@ -79,7 +79,7 @@ const handleCopy = (target) => {
 									</Outline>
 
 									<template #content>
-										{{ space(pfb.hash) }}
+										{{ space(pfb.hash.toUpperCase()) }}
 									</template>
 								</Tooltip>
 							</td>

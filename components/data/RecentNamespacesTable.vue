@@ -11,7 +11,7 @@ import Spinner from "@/components/ui/Spinner.vue"
 import { comma, formatBytes } from "@/services/utils"
 
 /** API */
-import { fetchActiveNamespaces } from "@/services/api/namespace"
+import { fetchRecentNamespaces } from "@/services/api/namespace"
 
 /** Store */
 import { useNotificationsStore } from "@/store/notifications"
@@ -20,7 +20,7 @@ const notificationsStore = useNotificationsStore()
 const isLoading = ref(true)
 const namespaces = ref([])
 
-const { data } = await fetchActiveNamespaces()
+const { data } = await fetchRecentNamespaces()
 namespaces.value = data.value
 isLoading.value = false
 

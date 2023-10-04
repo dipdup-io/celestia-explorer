@@ -27,7 +27,7 @@ export const fetchNamespacesCount = async () => {
 	}
 }
 
-export const fetchActiveNamespaces = async () => {
+export const fetchRecentNamespaces = async () => {
 	try {
 		const url = new URL(`${Server.API}/namespace/active`)
 

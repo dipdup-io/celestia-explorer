@@ -1,7 +1,7 @@
 <script setup>
 /** Components */
 import Widgets from "@/components/widgets/Widgets.vue"
-import ActiveNamespacesTable from "@/components/data/ActiveNamespacesTable.vue"
+import RecentNamespacesTable from "@/components/data/RecentNamespacesTable.vue"
 import LatestPFBTable from "@/components/data/LatestPFBTable.vue"
 import BlocksTimelineTable from "@/components/data/BlocksTimelineTable.vue"
 
@@ -70,7 +70,7 @@ appStore.latestBlocks = blocks.value
 
 			<Flex direction="column" gap="40">
 				<Flex gap="20" :class="$style.small_tables">
-					<ActiveNamespacesTable />
+					<RecentNamespacesTable />
 					<LatestPFBTable />
 				</Flex>
 
