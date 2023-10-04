@@ -79,7 +79,7 @@ onBeforeUnmount(() => {
 	z-index: 0;
 
 	border-radius: 6px;
-	background: rgba(0, 0, 0, 20%);
+	background: var(--block-progress-background);
 	overflow: hidden;
 
 	padding: 0 8px;

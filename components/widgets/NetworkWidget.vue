@@ -123,7 +123,7 @@ const pos = (100 * (tph - lowLevel)) / (highLevel - lowLevel)
 .bottom {
 	height: 100%;
 
-	background: rgba(0, 0, 0, 10%);
+	background: var(--network-widget-background);
 	border-top: 2px solid var(--op-5);
 
 	padding: 20px 16px;
@@ -145,8 +145,8 @@ const pos = (100 * (tph - lowLevel)) / (highLevel - lowLevel)
 	width: 3px;
 	height: 14px;
 
-	background: #fff;
-	outline: 2px solid #2f3133;
+	background: var(--network-widget-indicator);
+	outline: 2px solid var(--network-widget-separator);
 }
 
 .level {
@@ -159,7 +159,7 @@ const pos = (100 * (tph - lowLevel)) / (highLevel - lowLevel)
 	.separator {
 		width: 4px;
 		height: 6px;
-		background: #2f3133;
+		background: var(--network-widget-separator);
 
 		&:first-child {
 			background: transparent;

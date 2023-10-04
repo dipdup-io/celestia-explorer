@@ -110,7 +110,7 @@ const handleActionCallback = (callback, notification) => {
 
 	box-sizing: border-box;
 	width: 330px;
-	background: rgba(0, 0, 0, 95%);
+	background: var(--notification-background);
 
 	border-radius: 8px;
 	padding: 12px;

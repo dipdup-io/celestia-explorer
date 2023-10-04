@@ -17,6 +17,8 @@ $grayscale: (
 	--app-background: rgb(23, 25, 27);
 	--card-background: rgb(32, 34, 37);
 	--tooltip-background: rgba(0, 0, 0, 90%);
+	--outline-background: #2b2d30;
+	--outline-gradient: linear-gradient(var(--op-15), var(--op-5));
 
 	/* Text */
 	--txt-primary: rgba(255, 255, 255, 90%);
@@ -49,6 +51,67 @@ $grayscale: (
 	--btn-secondary-bg: rgba(255, 255, 255, 5%);
 	--btn-secondary-bg-hover: rgba(255, 255, 255, 8%);
 	--btn-secondary-bg-active: rgba(255, 255, 255, 5%);
+
+	/** Other */
+	--network-widget-background: rgba(0, 0, 0, 10%);
+	--network-widget-separator: #2f3133;
+	--network-widget-indicator: #fff;
+	--feed-background: rgba(0, 0, 0, 8%);
+	--notification-background: rgba(0, 0, 0, 95%);
+	--block-progress-background: rgba(0, 0, 0, 20%);
+	--logo-name: var(--txt-primary);
+}
+
+[theme="light"] {
+	--base-width: 992px;
+
+	/* Main */
+	--app-background: rgb(235, 235, 235);
+	--card-background: rgb(255, 255, 255);
+	--tooltip-background: rgba(255, 255, 255, 100%);
+	--outline-background: #e5e5e5;
+	--outline-gradient: linear-gradient(var(--op-10), var(--op-20));
+
+	/* Text */
+	--txt-primary: rgba(0, 0, 0, 90%);
+	--txt-body: rgba(0, 0, 0, 75%);
+	--txt-secondary: rgba(0, 0, 0, 70%);
+	--txt-tertiary: rgba(0, 0, 0, 40%);
+	--txt-support: rgba(0, 0, 0, 20%);
+	--txt-black: rgba(0, 0, 0, 95%);
+
+	/* General */
+	--brand: #924dff;
+	--blue: #0b84fe;
+	--red: #eb5757;
+	--orange: #ff5a17;
+	--light-orange: #ff8351;
+	--yellow: #ffd400;
+	--green: #26c071;
+	--neutral-green: #33a853;
+	--purple: #5856de;
+
+	/* Grayscale */
+	@each $gray, $value in $grayscale {
+		--op-#{$gray}: rgba(0, 0, 0, #{$value});
+	}
+
+	/** Button */
+	--btn-white-bg: rgba(255, 255, 255, 90%);
+	--btn-white-bg-hover: rgba(255, 255, 255, 75%);
+	--btn-white-bg-active: rgba(255, 255, 255, 90%);
+	--btn-secondary-bg: rgba(0, 0, 0, 8%);
+	--btn-secondary-bg-hover: rgba(0, 0, 0, 12%);
+	--btn-secondary-bg-active: rgba(0, 0, 0, 8%);
+
+	/** Other */
+	--network-widget-background: rgba(0, 0, 0, 3%);
+	--network-widget-separator: #eaeaea;
+	--network-widget-indicator: #000;
+	--feed-background: rgba(0, 0, 0, 2%);
+	--notification-background: rgba(255, 255, 255, 95%);
+	--block-progress-background: rgba(0, 0, 0, 8%);
+	--logo-name: var(--txt-primary);
 }
 
 *,

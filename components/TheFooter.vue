@@ -1,5 +1,24 @@
 <script setup>
 const appConfig = useAppConfig()
+
+const currentTheme = ref("dark")
+
+onMounted(() => {
+	const root = document.querySelector("html")
+	currentTheme.value = root.getAttribute("theme") ? "light" : "dark"
+})
+
+const handleChangeTheme = () => {
+	const root = document.querySelector("html")
+
+	if (!root.getAttribute("theme")) {
+		root.setAttribute("theme", "light")
+		currentTheme.value = "light"
+	} else {
+		root.removeAttribute("theme")
+		currentTheme.value = "dark"
+	}
+}
 </script>
 
 <template>
@@ -31,6 +50,14 @@ const appConfig = useAppConfig()
 				<NuxtLink to="/namespaces" :class="$style.link">
 					<Text size="12" weight="500" color="tertiary"> Namespaces </Text>
 				</NuxtLink>
+
+				<Icon
+					@click="handleChangeTheme"
+					:name="currentTheme === 'dark' ? 'moon' : 'sun'"
+					size="14"
+					color="secondary"
+					:class="$style.btn"
+				/>
 			</Flex>
 		</Flex>
 	</Flex>
@@ -55,6 +82,25 @@ const appConfig = useAppConfig()
 		&:hover {
 			color: var(--txt-primary);
 		}
+	}
+}
+
+.btn {
+	box-sizing: content-box;
+	border-radius: 5px;
+	background: var(--op-8);
+	cursor: pointer;
+
+	padding: 6px;
+
+	transition: all 0.2s ease;
+
+	&:hover {
+		background: var(--op-10);
+	}
+
+	&:active {
+		background: var(--op-15);
 	}
 }
 

@@ -33,14 +33,14 @@ const props = defineProps({
 	width: fit-content;
 	z-index: 0;
 
-	background: linear-gradient(var(--op-15), var(--op-5));
+	background: var(--outline-gradient);
 
 	padding: 1px;
 
 	.inner {
 		height: 100%;
 
-		background: #2b2d30;
+		background: var(--outline-background);
 
 		padding: 0 8px;
 	}

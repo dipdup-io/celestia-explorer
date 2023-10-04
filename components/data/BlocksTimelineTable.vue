@@ -474,7 +474,7 @@ const handleCopy = (target) => {
 	height: 32px;
 
 	border-radius: 6px;
-	background: rgba(0, 0, 0, 25%);
+	background: var(--op-5);
 
 	padding: 0 8px;
 }

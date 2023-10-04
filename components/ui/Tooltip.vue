@@ -188,6 +188,7 @@ const handleMouseLeave = () => {
 
 	box-sizing: border-box;
 	background-color: var(--tooltip-background);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 10%);
 	border-radius: 7px;
 
 	padding: 6px 8px;
