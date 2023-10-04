@@ -123,7 +123,7 @@ const handleCopy = (target) => {
 					<table>
 						<thead>
 							<tr>
-								<th><Text size="12" weight="600" color="tertiary" noWrap>Hash</Text></th>
+								<th><Text size="12" weight="600" color="tertiary" noWrap>Namespace</Text></th>
 								<th><Text size="12" weight="600" color="tertiary" noWrap>Size</Text></th>
 							</tr>
 						</thead>

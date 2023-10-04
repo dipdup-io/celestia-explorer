@@ -49,7 +49,7 @@ const handleCopy = (target) => {
 				<table>
 					<thead>
 						<tr>
-							<th><Text size="12" weight="600" color="tertiary">Hash</Text></th>
+							<th><Text size="12" weight="600" color="tertiary">Namespace</Text></th>
 							<th><Text size="12" weight="600" color="tertiary">Height</Text></th>
 							<th><Text size="12" weight="600" color="tertiary">When</Text></th>
 							<th><Text size="12" weight="600" color="tertiary">Size & Count</Text></th>
