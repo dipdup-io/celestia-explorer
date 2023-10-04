@@ -123,6 +123,14 @@ const handleCopy = (target) => {
 							{{ item.data.ShareCommitments[0] }}
 						</Text>
 					</Flex>
+
+					<Flex align="center" justify="between" wide :class="$style.metadata">
+						<Text size="12" weight="500" color="tertiary">Signer:</Text>
+
+						<Text @click="handleCopy(item.data.Signer)" size="13" weight="600" color="primary" class="copyable">
+							{{ item.data.Signer }}
+						</Text>
+					</Flex>
 				</Flex>
 			</Flex>
 			<Text v-else-if="notFound" size="12" weight="600" color="tertiary"> Blob not found </Text>
