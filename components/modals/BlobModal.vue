@@ -108,57 +108,20 @@ const handleCopy = (target) => {
 				</Flex>
 
 				<Flex direction="column" align="center" gap="16">
-					<Flex align="center" justify="between" wide>
+					<Flex align="center" justify="between" wide :class="$style.metadata">
 						<Text size="12" weight="500" color="tertiary">Hash:</Text>
 
-						<Tooltip position="end" delay="500">
-							<Flex @click="handleCopy(blob.namespace)" align="center" gap="6" class="copyable">
-								<Text size="13" weight="600" color="primary">
-									{{ blob.namespace.slice(0, 4) }}
-								</Text>
-
-								<Flex align="center" gap="3">
-									<div v-for="dot in 3" class="dot" />
-								</Flex>
-
-								<Text size="13" weight="600" color="primary">
-									{{ blob.namespace.slice(blob.namespace.length - 4, blob.namespace.length) }}
-								</Text>
-							</Flex>
-
-							<template #content>
-								{{ blob.namespace }}
-							</template>
-						</Tooltip>
+						<Text @click="handleCopy(blob.namespace)" size="13" weight="600" color="primary" class="copyable">
+							{{ blob.namespace }}
+						</Text>
 					</Flex>
 
-					<Flex align="center" justify="between" wide>
+					<Flex align="center" justify="between" wide :class="$style.metadata">
 						<Text size="12" weight="500" color="tertiary">Commitment:</Text>
 
-						<Tooltip position="end" delay="500">
-							<Flex @click="handleCopy(item.data.ShareCommitments[0])" align="center" gap="6" class="copyable">
-								<Text size="13" weight="600" color="primary">
-									{{ item.data.ShareCommitments[0].slice(0, 4) }}
-								</Text>
-
-								<Flex align="center" gap="3">
-									<div v-for="dot in 3" class="dot" />
-								</Flex>
-
-								<Text size="13" weight="600" color="primary">
-									{{
-										item.data.ShareCommitments[0].slice(
-											item.data.ShareCommitments[0].length - 4,
-											item.data.ShareCommitments[0].length,
-										)
-									}}
-								</Text>
-							</Flex>
-
-							<template #content>
-								{{ item.data.ShareCommitments[0] }}
-							</template>
-						</Tooltip>
+						<Text @click="handleCopy(item.data.ShareCommitments[0])" size="13" weight="600" color="primary" class="copyable">
+							{{ item.data.ShareCommitments[0] }}
+						</Text>
 					</Flex>
 				</Flex>
 			</Flex>
@@ -207,6 +170,20 @@ const handleCopy = (target) => {
 
 		&.full {
 			overflow: initial;
+		}
+	}
+}
+
+@media (max-width: 550px) {
+	.metadata {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 8px;
+
+		& span:last-child {
+			text-overflow: ellipsis;
+			overflow: hidden;
+			max-width: 100%;
 		}
 	}
 }
