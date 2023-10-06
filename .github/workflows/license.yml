@@ -1,7 +1,7 @@
 name: Check Licenses
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths:
       - 'yarn.lock'
   pull_request:
