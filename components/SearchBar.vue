@@ -3,6 +3,11 @@
 import { search } from "@/services/api/search"
 
 /**
+ * Composable
+ */
+import { useOutside } from "@/composable/outside"
+
+/**
  * Store
  */
 import { useNotificationsStore } from "@/store/notifications"
@@ -11,6 +16,8 @@ const notificationsStore = useNotificationsStore()
 const router = useRouter()
 
 const searchTerm = ref("")
+
+const searchRef = ref()
 const inputRef = ref()
 
 const isActive = ref(false)
@@ -18,9 +25,9 @@ const isActive = ref(false)
 let history = []
 const showHistory = ref(false)
 
-const handleClick = () => {
-	inputRef.value.focus()
-}
+let removeOutside = null
+const trap = ref({})
+const itemsEl = ref(null)
 
 onMounted(() => {
 	document.addEventListener("keydown", onKeydown)
@@ -30,16 +37,68 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
 	document.removeEventListener("keydown", onKeydown)
+
+	removeOutside()
 })
 
 const onKeydown = (e) => {
 	if (e.code === "Escape" && isActive.value) {
-		inputRef.value.blur()
+		handleBlur()
 	}
 
 	if (e.code === "Slash" && !isActive.value) {
 		inputRef.value.focus()
 		e.preventDefault()
+	}
+
+	if ((e.code === "ArrowUp" && isActive.value) || (e.code === "Tab" && e.shiftKey && isActive.value)) {
+		e.preventDefault()
+
+		const focusableItems = [...itemsEl.value?.wrapper.children]
+
+		if (!focusableItems.includes(document.activeElement)) {
+			focusableItems[focusableItems.length - 1].focus()
+		} else {
+			const currentFocusedIdx = focusableItems.indexOf(document.activeElement)
+
+			if (focusableItems[currentFocusedIdx - 1]) {
+				focusableItems[currentFocusedIdx - 1].focus()
+			} else {
+				focusableItems[focusableItems.length - 1].focus()
+			}
+		}
+
+		return
+	}
+
+	if (["Tab", "ArrowDown"].includes(e.code) && isActive.value) {
+		e.preventDefault()
+
+		const focusableItems = [...itemsEl.value?.wrapper.children]
+
+		if (!focusableItems.includes(document.activeElement)) {
+			focusableItems[0].focus()
+		} else {
+			const currentFocusedIdx = focusableItems.indexOf(document.activeElement)
+
+			if (focusableItems[currentFocusedIdx + 1]) {
+				focusableItems[currentFocusedIdx + 1].focus()
+			} else {
+				focusableItems[0].focus()
+			}
+		}
+	}
+
+	if (e.code === "PageUp" && isActive.value) {
+		e.preventDefault()
+		const focusableItems = [...itemsEl.value?.wrapper.children]
+		focusableItems[0].focus()
+	}
+
+	if (e.code === "PageDown" && isActive.value) {
+		e.preventDefault()
+		const focusableItems = [...itemsEl.value?.wrapper.children]
+		focusableItems[focusableItems.length - 1].focus()
 	}
 }
 
@@ -49,14 +108,28 @@ const handleClear = () => {
 	searchTerm.value = ""
 }
 
-const handleFocus = () => {
+const handleClick = () => {
+	inputRef.value.focus()
+}
+
+const onFocus = () => {
 	isActive.value = true
 	showHistory.value = true
+
+	nextTick(() => {
+		removeOutside = useOutside(searchRef.value.wrapper, () => {
+			handleBlur()
+		})
+	})
 }
 
 const handleBlur = () => {
+	removeOutside()
+
 	isActive.value = false
 	showHistory.value = false
+
+	inputRef.value.blur()
 }
 
 const handleEnter = (e) => {
@@ -112,7 +185,7 @@ const saveToLocaleStorage = (type, height) => {
 </script>
 
 <template>
-	<Flex :class="$style.wrapper">
+	<Flex ref="searchRef" :class="$style.wrapper">
 		<Flex @click="handleClick" align="center" justify="between" :class="[$style.container, isActive && $style.active]">
 			<Flex align="center" gap="8" wide>
 				<Icon name="search" size="16" color="support" :class="$style.search_icon" />
@@ -120,8 +193,7 @@ const saveToLocaleStorage = (type, height) => {
 				<input
 					ref="inputRef"
 					v-model="searchTerm"
-					@focus="handleFocus"
-					@blur="handleBlur"
+					@focus="onFocus"
 					@keydown.enter="handleEnter"
 					placeholder="Find transaction or block"
 				/>
@@ -144,9 +216,9 @@ const saveToLocaleStorage = (type, height) => {
 			<Flex v-if="showHistory && history" direction="column" gap="8" :class="$style.history_popup">
 				<Text size="12" weight="600" color="tertiary">Search History</Text>
 
-				<Flex direction="column" gap="2">
-					<NuxtLink :to="`/block/${item.height}`" v-for="item in history">
-						<Flex justify="between" :class="$style.item">
+				<Flex ref="itemsEl" direction="column" gap="2">
+					<NuxtLink :to="`/block/${item.height}`" v-for="item in history" :class="$style.item">
+						<Flex justify="between">
 							<Flex align="center" gap="8" style="max-width: calc(100% - 20px)">
 								<Icon
 									:name="(item.type === 'block' && 'block') || (item.type === 'tx' && 'zap') || 'tag'"
@@ -271,6 +343,7 @@ const saveToLocaleStorage = (type, height) => {
 	.item {
 		border-radius: 6px;
 		cursor: pointer;
+		outline: none;
 
 		padding: 8px;
 		margin: 0 -8px;
@@ -283,6 +356,10 @@ const saveToLocaleStorage = (type, height) => {
 			.arrow_icon {
 				opacity: 1;
 			}
+		}
+
+		&:focus-visible {
+			background: var(--op-10);
 		}
 
 		.arrow_icon {
