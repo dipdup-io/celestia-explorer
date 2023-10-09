@@ -38,7 +38,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
 	document.removeEventListener("keydown", onKeydown)
 
-	removeOutside()
+	if (removeOutside) removeOutside()
 })
 
 const onKeydown = (e) => {
@@ -124,7 +124,7 @@ const onFocus = () => {
 }
 
 const handleBlur = () => {
-	removeOutside()
+	if (removeOutside) removeOutside()
 
 	isActive.value = false
 	showHistory.value = false
