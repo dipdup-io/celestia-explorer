@@ -87,6 +87,16 @@ const handleCopy = (target) => {
 		},
 	})
 }
+
+const getNamespaceID = () => {
+	let s = props.item.namespace.namespace_id
+
+	while (s.startsWith("00")) {
+		s = s.substring(2)
+	}
+
+	return s
+}
 </script>
 
 <template>
@@ -109,10 +119,10 @@ const handleCopy = (target) => {
 
 				<Flex direction="column" align="center" gap="16">
 					<Flex align="center" justify="between" wide :class="$style.metadata">
-						<Text size="12" weight="500" color="tertiary">Hash:</Text>
+						<Text size="12" weight="500" color="tertiary">Namespace:</Text>
 
-						<Text @click="handleCopy(blob.namespace)" size="13" weight="600" color="primary" class="copyable">
-							{{ blob.namespace }}
+						<Text @click="handleCopy(getNamespaceID())" size="13" weight="600" color="primary" class="copyable">
+							{{ getNamespaceID() }}
 						</Text>
 					</Flex>
 
