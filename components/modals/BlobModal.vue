@@ -68,7 +68,7 @@ const handleDownload = () => {
 	var element = document.createElement("a")
 	element.style.display = "none"
 	element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(decodedData.value))
-	element.setAttribute("download", `${props.item.data.Namespaces[0]}_${props.item.data.ShareCommitments[0]}.bin`)
+	element.setAttribute("download", `${props.item.namespace.hash}.bin`)
 
 	document.body.appendChild(element)
 	element.click()
