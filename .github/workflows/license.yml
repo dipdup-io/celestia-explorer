@@ -3,10 +3,10 @@ on:
   push:
     branches: [master]
     paths:
-      - 'yarn.lock'
+      - 'pnpm-lock.yaml'
   pull_request:
     paths:
-      - 'yarn.lock'
+      - 'pnpm-lock.yaml'
 jobs:
   licenses:
     name: Check licenses
