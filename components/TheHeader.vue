@@ -26,7 +26,7 @@
 					<Text size="13" weight="600" color="tertiary">Explorer</Text>
 				</NuxtLink>
 
-				<NuxtLink to="/transactions" :activeClass="$style.active_link" :class="$style.link">
+				<NuxtLink to="/txs" :activeClass="$style.active_link" :class="$style.link">
 					<Text size="13" weight="600" color="tertiary">Transactions</Text>
 				</NuxtLink>
 

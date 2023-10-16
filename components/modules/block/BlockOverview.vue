@@ -16,6 +16,8 @@ import { fetchTransactionsByBlock } from "@/services/api/tx"
 import { useNotificationsStore } from "@/store/notifications"
 const notificationsStore = useNotificationsStore()
 
+const router = useRouter()
+
 const props = defineProps({
 	block: {
 		type: Object,
@@ -274,10 +276,10 @@ const handleCopy = (target) => {
 							</thead>
 
 							<tbody>
-								<tr v-for="tx in filteredTransactions">
+								<tr v-for="tx in filteredTransactions" @click="router.push(`/tx/${tx.hash}`)">
 									<td style="width: 1px">
 										<Tooltip position="start" delay="500">
-											<Outline @click="handleCopy(tx.hash)" class="copyable">
+											<Outline @click.stop="handleCopy(tx.hash)" class="copyable">
 												<Flex align="center" gap="8">
 													<Icon name="zap" size="12" :color="tx.status === 'success' ? 'green' : 'red'" />
 
@@ -477,6 +479,12 @@ const handleCopy = (target) => {
 		height: fit-content;
 
 		border-spacing: 0px;
+
+		& tbody {
+			& tr {
+				cursor: pointer;
+			}
+		}
 
 		& tr th {
 			text-align: left;

@@ -96,7 +96,7 @@ const handleCopy = (target) => {
 		<Breadcrumbs
 			:items="[
 				{ link: '/', name: 'Explore' },
-				{ link: '/transactions', name: `Transactions` },
+				{ link: '/txs', name: `Transactions` },
 			]"
 			:class="$style.breadcrumbs"
 		/>
@@ -140,7 +140,11 @@ const handleCopy = (target) => {
 						</thead>
 
 						<tbody>
-							<tr v-for="tx in transactions" :class="findPFB && !tx.message_types.includes('MsgPayForBlobs') && $style.hide">
+							<tr
+								v-for="tx in transactions"
+								:class="findPFB && !tx.message_types.includes('MsgPayForBlobs') && $style.hide"
+								@click="router.push(`/tx/${tx.hash}`)"
+							>
 								<td style="width: 1px">
 									<Tooltip position="start">
 										<Outline @click="handleCopy(tx.hash)" class="copyable">
@@ -172,7 +176,7 @@ const handleCopy = (target) => {
 									</Tooltip>
 								</td>
 								<td style="width: 1px">
-									<Tooltip position="start" textAlign="left">
+									<Tooltip v-if="tx.message_types.length" position="start" textAlign="left">
 										<Flex align="center" gap="6">
 											<Text size="13" height="160" weight="600" color="primary" :class="$style.message_type">
 												{{ tx.message_types[0].replace("Msg", "") }}
@@ -196,6 +200,8 @@ const handleCopy = (target) => {
 											</Flex>
 										</template>
 									</Tooltip>
+
+									<Text v-else size="13" weight="600" color="tertiary">No Message Types</Text>
 								</td>
 								<td>
 									<Text size="13" weight="600" color="primary">
@@ -203,15 +209,13 @@ const handleCopy = (target) => {
 									</Text>
 								</td>
 								<td>
-									<NuxtLink :to="`/block/${tx.height}`">
-										<Outline>
-											<Flex align="center" gap="6">
-												<Icon name="block" size="14" color="tertiary" />
+									<Outline @click.stop="router.push(`/block/${tx.height}`)">
+										<Flex align="center" gap="6">
+											<Icon name="block" size="14" color="tertiary" />
 
-												<Text size="13" weight="600" color="primary">{{ comma(tx.height) }}</Text>
-											</Flex>
-										</Outline>
-									</NuxtLink>
+											<Text size="13" weight="600" color="primary">{{ comma(tx.height) }}</Text>
+										</Flex>
+									</Outline>
 								</td>
 								<td>
 									<Tooltip>

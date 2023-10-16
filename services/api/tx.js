@@ -17,6 +17,39 @@ export const fetchTransactions = async ({ limit, offset, sort, msg_type }) => {
 	}
 }
 
+export const fetchTxByHash = async (hash) => {
+	try {
+		const url = new URL(`${Server.API}/tx/${hash}`)
+
+		const data = await useFetch(url.href)
+		return data
+	} catch (error) {
+		console.error(error)
+	}
+}
+
+export const fetchTxMessages = async (hash) => {
+	try {
+		const url = new URL(`${Server.API}/tx/${hash}/messages`)
+
+		const data = await useFetch(url.href)
+		return data
+	} catch (error) {
+		console.error(error)
+	}
+}
+
+export const fetchTxEvents = async (hash) => {
+	try {
+		const url = new URL(`${Server.API}/tx/${hash}/events`)
+
+		const data = await useFetch(url.href)
+		return data
+	} catch (error) {
+		console.error(error)
+	}
+}
+
 /** Latest PayForBlobs */
 export const fetchLatestPFBs = async (height) => {
 	try {

@@ -17,6 +17,8 @@ import { fetchLatestPFBs } from "@/services/api/tx"
 import { useNotificationsStore } from "@/store/notifications"
 const notificationsStore = useNotificationsStore()
 
+const router = useRouter()
+
 const isLoading = ref(true)
 const pfbs = ref([])
 
@@ -57,10 +59,10 @@ const handleCopy = (target) => {
 					</thead>
 
 					<tbody>
-						<tr v-for="pfb in pfbs">
+						<tr v-for="pfb in pfbs" @click="router.push(`/tx/${pfb.hash}`)">
 							<td style="width: 1px">
 								<Tooltip position="start" delay="500">
-									<Outline @click="handleCopy(pfb.hash)" class="copyable">
+									<Outline @click.stop="handleCopy(pfb.hash)" class="copyable">
 										<Flex align="center" gap="8">
 											<Icon name="zap" size="12" color="green" />
 
@@ -84,15 +86,13 @@ const handleCopy = (target) => {
 								</Tooltip>
 							</td>
 							<td>
-								<NuxtLink :to="`/block/${pfb.height}`">
-									<Outline>
-										<Flex align="center" gap="6">
-											<Icon name="block" size="14" color="tertiary" />
+								<Outline @click.stop="router.push(`/block/${pfb.height}`)">
+									<Flex align="center" gap="6">
+										<Icon name="block" size="14" color="tertiary" />
 
-											<Text size="13" weight="600" color="primary">{{ comma(pfb.height) }}</Text>
-										</Flex>
-									</Outline>
-								</NuxtLink>
+										<Text size="13" weight="600" color="primary">{{ comma(pfb.height) }}</Text>
+									</Flex>
+								</Outline>
 							</td>
 							<td>
 								<Text size="13" weight="600" color="primary">{{
@@ -121,7 +121,7 @@ const handleCopy = (target) => {
 				</Text>
 			</Flex>
 
-			<Button link="/transactions" type="secondary" size="small" wide>
+			<Button link="/txs" type="secondary" size="small" wide>
 				<Text size="12" weight="600" color="primary">View all transactions</Text>
 				<Icon name="arrow-narrow-up-right" size="12" color="tertiary" />
 			</Button>
@@ -149,6 +149,12 @@ const handleCopy = (target) => {
 		width: 100%;
 
 		border-spacing: 0px;
+
+		& tbody {
+			& tr {
+				cursor: pointer;
+			}
+		}
 
 		& tr th {
 			text-align: left;
