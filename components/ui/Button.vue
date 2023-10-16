@@ -182,7 +182,7 @@ const getStyles = () => {
 .wrapper.secondary {
 	background: var(--btn-secondary-bg);
 	fill: var(--txt-secondary);
-	box-shadow: inset 0 0 0 1px var(--op-5);
+	box-shadow: inset 0 0 0 1px var(--op-5), inset 0 0 8px var(--op-5);
 }
 .wrapper.secondary:hover {
 	background: var(--btn-secondary-bg-hover);
