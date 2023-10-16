@@ -121,10 +121,12 @@ const handleCopy = (target) => {
 				</Text>
 			</Flex>
 
-			<Button link="/txs" type="secondary" size="small" wide>
-				<Text size="12" weight="600" color="primary">View all transactions</Text>
-				<Icon name="arrow-narrow-up-right" size="12" color="tertiary" />
-			</Button>
+			<div :class="$style.bottom">
+				<Button link="/txs" type="secondary" size="small" wide>
+					<Text size="12" weight="600" color="primary">View all transactions</Text>
+					<Icon name="arrow-narrow-up-right" size="12" color="tertiary" />
+				</Button>
+			</div>
 		</Flex>
 	</Flex>
 </template>
@@ -143,8 +145,6 @@ const handleCopy = (target) => {
 	border-radius: 4px 4px 8px 8px;
 	background: var(--card-background);
 
-	padding: 16px;
-
 	& table {
 		width: 100%;
 
@@ -153,16 +153,31 @@ const handleCopy = (target) => {
 		& tbody {
 			& tr {
 				cursor: pointer;
+
+				transition: all 0.05s ease;
+
+				&:hover {
+					background: var(--op-5);
+				}
+
+				&:active {
+					background: var(--op-8);
+				}
 			}
 		}
 
 		& tr th {
 			text-align: left;
 			padding: 0;
+			padding-top: 16px;
 			padding-bottom: 8px;
 
 			& span {
 				display: flex;
+			}
+
+			&:first-child {
+				padding-left: 16px;
 			}
 		}
 
@@ -173,8 +188,16 @@ const handleCopy = (target) => {
 			padding-bottom: 6px;
 
 			white-space: nowrap;
+
+			&:first-child {
+				padding-left: 16px;
+			}
 		}
 	}
+}
+
+.bottom {
+	padding: 0 16px 16px 16px;
 }
 
 @media (max-width: 500px) {

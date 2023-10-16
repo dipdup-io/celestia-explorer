@@ -289,7 +289,7 @@ const handleCopy = (target) => {
 	border-radius: 4px;
 	background: var(--card-background);
 
-	padding: 16px 16px 12px 16px;
+	padding-bottom: 12px;
 
 	transition: all 0.2s ease;
 
@@ -302,6 +302,16 @@ const handleCopy = (target) => {
 		& tbody {
 			& tr {
 				cursor: pointer;
+
+				transition: all 0.05s ease;
+
+				&:hover {
+					background: var(--op-5);
+				}
+
+				&:active {
+					background: var(--op-8);
+				}
 			}
 		}
 
@@ -309,10 +319,15 @@ const handleCopy = (target) => {
 			text-align: left;
 			padding: 0;
 			padding-right: 16px;
+			padding-top: 16px;
 			padding-bottom: 8px;
 
 			& span {
 				display: flex;
+			}
+
+			&:first-child {
+				padding-left: 16px;
 			}
 		}
 
@@ -323,6 +338,10 @@ const handleCopy = (target) => {
 			padding-bottom: 6px;
 
 			white-space: nowrap;
+
+			&:first-child {
+				padding-left: 16px;
+			}
 		}
 	}
 }

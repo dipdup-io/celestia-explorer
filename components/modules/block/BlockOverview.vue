@@ -389,7 +389,7 @@ const handleCopy = (target) => {
 		padding: 16px;
 
 		& .key_value {
-			max-width: 352px;
+			max-width: 100%;
 		}
 	}
 }
@@ -442,8 +442,6 @@ const handleCopy = (target) => {
 	border-radius: 4px 4px 8px 4px;
 	background: var(--card-background);
 
-	padding: 16px;
-
 	& table {
 		width: 100%;
 		height: fit-content;
@@ -453,6 +451,16 @@ const handleCopy = (target) => {
 		& tbody {
 			& tr {
 				cursor: pointer;
+
+				transition: all 0.05s ease;
+
+				&:hover {
+					background: var(--op-5);
+				}
+
+				&:active {
+					background: var(--op-8);
+				}
 			}
 		}
 
@@ -460,7 +468,12 @@ const handleCopy = (target) => {
 			text-align: left;
 			padding: 0;
 			padding-right: 16px;
+			padding-top: 16px;
 			padding-bottom: 8px;
+
+			&:first-child {
+				padding-left: 16px;
+			}
 
 			& span {
 				display: flex;
@@ -474,6 +487,10 @@ const handleCopy = (target) => {
 			padding-bottom: 6px;
 
 			white-space: nowrap;
+
+			&:first-child {
+				padding-left: 16px;
+			}
 		}
 	}
 }

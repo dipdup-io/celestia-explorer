@@ -43,6 +43,14 @@ const props = defineProps({
 		background: var(--outline-background);
 
 		padding: 0 8px;
+
+		transition: all 0.1s ease;
+	}
+
+	&:hover {
+		.inner {
+			background: var(--outline-background-hover);
+		}
 	}
 }
 </style>
