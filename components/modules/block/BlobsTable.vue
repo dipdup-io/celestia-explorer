@@ -19,7 +19,7 @@ const notificationsStore = useNotificationsStore()
 
 const props = defineProps({
 	height: {
-		type: String,
+		type: Number,
 	},
 	loading: {
 		type: Boolean,

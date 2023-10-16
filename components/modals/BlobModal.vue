@@ -65,14 +65,19 @@ watch(
 )
 
 const handleDownload = () => {
-	var element = document.createElement("a")
-	element.style.display = "none"
-	element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(decodedData.value))
-	element.setAttribute("download", `${props.item.namespace.hash}.bin`)
+	const byteArray = new Uint8Array(
+		decodedData.value
+			.replaceAll(" ", "")
+			.match(/.{2}/g)
+			.map((e) => parseInt(e, 16)),
+	)
 
-	document.body.appendChild(element)
-	element.click()
-	document.body.removeChild(element)
+	const a = window.document.createElement("a")
+	a.href = window.URL.createObjectURL(new Blob([byteArray], { type: "application/octet-stream" }))
+	a.download = `${props.item.namespace.hash}.bin`
+	document.body.appendChild(a)
+	a.click()
+	document.body.removeChild(a)
 }
 
 const handleCopy = (target) => {
