@@ -106,7 +106,7 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 						</template>
 					</Tooltip>
 
-					<Flex direction="column" gap="10" :class="$style.key_value">
+					<Flex direction="column" gap="8" :class="$style.key_value">
 						<Text size="12" weight="600" color="secondary">Hash</Text>
 						<BadgeValue :text="tx.hash" />
 					</Flex>
