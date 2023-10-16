@@ -149,7 +149,7 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 				<Flex direction="column">
 					<Flex align="center" gap="8" :class="$style.message_types">
 						<Icon name="message" size="14" color="secondary" />
-						<Text size="12" weight="600" color="primary" mono>{{ tx.message_types.join(", ") }}</Text>
+						<Text size="12" weight="600" color="primary">{{ tx.message_types.join(", ") }}</Text>
 					</Flex>
 
 					<Flex v-for="(event, idx) in events" align="center" gap="8" :class="$style.event">
@@ -453,10 +453,11 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 .message_types {
 	width: fit-content;
 
-	border-radius: 50px;
-	background: rgba(0, 0, 0, 80%);
+	border-radius: 6px;
+	background: var(--op-5);
+	border: 1px solid var(--op-5);
 
-	padding: 8px 12px;
+	padding: 6px 10px;
 }
 
 .event {
