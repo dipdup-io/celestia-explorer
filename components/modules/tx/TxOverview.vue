@@ -182,7 +182,7 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 								<Text size="12" weight="500" color="secondary">spent</Text>
 
 								<Text size="12" weight="500" color="primary" mono>
-									{{ event.data.amount }}
+									{{ tia(event.data.amount.replace("utia", "")) }} TIA
 								</Text>
 							</Flex>
 							<!-- Event: coin_received -->
@@ -202,7 +202,7 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 								<Text size="12" weight="500" color="secondary">received</Text>
 
 								<Text size="12" weight="500" color="primary" mono>
-									{{ event.data.amount }}
+									{{ tia(event.data.amount.replace("utia", "")) }} TIA
 								</Text>
 							</Flex>
 							<!-- Event: delegate -->
@@ -242,7 +242,7 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 								<Text size="12" weight="500" color="secondary">sent</Text>
 
 								<Text size="12" weight="500" color="primary" mono>
-									{{ event.data.amount }}
+									{{ tia(event.data.amount.replace("utia", "")) }} TIA
 								</Text>
 
 								<Text size="12" weight="500" color="secondary">to</Text>
@@ -304,7 +304,7 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 									<Text size="12" weight="500" color="secondary">paid</Text>
 
 									<Text size="12" weight="500" color="primary" mono>
-										{{ event.data.fee }}
+										{{ tia(event.data.fee.replace("utia", "")) }} TIA
 									</Text>
 
 									<Text size="12" weight="500" color="secondary">fee</Text>
@@ -372,7 +372,7 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 								<Text size="12" weight="500" color="secondary">Amount:</Text>
 
 								<Text size="12" weight="500" color="primary" mono>
-									{{ event.data.amount }}
+									{{ tia(event.data.amount.replace("utia", "")) }} TIA
 								</Text>
 							</Flex>
 							<!-- Event: withdraw_commission -->
@@ -380,7 +380,7 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 								<Text size="12" weight="500" color="secondary">Commission</Text>
 
 								<Text size="12" weight="500" color="primary" mono>
-									{{ event.data.amount }}
+									{{ tia(event.data.amount.replace("utia", "")) }} TIA
 								</Text>
 							</Flex>
 
