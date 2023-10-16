@@ -1,6 +1,7 @@
 <script setup>
 /** Components: Modules */
 import TxOverview from "@/components/modules/tx/TxOverview.vue"
+import BlobsTable from "@/components/modules/block/BlobsTable.vue"
 
 /** Services */
 import { comma } from "@/services/utils"
@@ -88,6 +89,8 @@ useHead({
 
 		<Flex v-if="tx" direction="column" gap="40">
 			<TxOverview :tx="tx" />
+
+			<BlobsTable :height="tx.height" />
 		</Flex>
 	</Flex>
 </template>

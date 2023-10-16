@@ -18,6 +18,9 @@ import { useNotificationsStore } from "@/store/notifications"
 const notificationsStore = useNotificationsStore()
 
 const props = defineProps({
+	height: {
+		type: String,
+	},
 	loading: {
 		type: Boolean,
 	},
@@ -40,7 +43,7 @@ const pages = computed(() => Math.ceil(totalBlobs.value / 5))
 onMounted(async () => {
 	getNamespaces()
 
-	const { data: count } = await fetchBlockNamespacesCount(route.params.height)
+	const { data: count } = await fetchBlockNamespacesCount(props.height)
 	totalBlobs.value = count.value
 })
 
@@ -48,7 +51,7 @@ const getNamespaces = async () => {
 	isRefetching.value = true
 
 	const { data } = await fetchBlockNamespaces({
-		height: route.params.height,
+		height: props.height,
 		limit: 5,
 		offset: (page.value - 1) * 5,
 		sort: "desc",
@@ -249,7 +252,7 @@ const handleCopy = (target) => {
 			<Flex v-else align="center" justify="center" direction="column" gap="8" wide>
 				<Text size="13" weight="600" color="secondary" align="center"> No blobs </Text>
 				<Text size="12" weight="500" height="160" color="tertiary" align="center" style="max-width: 220px">
-					This block does not contain blobs
+					This height does not contain blobs
 				</Text>
 			</Flex>
 		</Flex>
