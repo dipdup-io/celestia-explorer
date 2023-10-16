@@ -18,7 +18,7 @@ const props = defineProps({
 const copied = ref(false)
 
 const handleCopy = () => {
-	window.navigator.clipboard.writeText(props.text)
+	window.navigator.clipboard.writeText(props.text.toUpperCase())
 
 	notificationsStore.create({
 		notification: {
@@ -38,7 +38,7 @@ const handleCopy = () => {
 
 <template>
 	<Flex @click="handleCopy" align="center" gap="12" :class="$style.wrapper">
-		<Text size="12" weight="600" color="secondary" mono>{{ space(text) }}</Text>
+		<Text size="12" weight="600" color="secondary" mono>{{ space(text.toUpperCase()) }}</Text>
 		<Icon :name="copied ? 'check' : 'copy'" size="12" :color="copied ? 'green' : 'secondary'" />
 	</Flex>
 </template>

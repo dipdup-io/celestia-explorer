@@ -62,7 +62,7 @@ const handleCopy = (target) => {
 						<tr v-for="pfb in pfbs" @click="router.push(`/tx/${pfb.hash}`)">
 							<td style="width: 1px">
 								<Tooltip position="start" delay="500">
-									<Outline @click.stop="handleCopy(pfb.hash)" class="copyable">
+									<Outline @click.stop="handleCopy(pfb.hash.toUpperCase())" class="copyable">
 										<Flex align="center" gap="8">
 											<Icon name="zap" size="12" color="green" />
 
