@@ -25,7 +25,7 @@ const pos = (100 * (tph - lowLevel)) / (highLevel - lowLevel)
 
 			<Flex direction="column" gap="16">
 				<Tooltip position="start" text-align="left">
-					<Flex align="end" gap="16">
+					<Flex align="end" gap="16" wrap="wrap">
 						<Flex align="center" gap="6">
 							<Icon name="zap-circle" size="20" color="primary" />
 							<Flex gap="4" align="end">
