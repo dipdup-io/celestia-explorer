@@ -98,7 +98,8 @@ const handleCopy = (target) => {
 		<Flex direction="column" gap="24">
 			<Text size="14" weight="600" color="primary">Blob Viewer</Text>
 
-			<Flex v-if="blob.data" direction="column" gap="24">
+			<Text v-if="notFound" size="12" weight="600" color="tertiary"> Blob not found </Text>
+			<Flex v-else-if="blob.data" direction="column" gap="24">
 				<Flex direction="column" gap="12">
 					<Flex direction="column" gap="8" :class="$style.data">
 						<Text size="13" weight="500" height="160" color="secondary" mono :class="[$style.field, isViewAll && $style.full]">
@@ -143,7 +144,6 @@ const handleCopy = (target) => {
 					</Flex>
 				</Flex>
 			</Flex>
-			<Text v-else-if="notFound" size="12" weight="600" color="tertiary"> Blob not found </Text>
 
 			<Flex v-if="blob.data" align="center" gap="8">
 				<Button @click="handleDownload" type="secondary" size="small">
