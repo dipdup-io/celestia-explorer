@@ -208,9 +208,9 @@ const handleCopy = (target) => {
 				</Flex>
 			</Flex>
 
-			<Flex direction="column" gap="4" wide>
+			<Flex direction="column" gap="4" wide :class="$style.txs_wrapper">
 				<Flex align="center" justify="between" :class="$style.tabs_wrapper">
-					<Flex gap="24" :class="$style.tabs">
+					<Flex gap="4" :class="$style.tabs">
 						<Flex
 							@click="activeTab = tab"
 							v-for="tab in tabs"
@@ -225,8 +225,6 @@ const handleCopy = (target) => {
 							</Text>
 						</Flex>
 					</Flex>
-
-					<Text size="12" weight="600" color="support" :class="$style.hint">Transactions</Text>
 				</Flex>
 
 				<Flex direction="column" justify="center" gap="16" :class="[$style.table, isRefetching && $style.disabled]">
@@ -394,18 +392,34 @@ const handleCopy = (target) => {
 	}
 }
 
+.txs_wrapper {
+	min-width: 0;
+}
+
 .tabs_wrapper {
+	min-height: 44px;
+	overflow-x: auto;
+
 	border-radius: 4px;
 	background: var(--card-background);
 
-	padding: 0 16px;
+	padding: 0 8px;
+}
+
+.tabs_wrapper::-webkit-scrollbar {
+	display: none;
 }
 
 .tab {
-	height: 40px;
+	height: 28px;
 
 	cursor: pointer;
+	border-radius: 6px;
 	border-bottom: 2px solid transparent;
+
+	padding: 0 8px;
+
+	transition: all 0.1s ease;
 
 	& span {
 		color: var(--txt-tertiary);
@@ -421,7 +435,8 @@ const handleCopy = (target) => {
 }
 
 .tab.active {
-	border-bottom: 2px solid var(--blue);
+	background: var(--op-8);
+	border-bottom: 2px solid var(--op-10);
 
 	& span {
 		color: var(--txt-primary);
