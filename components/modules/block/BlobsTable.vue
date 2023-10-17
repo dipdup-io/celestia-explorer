@@ -8,7 +8,7 @@ import Spinner from "@/components/ui/Spinner.vue"
 import BlobModal from "@/components/modals/BlobModal.vue"
 
 /** Services */
-import { formatBytes } from "@/services/utils"
+import { formatBytes, getNamespaceID } from "@/services/utils"
 
 /** API */
 import { fetchBlockNamespaces, fetchBlockNamespacesCount } from "@/services/api/block"
@@ -26,7 +26,6 @@ const props = defineProps({
 	},
 })
 
-const route = useRoute()
 const router = useRouter()
 
 const isRefetching = ref(false)
@@ -145,18 +144,18 @@ const handleCopy = (target) => {
 						<tr v-for="blob in blobs">
 							<td style="width: 1px">
 								<Tooltip position="start" delay="500">
-									<Outline @click="handleCopy(blob.namespace.hash)" class="copyable">
+									<Outline @click="handleCopy(getNamespaceID(blob.namespace.namespace_id))" class="copyable">
 										<Flex align="center" gap="8">
 											<Icon name="blob" size="12" color="tertiary" />
 
 											<Text size="13" weight="700" color="secondary" mono>
-												{{ blob.namespace.hash.slice(blob.namespace.hash.length - 6, blob.namespace.hash.length) }}
+												{{ getNamespaceID(blob.namespace.namespace_id).slice(0, 4) }}
 											</Text>
 										</Flex>
 									</Outline>
 
 									<template #content>
-										{{ blob.namespace.hash }}
+										{{ getNamespaceID(blob.namespace.namespace_id) }}
 									</template>
 								</Tooltip>
 							</td>

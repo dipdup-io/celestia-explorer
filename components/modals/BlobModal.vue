@@ -2,10 +2,9 @@
 /** UI */
 import Modal from "@/components/ui/Modal.vue"
 import Button from "@/components/ui/Button.vue"
-import Tooltip from "@/components/ui/Tooltip.vue"
 
 /** Services */
-import { formatBytes } from "@/services/utils"
+import { formatBytes, getNamespaceID } from "@/services/utils"
 
 /** API */
 import { fetchNamespaceByHash } from "@/services/api/namespace"
@@ -92,16 +91,6 @@ const handleCopy = (target) => {
 		},
 	})
 }
-
-const getNamespaceID = () => {
-	let s = props.item.namespace.namespace_id
-
-	while (s.startsWith("00")) {
-		s = s.substring(2)
-	}
-
-	return s
-}
 </script>
 
 <template>
@@ -126,8 +115,14 @@ const getNamespaceID = () => {
 					<Flex align="center" justify="between" wide :class="$style.metadata">
 						<Text size="12" weight="500" color="tertiary">Namespace:</Text>
 
-						<Text @click="handleCopy(getNamespaceID())" size="13" weight="600" color="primary" class="copyable">
-							{{ getNamespaceID() }}
+						<Text
+							@click="handleCopy(getNamespaceID(props.item.namespace.namespace_id))"
+							size="13"
+							weight="600"
+							color="primary"
+							class="copyable"
+						>
+							{{ getNamespaceID(props.item.namespace.namespace_id) }}
 						</Text>
 					</Flex>
 

@@ -137,7 +137,7 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 						</Flex>
 						<Flex align="center" justify="between">
 							<Text size="12" weight="600" color="tertiary"> Fee </Text>
-							<Text size="12" weight="600" color="secondary"> {{ tia(tx.fee) }} TIA</Text>
+							<Text size="12" weight="600" color="secondary" no-wrap> {{ tia(tx.fee) }} TIA</Text>
 						</Flex>
 					</Flex>
 				</Flex>
@@ -152,7 +152,7 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 						<Text size="12" weight="600" color="primary">{{ tx.message_types.join(", ") }}</Text>
 					</Flex>
 
-					<Flex v-for="(event, idx) in events" align="center" gap="8" :class="$style.event">
+					<Flex v-for="(event, idx) in events" align="center" gap="12" :class="$style.event">
 						<Flex
 							direction="column"
 							align="center"
@@ -164,12 +164,12 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 							<div />
 						</Flex>
 
-						<Flex wide align="center" justify="between" :class="$style.right">
+						<Flex wide justify="between" align="center" gap="6" :class="$style.right">
 							<!-- Event: coin_spent -->
-							<Flex v-if="event.type === 'coin_spent'" align="center" gap="4" color="secondary">
+							<Flex v-if="event.type === 'coin_spent'" align="center" gap="4" color="secondary" :class="$style.text">
 								<Text size="12" weight="500" color="secondary">Address</Text>
 
-								<Tooltip>
+								<Tooltip :class="$style.tooltip">
 									<Text size="12" weight="500" color="primary" mono>
 										{{ event.data.spender.slice(event.data.spender.length - 4, event.data.spender.length) }}
 									</Text>
@@ -181,15 +181,15 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 
 								<Text size="12" weight="500" color="secondary">spent</Text>
 
-								<Text size="12" weight="500" color="primary" mono>
-									{{ tia(event.data.amount.replace("utia", "")) }} TIA
-								</Text>
+								<Text size="12" weight="500" color="primary" mono no-wrap>
+									{{ tia(event.data.amount.replace("utia", "")) }} TIA</Text
+								>
 							</Flex>
 							<!-- Event: coin_received -->
-							<Flex v-else-if="event.type === 'coin_received'" align="center" gap="4" color="secondary">
+							<Flex v-else-if="event.type === 'coin_received'" align="center" gap="4" color="secondary" :class="$style.text">
 								<Text size="12" weight="500" color="secondary">Address</Text>
 
-								<Tooltip>
+								<Tooltip :class="$style.tooltip">
 									<Text size="12" weight="500" color="primary" mono>
 										{{ event.data.receiver.slice(event.data.receiver.length - 4, event.data.receiver.length) }}
 									</Text>
@@ -201,15 +201,15 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 
 								<Text size="12" weight="500" color="secondary">received</Text>
 
-								<Text size="12" weight="500" color="primary" mono>
+								<Text size="12" weight="500" color="primary" mono no-wrap>
 									{{ tia(event.data.amount.replace("utia", "")) }} TIA
 								</Text>
 							</Flex>
 							<!-- Event: delegate -->
-							<Flex v-else-if="event.type === 'delegate'" align="center" gap="4" color="secondary">
+							<Flex v-else-if="event.type === 'delegate'" align="center" gap="4" color="secondary" :class="$style.text">
 								<Text size="12" weight="500" color="secondary">Validator</Text>
 
-								<Tooltip>
+								<Tooltip :class="$style.tooltip">
 									<Text size="12" weight="500" color="primary" mono>
 										{{ event.data.validator.slice(event.data.validator.length - 4, event.data.validator.length) }}
 									</Text>
@@ -226,10 +226,10 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 								</Text>
 							</Flex>
 							<!-- Event: transfer -->
-							<Flex v-else-if="event.type === 'transfer'" align="center" gap="4" color="secondary">
+							<Flex v-else-if="event.type === 'transfer'" align="center" gap="4" color="secondary" :class="$style.text">
 								<Text size="12" weight="500" color="secondary">Address</Text>
 
-								<Tooltip>
+								<Tooltip :class="$style.tooltip">
 									<Text size="12" weight="500" color="primary" mono>
 										{{ event.data.sender.slice(event.data.sender.length - 4, event.data.sender.length) }}
 									</Text>
@@ -241,13 +241,13 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 
 								<Text size="12" weight="500" color="secondary">sent</Text>
 
-								<Text size="12" weight="500" color="primary" mono>
-									{{ tia(event.data.amount.replace("utia", "")) }} TIA
-								</Text>
+								<Text size="12" weight="500" color="primary" mono no-wrap>
+									{{ tia(event.data.amount.replace("utia", "")) }} TIA</Text
+								>
 
 								<Text size="12" weight="500" color="secondary">to</Text>
 
-								<Tooltip>
+								<Tooltip :class="$style.tooltip">
 									<Text size="12" weight="500" color="primary" mono>
 										{{ event.data.recipient.slice(event.data.recipient.length - 4, event.data.recipient.length) }}
 									</Text>
@@ -258,12 +258,12 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 								</Tooltip>
 							</Flex>
 							<!-- Event: tx -->
-							<Flex v-else-if="event.type === 'tx'" align="center" gap="4" color="secondary">
+							<Flex v-else-if="event.type === 'tx'" align="center" gap="4" color="secondary" :class="$style.text">
 								<!-- Signature -->
 								<template v-if="event.data.signature">
 									<Text size="12" weight="500" color="secondary">Signature</Text>
 
-									<Tooltip>
+									<Tooltip :class="$style.tooltip">
 										<Text size="12" weight="500" color="primary" mono>
 											{{ event.data.signature.slice(event.data.signature.length - 4, event.data.signature.length) }}
 										</Text>
@@ -277,7 +277,7 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 								<template v-if="event.data.acc_seq">
 									<Text size="12" weight="500" color="secondary">Acc Seq</Text>
 
-									<Tooltip>
+									<Tooltip :class="$style.tooltip">
 										<Text size="12" weight="500" color="primary" mono>
 											{{ event.data.acc_seq.slice(event.data.acc_seq.length - 4, event.data.acc_seq.length) }}
 										</Text>
@@ -291,7 +291,7 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 								<template v-if="event.data.fee">
 									<Text size="12" weight="500" color="secondary">Address</Text>
 
-									<Tooltip>
+									<Tooltip :class="$style.tooltip">
 										<Text size="12" weight="500" color="primary" mono>
 											{{ event.data.fee_payer.slice(event.data.fee_payer.length - 4, event.data.fee_payer.length) }}
 										</Text>
@@ -303,18 +303,18 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 
 									<Text size="12" weight="500" color="secondary">paid</Text>
 
-									<Text size="12" weight="500" color="primary" mono>
-										{{ tia(event.data.fee.replace("utia", "")) }} TIA
-									</Text>
+									<Text size="12" weight="500" color="primary" mono no-wrap>
+										{{ tia(event.data.fee.replace("utia", "")) }} TIA</Text
+									>
 
 									<Text size="12" weight="500" color="secondary">fee</Text>
 								</template>
 							</Flex>
 							<!-- Event: message -->
-							<Flex v-else-if="event.type === 'message'" align="center" gap="4" color="secondary">
+							<Flex v-else-if="event.type === 'message'" align="center" gap="4" color="secondary" :class="$style.text">
 								<!-- action -->
 								<template v-if="event.data.action">
-									<Text size="12" weight="500" color="secondary">Call action</Text>
+									<Text size="12" weight="500" color="secondary" no-wrap>Call action</Text>
 
 									<Text size="12" weight="500" color="primary" mono>
 										{{ event.data.action }}
@@ -324,7 +324,7 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 								<template v-else-if="event.data.sender">
 									<Text size="12" weight="500" color="secondary">Sender</Text>
 
-									<Tooltip>
+									<Tooltip :class="$style.tooltip">
 										<Text size="12" weight="500" color="primary" mono>
 											{{ event.data.sender.slice(event.data.sender.length - 4, event.data.sender.length) }}
 										</Text>
@@ -344,10 +344,16 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 								</template>
 							</Flex>
 							<!-- Event: withdraw_rewards -->
-							<Flex v-else-if="event.type === 'withdraw_rewards'" align="center" gap="4" color="secondary">
+							<Flex
+								v-else-if="event.type === 'withdraw_rewards'"
+								align="center"
+								gap="4"
+								color="secondary"
+								:class="$style.text"
+							>
 								<Text size="12" weight="500" color="secondary">Delegator</Text>
 
-								<Tooltip>
+								<Tooltip :class="$style.tooltip">
 									<Text size="12" weight="500" color="primary" mono>
 										{{ event.data.delegator.slice(event.data.delegator.length - 4, event.data.delegator.length) }}
 									</Text>
@@ -359,7 +365,7 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 
 								<Text size="12" weight="500" color="secondary">validator</Text>
 
-								<Tooltip>
+								<Tooltip :class="$style.tooltip">
 									<Text size="12" weight="500" color="primary" mono>
 										{{ event.data.validator.slice(event.data.validator.length - 4, event.data.validator.length) }}
 									</Text>
@@ -371,20 +377,26 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 
 								<Text size="12" weight="500" color="secondary">Amount:</Text>
 
-								<Text size="12" weight="500" color="primary" mono>
+								<Text size="12" weight="500" color="primary" mono no-wrap>
 									{{ tia(event.data.amount.replace("utia", "")) }} TIA
 								</Text>
 							</Flex>
 							<!-- Event: withdraw_commission -->
-							<Flex v-else-if="event.type === 'withdraw_commission'" align="center" gap="4" color="secondary">
+							<Flex
+								v-else-if="event.type === 'withdraw_commission'"
+								align="center"
+								gap="4"
+								color="secondary"
+								:class="$style.text"
+							>
 								<Text size="12" weight="500" color="secondary">Commission</Text>
 
-								<Text size="12" weight="500" color="primary" mono>
+								<Text size="12" weight="500" color="primary" mono no-wrap>
 									{{ tia(event.data.amount.replace("utia", "")) }} TIA
 								</Text>
 							</Flex>
 
-							<Text size="12" weight="600" color="tertiary" mono>
+							<Text size="11" weight="600" color="support" mono>
 								{{ event.type }}
 							</Text>
 						</Flex>
@@ -405,8 +417,13 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 	padding: 0 16px;
 }
 
+.content {
+	display: grid;
+	grid-template-columns: 384px 1fr;
+}
+
 .data {
-	min-width: 384px;
+	max-width: 384px;
 
 	border-radius: 4px 4px 4px 8px;
 	background: var(--card-background);
@@ -444,6 +461,8 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 }
 
 .events_wrapper {
+	min-width: 0;
+
 	border-radius: 4px 4px 8px 4px;
 	background: var(--card-background);
 
@@ -453,11 +472,12 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 .message_types {
 	width: fit-content;
 
-	border-radius: 6px;
+	border-radius: 50px;
 	background: var(--op-5);
 	border: 1px solid var(--op-5);
 
 	padding: 6px 10px;
+	margin-bottom: 8px;
 }
 
 .event {
@@ -490,19 +510,39 @@ events.value = rawEvents.value.sort((a, b) => a.position - b.position)
 	}
 
 	& .right {
+		min-width: 0;
+		height: 100%;
+
 		border-bottom: 1px solid var(--op-5);
 
-		height: 100%;
+		& .text {
+			display: inline-block;
+			color: var(--txt-tertiary);
+
+			min-width: 0;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+
+			& > * {
+				margin-right: 4px;
+			}
+
+			& .tooltip {
+				display: inline-block;
+			}
+		}
 	}
 }
 
 @media (max-width: 800px) {
 	.content {
-		flex-direction: column;
+		grid-template-columns: 1fr;
 	}
 
 	.data {
-		min-width: initial;
+		max-width: initial;
+		min-width: 0;
 
 		border-radius: 4px;
 	}

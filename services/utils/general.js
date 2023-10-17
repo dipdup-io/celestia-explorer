@@ -8,3 +8,13 @@ export const formatBytes = (bytes, decimals = 2) => {
 
 	return `${parseFloat((bytes / Math.pow(1000, i)).toFixed(dm))} ${sizes[i]}`
 }
+
+export const getNamespaceID = (target) => {
+	let s = target
+
+	while (s.startsWith("00")) {
+		s = s.substring(2)
+	}
+
+	return s
+}
